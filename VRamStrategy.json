@@ -1,0 +1,44 @@
+
+{
+    "states":{
+        "gamefirstload":{
+            "vram":{
+                "backgrounds":[],
+                "sprites":[],
+            }
+        },
+        "gameplaystart":{
+            "vram":{
+                "backgrounds":[],
+                "sprites":[],
+            }
+        },
+        "coregameloop":{
+            "vram":{
+                "backgrounds":[],
+                "sprites":[],
+            }
+        },
+    }
+
+
+}
+
+// For backgrounds
+// Similar functions would be generated
+DRAW_BARRICADE()
+DRAW_BARRICADE_AT(21,5)
+
+// Would generate
+// (Uses global variables)
+GOTO_COREGAMELOOP;
+GOTO_GAMEPLAYSTART;
+GOTO_GAMEFIRSTLOAD;
+
+#define GAMEFIRSTLOAD 0
+#define GAMEPLAYSTART 1
+#define COREGAMELOOP 2
+
+// Expects Coregameloop_Start()
+// Expects Coregameloop_Update()
+// Expects Coregameloop_End()

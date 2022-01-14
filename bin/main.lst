@@ -1,0 +1,452 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module main
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _main
+                                     12 	.globl _IncreaseScore
+                                     13 	.globl _UpdateScore
+                                     14 	.globl _SetupLevel
+                                     15 	.globl _SetupBullets
+                                     16 	.globl _UpdateInvaders
+                                     17 	.globl _SetupInvaders
+                                     18 	.globl _SetupPlayer
+                                     19 	.globl _UpdatePlayer
+                                     20 	.globl _set_sprite_data
+                                     21 	.globl _set_win_tiles
+                                     22 	.globl _set_bkg_tiles
+                                     23 	.globl _set_bkg_data
+                                     24 	.globl _wait_vbl_done
+                                     25 	.globl _delay
+                                     26 	.globl _helper
+                                     27 	.globl _score
+                                     28 ;--------------------------------------------------------
+                                     29 ; special function registers
+                                     30 ;--------------------------------------------------------
+                                     31 ;--------------------------------------------------------
+                                     32 ; ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _DATA
+      000000                         35 _score::
+      000000                         36 	.ds 2
+                                     37 ;--------------------------------------------------------
+                                     38 ; ram data
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _INITIALIZED
+      000000                         41 _helper::
+      000000                         42 	.ds 5
+                                     43 ;--------------------------------------------------------
+                                     44 ; absolute external ram data
+                                     45 ;--------------------------------------------------------
+                                     46 	.area _DABS (ABS)
+                                     47 ;--------------------------------------------------------
+                                     48 ; global & static initialisations
+                                     49 ;--------------------------------------------------------
+                                     50 	.area _HOME
+                                     51 	.area _GSINIT
+                                     52 	.area _GSFINAL
+                                     53 	.area _GSINIT
+                                     54 ;--------------------------------------------------------
+                                     55 ; Home
+                                     56 ;--------------------------------------------------------
+                                     57 	.area _HOME
+                                     58 	.area _HOME
+                                     59 ;--------------------------------------------------------
+                                     60 ; code
+                                     61 ;--------------------------------------------------------
+                                     62 	.area _CODE
+                                     63 ;source/default/main.c:16: void SetupLevel(){
+                                     64 ;	---------------------------------
+                                     65 ; Function SetupLevel
+                                     66 ; ---------------------------------
+      000000                         67 _SetupLevel::
+                                     68 ;source/default/main.c:17: for(UINT8 i=2;i<40;i++){
+      000000 0E 02                   69 	ld	c, #0x02
+      000002                         70 00107$:
+      000002 79                      71 	ld	a, c
+      000003 D6 28                   72 	sub	a, #0x28
+      000005 30 1A                   73 	jr	NC, 00101$
+                                     74 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000007 69                      75 	ld	l, c
+                                     76 ;	spillPairReg hl
+                                     77 ;	spillPairReg hl
+      000008 26 00                   78 	ld	h, #0x00
+                                     79 ;	spillPairReg hl
+                                     80 ;	spillPairReg hl
+      00000A 29                      81 	add	hl, hl
+      00000B 29                      82 	add	hl, hl
+      00000C 5D                      83 	ld	e, l
+      00000D 54                      84 	ld	d, h
+      00000E 21r00r00                85 	ld	hl, #_shadow_OAM
+      000011 19                      86 	add	hl, de
+                                     87 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000012 36 A0                   88 	ld	(hl), #0xa0
+      000014 23                      89 	inc	hl
+      000015 36 A0                   90 	ld	(hl), #0xa0
+                                     91 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000017 21r01r00                92 	ld	hl,#_shadow_OAM + 1
+      00001A 19                      93 	add	hl,de
+      00001B 23                      94 	inc	hl
+      00001C 36 00                   95 	ld	(hl), #0x00
+                                     96 ;source/default/main.c:17: for(UINT8 i=2;i<40;i++){
+      00001E 0C                      97 	inc	c
+      00001F 18 E1                   98 	jr	00107$
+      000021                         99 00101$:
+                                    100 ;source/default/main.c:24: for(UINT8 j=0;j<18;j++){
+      000021 0E 00                  101 	ld	c, #0x00
+      000023                        102 00113$:
+      000023 79                     103 	ld	a, c
+      000024 D6 12                  104 	sub	a, #0x12
+      000026 30 21                  105 	jr	NC, 00103$
+                                    106 ;source/default/main.c:25: for(UINT8 i=0;i<20;i++){
+      000028 06 00                  107 	ld	b, #0x00
+      00002A                        108 00110$:
+      00002A 78                     109 	ld	a, b
+      00002B D6 14                  110 	sub	a, #0x14
+      00002D 30 17                  111 	jr	NC, 00114$
+                                    112 ;source/default/main.c:26: helper[0]=0;
+      00002F 11r00r00               113 	ld	de, #_helper+0
+      000032 AF                     114 	xor	a, a
+      000033 12                     115 	ld	(de), a
+                                    116 ;source/default/main.c:27: set_bkg_tiles(i,j,1,1,helper);    
+      000034 D5                     117 	push	de
+      000035 21 01 01               118 	ld	hl, #0x101
+      000038 E5                     119 	push	hl
+      000039 79                     120 	ld	a, c
+      00003A F5                     121 	push	af
+      00003B 33                     122 	inc	sp
+      00003C C5                     123 	push	bc
+      00003D 33                     124 	inc	sp
+      00003E CDr00r00               125 	call	_set_bkg_tiles
+      000041 E8 06                  126 	add	sp, #6
+                                    127 ;source/default/main.c:25: for(UINT8 i=0;i<20;i++){
+      000043 04                     128 	inc	b
+      000044 18 E4                  129 	jr	00110$
+      000046                        130 00114$:
+                                    131 ;source/default/main.c:24: for(UINT8 j=0;j<18;j++){
+      000046 0C                     132 	inc	c
+      000047 18 DA                  133 	jr	00113$
+      000049                        134 00103$:
+                                    135 ;source/default/main.c:32: set_bkg_tiles(2,11,5,4,BarricadeMap);
+      000049 01r00r00               136 	ld	bc, #_BarricadeMap+0
+      00004C C5                     137 	push	bc
+      00004D 21 05 04               138 	ld	hl, #0x405
+      000050 E5                     139 	push	hl
+      000051 21 02 0B               140 	ld	hl, #0xb02
+      000054 E5                     141 	push	hl
+      000055 CDr00r00               142 	call	_set_bkg_tiles
+      000058 E8 06                  143 	add	sp, #6
+                                    144 ;source/default/main.c:33: set_bkg_tiles(8,11,5,4,BarricadeMap);
+      00005A C5                     145 	push	bc
+      00005B 21 05 04               146 	ld	hl, #0x405
+      00005E E5                     147 	push	hl
+      00005F 21 08 0B               148 	ld	hl, #0xb08
+      000062 E5                     149 	push	hl
+      000063 CDr00r00               150 	call	_set_bkg_tiles
+      000066 E8 06                  151 	add	sp, #6
+                                    152 ;source/default/main.c:34: set_bkg_tiles(14,11,5,4,BarricadeMap);
+      000068 C5                     153 	push	bc
+      000069 21 05 04               154 	ld	hl, #0x405
+      00006C E5                     155 	push	hl
+      00006D 21 0E 0B               156 	ld	hl, #0xb0e
+      000070 E5                     157 	push	hl
+      000071 CDr00r00               158 	call	_set_bkg_tiles
+      000074 E8 06                  159 	add	sp, #6
+                                    160 ;source/default/main.c:35: }
+      000076 C9                     161 	ret
+                                    162 ;source/default/main.c:37: void UpdateScore(){
+                                    163 ;	---------------------------------
+                                    164 ; Function UpdateScore
+                                    165 ; ---------------------------------
+      000077                        166 _UpdateScore::
+                                    167 ;source/default/main.c:39: helper[0]=(score/10000)%10+47;
+      000077 11 10 27               168 	ld	de, #0x2710
+      00007A D5                     169 	push	de
+      00007B 21r00r00               170 	ld	hl, #_score
+      00007E 2A                     171 	ld	a, (hl+)
+      00007F 5F                     172 	ld	e, a
+      000080 56                     173 	ld	d, (hl)
+      000081 D5                     174 	push	de
+      000082 CDr00r00               175 	call	__divuint
+      000085 E8 04                  176 	add	sp, #4
+      000087 01 0A 00               177 	ld	bc, #0x000a
+      00008A C5                     178 	push	bc
+      00008B D5                     179 	push	de
+      00008C CDr00r00               180 	call	__moduint
+      00008F E8 04                  181 	add	sp, #4
+      000091 7B                     182 	ld	a, e
+      000092 C6 2F                  183 	add	a, #0x2f
+      000094 EAr00r00               184 	ld	(#_helper),a
+                                    185 ;source/default/main.c:40: helper[1]=(score/1000)%10+47;
+      000097 11 E8 03               186 	ld	de, #0x03e8
+      00009A D5                     187 	push	de
+      00009B 21r00r00               188 	ld	hl, #_score
+      00009E 2A                     189 	ld	a, (hl+)
+      00009F 5F                     190 	ld	e, a
+      0000A0 56                     191 	ld	d, (hl)
+      0000A1 D5                     192 	push	de
+      0000A2 CDr00r00               193 	call	__divuint
+      0000A5 E8 04                  194 	add	sp, #4
+      0000A7 01 0A 00               195 	ld	bc, #0x000a
+      0000AA C5                     196 	push	bc
+      0000AB D5                     197 	push	de
+      0000AC CDr00r00               198 	call	__moduint
+      0000AF E8 04                  199 	add	sp, #4
+      0000B1 7B                     200 	ld	a, e
+      0000B2 C6 2F                  201 	add	a, #0x2f
+      0000B4 EAr01r00               202 	ld	(#(_helper + 1)),a
+                                    203 ;source/default/main.c:41: helper[2]=(score/100)%10+47;
+      0000B7 11 64 00               204 	ld	de, #0x0064
+      0000BA D5                     205 	push	de
+      0000BB 21r00r00               206 	ld	hl, #_score
+      0000BE 2A                     207 	ld	a, (hl+)
+      0000BF 5F                     208 	ld	e, a
+      0000C0 56                     209 	ld	d, (hl)
+      0000C1 D5                     210 	push	de
+      0000C2 CDr00r00               211 	call	__divuint
+      0000C5 E8 04                  212 	add	sp, #4
+      0000C7 01 0A 00               213 	ld	bc, #0x000a
+      0000CA C5                     214 	push	bc
+      0000CB D5                     215 	push	de
+      0000CC CDr00r00               216 	call	__moduint
+      0000CF E8 04                  217 	add	sp, #4
+      0000D1 7B                     218 	ld	a, e
+      0000D2 C6 2F                  219 	add	a, #0x2f
+      0000D4 EAr02r00               220 	ld	(#(_helper + 2)),a
+                                    221 ;source/default/main.c:42: helper[3]=(score/10)%10+47;
+      0000D7 11 0A 00               222 	ld	de, #0x000a
+      0000DA D5                     223 	push	de
+      0000DB 21r00r00               224 	ld	hl, #_score
+      0000DE 2A                     225 	ld	a, (hl+)
+      0000DF 5F                     226 	ld	e, a
+      0000E0 56                     227 	ld	d, (hl)
+      0000E1 D5                     228 	push	de
+      0000E2 CDr00r00               229 	call	__divuint
+      0000E5 E8 04                  230 	add	sp, #4
+      0000E7 01 0A 00               231 	ld	bc, #0x000a
+      0000EA C5                     232 	push	bc
+      0000EB D5                     233 	push	de
+      0000EC CDr00r00               234 	call	__moduint
+      0000EF E8 04                  235 	add	sp, #4
+      0000F1 7B                     236 	ld	a, e
+      0000F2 C6 2F                  237 	add	a, #0x2f
+      0000F4 EAr03r00               238 	ld	(#(_helper + 3)),a
+                                    239 ;source/default/main.c:43: helper[4]=score%10+47;
+      0000F7 11 0A 00               240 	ld	de, #0x000a
+      0000FA D5                     241 	push	de
+      0000FB 21r00r00               242 	ld	hl, #_score
+      0000FE 2A                     243 	ld	a, (hl+)
+      0000FF 5F                     244 	ld	e, a
+      000100 56                     245 	ld	d, (hl)
+      000101 D5                     246 	push	de
+      000102 CDr00r00               247 	call	__moduint
+      000105 E8 04                  248 	add	sp, #4
+      000107 7B                     249 	ld	a, e
+      000108 C6 2F                  250 	add	a, #0x2f
+      00010A EAr04r00               251 	ld	(#(_helper + 4)),a
+                                    252 ;source/default/main.c:45: set_win_tiles(0,0,5,1,helper);
+      00010D 11r00r00               253 	ld	de, #_helper
+      000110 D5                     254 	push	de
+      000111 21 05 01               255 	ld	hl, #0x105
+      000114 E5                     256 	push	hl
+      000115 AF                     257 	xor	a, a
+      000116 0F                     258 	rrca
+      000117 F5                     259 	push	af
+      000118 CDr00r00               260 	call	_set_win_tiles
+      00011B E8 06                  261 	add	sp, #6
+                                    262 ;source/default/main.c:47: helper[0]=1;
+      00011D 21r00r00               263 	ld	hl, #_helper
+      000120 36 01                  264 	ld	(hl), #0x01
+                                    265 ;source/default/main.c:48: helper[1]=2;
+      000122 21r01r00               266 	ld	hl, #(_helper + 1)
+      000125 36 02                  267 	ld	(hl), #0x02
+                                    268 ;source/default/main.c:49: helper[2]=57;
+      000127 21r02r00               269 	ld	hl, #(_helper + 2)
+      00012A 36 39                  270 	ld	(hl), #0x39
+                                    271 ;source/default/main.c:50: helper[3]=(paddle.lives/10)%10+47;
+      00012C FAr03r00               272 	ld	a, (#(_paddle + 3) + 0)
+      00012F 06 00                  273 	ld	b, #0x00
+      000131 11 0A 00               274 	ld	de, #0x000a
+      000134 D5                     275 	push	de
+      000135 4F                     276 	ld	c, a
+      000136 C5                     277 	push	bc
+      000137 CDr00r00               278 	call	__divsint
+      00013A E8 04                  279 	add	sp, #4
+      00013C 01 0A 00               280 	ld	bc, #0x000a
+      00013F C5                     281 	push	bc
+      000140 D5                     282 	push	de
+      000141 CDr00r00               283 	call	__modsint
+      000144 E8 04                  284 	add	sp, #4
+      000146 7B                     285 	ld	a, e
+      000147 C6 2F                  286 	add	a, #0x2f
+      000149 EAr03r00               287 	ld	(#(_helper + 3)),a
+                                    288 ;source/default/main.c:51: helper[4]=paddle.lives%10+47;
+      00014C FAr03r00               289 	ld	a, (#(_paddle + 3) + 0)
+      00014F 06 00                  290 	ld	b, #0x00
+      000151 11 0A 00               291 	ld	de, #0x000a
+      000154 D5                     292 	push	de
+      000155 4F                     293 	ld	c, a
+      000156 C5                     294 	push	bc
+      000157 CDr00r00               295 	call	__modsint
+      00015A E8 04                  296 	add	sp, #4
+      00015C 7B                     297 	ld	a, e
+      00015D C6 2F                  298 	add	a, #0x2f
+      00015F EAr04r00               299 	ld	(#(_helper + 4)),a
+                                    300 ;source/default/main.c:52: set_win_tiles(14,0,5,1,helper);
+      000162 11r00r00               301 	ld	de, #_helper
+      000165 D5                     302 	push	de
+      000166 21 05 01               303 	ld	hl, #0x105
+      000169 E5                     304 	push	hl
+      00016A 21 0E 00               305 	ld	hl, #0x0e
+      00016D E5                     306 	push	hl
+      00016E CDr00r00               307 	call	_set_win_tiles
+      000171 E8 06                  308 	add	sp, #6
+                                    309 ;source/default/main.c:53: }
+      000173 C9                     310 	ret
+                                    311 ;source/default/main.c:55: void IncreaseScore(UINT8 amount){
+                                    312 ;	---------------------------------
+                                    313 ; Function IncreaseScore
+                                    314 ; ---------------------------------
+      000174                        315 _IncreaseScore::
+                                    316 ;source/default/main.c:57: score+=amount;
+      000174 F8 02                  317 	ldhl	sp,	#2
+      000176 4E                     318 	ld	c, (hl)
+      000177 06 00                  319 	ld	b, #0x00
+      000179 21r00r00               320 	ld	hl, #_score
+      00017C 7E                     321 	ld	a, (hl)
+      00017D 81                     322 	add	a, c
+      00017E 22                     323 	ld	(hl+), a
+      00017F 7E                     324 	ld	a, (hl)
+      000180 88                     325 	adc	a, b
+      000181 77                     326 	ld	(hl), a
+                                    327 ;source/default/main.c:59: UpdateScore();
+                                    328 ;source/default/main.c:60: }
+      000182 C3r77r00               329 	jp	_UpdateScore
+                                    330 ;source/default/main.c:63: void main(void){
+                                    331 ;	---------------------------------
+                                    332 ; Function main
+                                    333 ; ---------------------------------
+      000185                        334 _main::
+                                    335 ;source/default/main.c:65: DISPLAY_ON;
+      000185 F0r00                  336 	ldh	a, (_LCDC_REG + 0)
+      000187 F6 80                  337 	or	a, #0x80
+      000189 E0r00                  338 	ldh	(_LCDC_REG + 0), a
+                                    339 ;source/default/main.c:66: SHOW_SPRITES;
+      00018B F0r00                  340 	ldh	a, (_LCDC_REG + 0)
+      00018D F6 02                  341 	or	a, #0x02
+      00018F E0r00                  342 	ldh	(_LCDC_REG + 0), a
+                                    343 ;source/default/main.c:67: SHOW_BKG;
+      000191 F0r00                  344 	ldh	a, (_LCDC_REG + 0)
+      000193 F6 01                  345 	or	a, #0x01
+      000195 E0r00                  346 	ldh	(_LCDC_REG + 0), a
+                                    347 ;source/default/main.c:68: SPRITES_8x8;
+      000197 F0r00                  348 	ldh	a, (_LCDC_REG + 0)
+      000199 E6 FB                  349 	and	a, #0xfb
+      00019B E0r00                  350 	ldh	(_LCDC_REG + 0), a
+                                    351 ;source/default/main.c:69: SHOW_WIN;
+      00019D F0r00                  352 	ldh	a, (_LCDC_REG + 0)
+      00019F F6 20                  353 	or	a, #0x20
+      0001A1 E0r00                  354 	ldh	(_LCDC_REG + 0), a
+                                    355 ;C:/gbdk/include/gb/gb.h:1195: WX_REG=x, WY_REG=y;
+      0001A3 3E 07                  356 	ld	a, #0x07
+      0001A5 E0r00                  357 	ldh	(_WX_REG + 0), a
+      0001A7 3E 88                  358 	ld	a, #0x88
+      0001A9 E0r00                  359 	ldh	(_WY_REG + 0), a
+                                    360 ;source/default/main.c:73: set_bkg_data(0,58,SpaceInvadersTiles);
+      0001AB 01r00r00               361 	ld	bc, #_SpaceInvadersTiles+0
+      0001AE C5                     362 	push	bc
+      0001AF 21 00 3A               363 	ld	hl, #0x3a00
+      0001B2 E5                     364 	push	hl
+      0001B3 CDr00r00               365 	call	_set_bkg_data
+      0001B6 E8 04                  366 	add	sp, #4
+                                    367 ;source/default/main.c:74: set_sprite_data(0,58,SpaceInvadersTiles);
+      0001B8 C5                     368 	push	bc
+      0001B9 21 00 3A               369 	ld	hl, #0x3a00
+      0001BC E5                     370 	push	hl
+      0001BD CDr00r00               371 	call	_set_sprite_data
+      0001C0 E8 04                  372 	add	sp, #4
+                                    373 ;source/default/main.c:76: GameplayStart:
+      0001C2                        374 00101$:
+                                    375 ;source/default/main.c:78: score=0;
+      0001C2 AF                     376 	xor	a, a
+      0001C3 21r00r00               377 	ld	hl, #_score
+      0001C6 22                     378 	ld	(hl+), a
+      0001C7 77                     379 	ld	(hl), a
+                                    380 ;source/default/main.c:79: paddle.lives=3;
+      0001C8 21r03r00               381 	ld	hl, #(_paddle + 3)
+      0001CB 36 03                  382 	ld	(hl), #0x03
+                                    383 ;source/default/main.c:81: SetupLevel();  
+      0001CD CDr00r00               384 	call	_SetupLevel
+                                    385 ;source/default/main.c:82: SetupBullets();
+      0001D0 CDr00r00               386 	call	_SetupBullets
+                                    387 ;source/default/main.c:83: SetupInvaders();
+      0001D3 CDr00r00               388 	call	_SetupInvaders
+                                    389 ;source/default/main.c:85: LifeStart:
+      0001D6                        390 00102$:
+                                    391 ;source/default/main.c:87: SetupPlayer();
+      0001D6 CDr00r00               392 	call	_SetupPlayer
+                                    393 ;source/default/main.c:88: UpdateScore();
+      0001D9 CDr77r00               394 	call	_UpdateScore
+                                    395 ;source/default/main.c:90: while (paddle.dead==0&&invadersRemaining>0)
+      0001DC                        396 00104$:
+      0001DC FAr02r00               397 	ld	a, (#(_paddle + 2) + 0)
+      0001DF B7                     398 	or	a, a
+      0001E0 20 14                  399 	jr	NZ, 00106$
+      0001E2 FAr00r00               400 	ld	a, (#_invadersRemaining)
+      0001E5 B7                     401 	or	a, a
+      0001E6 28 0E                  402 	jr	Z, 00106$
+                                    403 ;source/default/main.c:93: UpdateInvaders();     
+      0001E8 CDr00r00               404 	call	_UpdateInvaders
+                                    405 ;source/default/main.c:94: UpdateBullets();
+      0001EB CDr00r00               406 	call	_UpdateBullets
+                                    407 ;source/default/main.c:95: UpdatePlayer();
+      0001EE CDr00r00               408 	call	_UpdatePlayer
+                                    409 ;source/default/main.c:97: wait_vbl_done();
+      0001F1 CDr00r00               410 	call	_wait_vbl_done
+      0001F4 18 E6                  411 	jr	00104$
+      0001F6                        412 00106$:
+                                    413 ;source/default/main.c:101: if(invadersRemaining==0||paddle.lives==0){
+      0001F6 FAr00r00               414 	ld	a, (#_invadersRemaining)
+      0001F9 B7                     415 	or	a, a
+      0001FA 28 C6                  416 	jr	Z, 00101$
+      0001FC FAr03r00               417 	ld	a, (#(_paddle + 3) + 0)
+      0001FF B7                     418 	or	a, a
+      000200 28 C0                  419 	jr	Z, 00101$
+                                    420 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000202 21r00r00               421 	ld	hl, #_shadow_OAM
+                                    422 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000205 36 A0                  423 	ld	(hl), #0xa0
+      000207 23                     424 	inc	hl
+      000208 36 A0                  425 	ld	(hl), #0xa0
+                                    426 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      00020A 21r04r00               427 	ld	hl, #(_shadow_OAM + 4)
+                                    428 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      00020D 36 A0                  429 	ld	(hl), #0xa0
+      00020F 23                     430 	inc	hl
+      000210 36 A0                  431 	ld	(hl), #0xa0
+                                    432 ;source/default/main.c:107: delay(200);
+      000212 11 C8 00               433 	ld	de, #0x00c8
+      000215 D5                     434 	push	de
+      000216 CDr00r00               435 	call	_delay
+      000219 E1                     436 	pop	hl
+                                    437 ;source/default/main.c:108: paddle.lives--;
+      00021A FAr03r00               438 	ld	a, (#(_paddle + 3) + 0)
+      00021D 3D                     439 	dec	a
+      00021E EAr03r00               440 	ld	(#(_paddle + 3)),a
+                                    441 ;source/default/main.c:109: goto LifeStart;
+                                    442 ;source/default/main.c:112: }
+      000221 18 B3                  443 	jr	00102$
+                                    444 	.area _CODE
+                                    445 	.area _INITIALIZER
+      000000                        446 __xinit__helper:
+      000000 00                     447 	.db #0x00	; 0
+      000001 00                     448 	.db #0x00	; 0
+      000002 00                     449 	.db #0x00	; 0
+      000003 00                     450 	.db #0x00	; 0
+      000004 00                     451 	.db #0x00	; 0
+                                    452 	.area _CABS (ABS)

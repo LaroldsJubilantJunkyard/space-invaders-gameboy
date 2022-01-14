@@ -1,0 +1,1390 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module bullets
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _UpdateBullets
+                                     12 	.globl _RemoveBullet
+                                     13 	.globl _IncreaseScore
+                                     14 	.globl _GetInvaderForNode
+                                     15 	.globl _set_bkg_tile_xy
+                                     16 	.globl _get_bkg_tiles
+                                     17 	.globl _set_bkg_tiles
+                                     18 	.globl _bulletCounter
+                                     19 	.globl _bulletsOnScreen
+                                     20 	.globl _bullets
+                                     21 	.globl _SetupBullets
+                                     22 	.globl _SpawnEnemyBullet
+                                     23 	.globl _SpawnBullet
+                                     24 	.globl _ReSortBullets
+                                     25 ;--------------------------------------------------------
+                                     26 ; special function registers
+                                     27 ;--------------------------------------------------------
+                                     28 ;--------------------------------------------------------
+                                     29 ; ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _DATA
+      000000                         32 _bullets::
+      000000                         33 	.ds 10
+      00000A                         34 _bulletsOnScreen::
+      00000A                         35 	.ds 1
+      00000B                         36 _bulletCounter::
+      00000B                         37 	.ds 1
+                                     38 ;--------------------------------------------------------
+                                     39 ; ram data
+                                     40 ;--------------------------------------------------------
+                                     41 	.area _INITIALIZED
+                                     42 ;--------------------------------------------------------
+                                     43 ; absolute external ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _DABS (ABS)
+                                     46 ;--------------------------------------------------------
+                                     47 ; global & static initialisations
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _HOME
+                                     50 	.area _GSINIT
+                                     51 	.area _GSFINAL
+                                     52 	.area _GSINIT
+                                     53 ;--------------------------------------------------------
+                                     54 ; Home
+                                     55 ;--------------------------------------------------------
+                                     56 	.area _HOME
+                                     57 	.area _HOME
+                                     58 ;--------------------------------------------------------
+                                     59 ; code
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _CODE
+                                     62 ;source/default/bullets.c:20: void SetupBullets(){
+                                     63 ;	---------------------------------
+                                     64 ; Function SetupBullets
+                                     65 ; ---------------------------------
+      000000                         66 _SetupBullets::
+                                     67 ;source/default/bullets.c:22: for(INT8 i=0;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++)bullets[i]=0;
+      000000 0E 00                   68 	ld	c, #0x00
+      000002                         69 00103$:
+      000002 79                      70 	ld	a, c
+      000003 EE 80                   71 	xor	a, #0x80
+      000005 D6 8A                   72 	sub	a, #0x8a
+      000007 30 0E                   73 	jr	NC, 00101$
+      000009 79                      74 	ld	a, c
+      00000A 5F                      75 	ld	e, a
+      00000B 07                      76 	rlca
+      00000C 9F                      77 	sbc	a, a
+      00000D 57                      78 	ld	d, a
+      00000E 21r00r00                79 	ld	hl, #_bullets
+      000011 19                      80 	add	hl, de
+      000012 36 00                   81 	ld	(hl), #0x00
+      000014 0C                      82 	inc	c
+      000015 18 EB                   83 	jr	00103$
+      000017                         84 00101$:
+                                     85 ;source/default/bullets.c:23: bulletCounter=0;
+      000017 21r0Br00                86 	ld	hl, #_bulletCounter
+      00001A 36 00                   87 	ld	(hl), #0x00
+                                     88 ;source/default/bullets.c:24: bulletsOnScreen=0;
+      00001C 21r0Ar00                89 	ld	hl, #_bulletsOnScreen
+      00001F 36 00                   90 	ld	(hl), #0x00
+                                     91 ;source/default/bullets.c:25: }
+      000021 C9                      92 	ret
+                                     93 ;source/default/bullets.c:27: void SpawnEnemyBullet(UINT8 x, UINT8 y){
+                                     94 ;	---------------------------------
+                                     95 ; Function SpawnEnemyBullet
+                                     96 ; ---------------------------------
+      000022                         97 _SpawnEnemyBullet::
+      000022 3B                      98 	dec	sp
+                                     99 ;source/default/bullets.c:28: for(INT8 i=2;i<40;i++){
+      000023 F8 00                  100 	ldhl	sp,	#0
+      000025 36 02                  101 	ld	(hl), #0x02
+      000027 0E 02                  102 	ld	c, #0x02
+      000029                        103 00108$:
+      000029 79                     104 	ld	a, c
+      00002A EE 80                  105 	xor	a, #0x80
+      00002C D6 A8                  106 	sub	a, #0xa8
+      00002E 30 5D                  107 	jr	NC, 00110$
+                                    108 ;source/default/bullets.c:29: if(get_sprite_tile(i)==0){
+      000030 41                     109 	ld	b, c
+                                    110 ;C:/gbdk/include/gb/gb.h:1337: return shadow_OAM[nb].tile;
+      000031 26 00                  111 	ld	h, #0x00
+                                    112 ;	spillPairReg hl
+                                    113 ;	spillPairReg hl
+      000033 68                     114 	ld	l, b
+      000034 29                     115 	add	hl, hl
+      000035 29                     116 	add	hl, hl
+      000036 11r00r00               117 	ld	de, #_shadow_OAM
+      000039 19                     118 	add	hl, de
+      00003A 23                     119 	inc	hl
+      00003B 23                     120 	inc	hl
+      00003C 7E                     121 	ld	a, (hl)
+                                    122 ;source/default/bullets.c:29: if(get_sprite_tile(i)==0){
+      00003D B7                     123 	or	a, a
+      00003E 20 47                  124 	jr	NZ, 00109$
+                                    125 ;source/default/bullets.c:30: set_sprite_tile(i,42);
+      000040 F8 00                  126 	ldhl	sp,	#0
+      000042 4E                     127 	ld	c, (hl)
+                                    128 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000043 26 00                  129 	ld	h, #0x00
+                                    130 ;	spillPairReg hl
+                                    131 ;	spillPairReg hl
+      000045 69                     132 	ld	l, c
+      000046 29                     133 	add	hl, hl
+      000047 29                     134 	add	hl, hl
+      000048 11r00r00               135 	ld	de, #_shadow_OAM
+      00004B 19                     136 	add	hl, de
+      00004C 23                     137 	inc	hl
+      00004D 23                     138 	inc	hl
+      00004E 36 2A                  139 	ld	(hl), #0x2a
+                                    140 ;source/default/bullets.c:31: move_sprite(i,x+4,y+12);
+      000050 F8 04                  141 	ldhl	sp,	#4
+      000052 3A                     142 	ld	a, (hl-)
+      000053 C6 0C                  143 	add	a, #0x0c
+      000055 4F                     144 	ld	c, a
+      000056 7E                     145 	ld	a, (hl)
+      000057 C6 04                  146 	add	a, #0x04
+      000059 5F                     147 	ld	e, a
+      00005A F8 00                  148 	ldhl	sp,	#0
+      00005C 46                     149 	ld	b, (hl)
+                                    150 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      00005D 26 00                  151 	ld	h, #0x00
+                                    152 ;	spillPairReg hl
+                                    153 ;	spillPairReg hl
+      00005F 68                     154 	ld	l, b
+      000060 29                     155 	add	hl, hl
+      000061 29                     156 	add	hl, hl
+      000062 D5                     157 	push	de
+      000063 11r00r00               158 	ld	de, #_shadow_OAM
+      000066 19                     159 	add	hl, de
+      000067 D1                     160 	pop	de
+                                    161 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000068 79                     162 	ld	a, c
+      000069 22                     163 	ld	(hl+), a
+      00006A 73                     164 	ld	(hl), e
+                                    165 ;source/default/bullets.c:32: bullets[bulletsOnScreen]=-i;
+      00006B 3Er00                  166 	ld	a, #<(_bullets)
+      00006D 21r0Ar00               167 	ld	hl, #_bulletsOnScreen
+      000070 86                     168 	add	a, (hl)
+      000071 4F                     169 	ld	c, a
+      000072 3Es00                  170 	ld	a, #>(_bullets)
+      000074 CE 00                  171 	adc	a, #0x00
+      000076 47                     172 	ld	b, a
+      000077 AF                     173 	xor	a, a
+      000078 F8 00                  174 	ldhl	sp,	#0
+      00007A 96                     175 	sub	a, (hl)
+      00007B 5F                     176 	ld	e, a
+      00007C 02                     177 	ld	(bc), a
+                                    178 ;source/default/bullets.c:33: bulletsOnScreen++;
+      00007D 21r0Ar00               179 	ld	hl, #_bulletsOnScreen
+      000080 34                     180 	inc	(hl)
+                                    181 ;source/default/bullets.c:35: ReSortBullets();
+      000081 33                     182 	inc	sp
+      000082 C3rFAr00               183 	jp	_ReSortBullets
+                                    184 ;source/default/bullets.c:36: break;
+      000085 18 06                  185 	jr	00110$
+      000087                        186 00109$:
+                                    187 ;source/default/bullets.c:28: for(INT8 i=2;i<40;i++){
+      000087 0C                     188 	inc	c
+      000088 F8 00                  189 	ldhl	sp,	#0
+      00008A 71                     190 	ld	(hl), c
+      00008B 18 9C                  191 	jr	00108$
+      00008D                        192 00110$:
+                                    193 ;source/default/bullets.c:39: }
+      00008D 33                     194 	inc	sp
+      00008E C9                     195 	ret
+                                    196 ;source/default/bullets.c:40: void SpawnBullet(UINT8 x, UINT8 y){
+                                    197 ;	---------------------------------
+                                    198 ; Function SpawnBullet
+                                    199 ; ---------------------------------
+      00008F                        200 _SpawnBullet::
+      00008F 3B                     201 	dec	sp
+                                    202 ;source/default/bullets.c:41: for(INT8 i=2;i<40;i++){
+      000090 F8 00                  203 	ldhl	sp,	#0
+      000092 36 02                  204 	ld	(hl), #0x02
+      000094 0E 02                  205 	ld	c, #0x02
+      000096                        206 00108$:
+      000096 79                     207 	ld	a, c
+      000097 EE 80                  208 	xor	a, #0x80
+      000099 D6 A8                  209 	sub	a, #0xa8
+      00009B 30 5B                  210 	jr	NC, 00110$
+                                    211 ;source/default/bullets.c:42: if(get_sprite_tile(i)==0){
+      00009D 41                     212 	ld	b, c
+                                    213 ;C:/gbdk/include/gb/gb.h:1337: return shadow_OAM[nb].tile;
+      00009E 26 00                  214 	ld	h, #0x00
+                                    215 ;	spillPairReg hl
+                                    216 ;	spillPairReg hl
+      0000A0 68                     217 	ld	l, b
+      0000A1 29                     218 	add	hl, hl
+      0000A2 29                     219 	add	hl, hl
+      0000A3 11r00r00               220 	ld	de, #_shadow_OAM
+      0000A6 19                     221 	add	hl, de
+      0000A7 23                     222 	inc	hl
+      0000A8 23                     223 	inc	hl
+      0000A9 7E                     224 	ld	a, (hl)
+                                    225 ;source/default/bullets.c:42: if(get_sprite_tile(i)==0){
+      0000AA B7                     226 	or	a, a
+      0000AB 20 45                  227 	jr	NZ, 00109$
+                                    228 ;source/default/bullets.c:43: set_sprite_tile(i,42);
+      0000AD F8 00                  229 	ldhl	sp,	#0
+      0000AF 4E                     230 	ld	c, (hl)
+                                    231 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      0000B0 26 00                  232 	ld	h, #0x00
+                                    233 ;	spillPairReg hl
+                                    234 ;	spillPairReg hl
+      0000B2 69                     235 	ld	l, c
+      0000B3 29                     236 	add	hl, hl
+      0000B4 29                     237 	add	hl, hl
+      0000B5 11r00r00               238 	ld	de, #_shadow_OAM
+      0000B8 19                     239 	add	hl, de
+      0000B9 23                     240 	inc	hl
+      0000BA 23                     241 	inc	hl
+      0000BB 36 2A                  242 	ld	(hl), #0x2a
+                                    243 ;source/default/bullets.c:44: move_sprite(i,x+4,y+12);
+      0000BD F8 04                  244 	ldhl	sp,	#4
+      0000BF 3A                     245 	ld	a, (hl-)
+      0000C0 C6 0C                  246 	add	a, #0x0c
+      0000C2 4F                     247 	ld	c, a
+      0000C3 7E                     248 	ld	a, (hl)
+      0000C4 C6 04                  249 	add	a, #0x04
+      0000C6 5F                     250 	ld	e, a
+      0000C7 F8 00                  251 	ldhl	sp,	#0
+      0000C9 46                     252 	ld	b, (hl)
+                                    253 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      0000CA 26 00                  254 	ld	h, #0x00
+                                    255 ;	spillPairReg hl
+                                    256 ;	spillPairReg hl
+      0000CC 68                     257 	ld	l, b
+      0000CD 29                     258 	add	hl, hl
+      0000CE 29                     259 	add	hl, hl
+      0000CF D5                     260 	push	de
+      0000D0 11r00r00               261 	ld	de, #_shadow_OAM
+      0000D3 19                     262 	add	hl, de
+      0000D4 D1                     263 	pop	de
+                                    264 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      0000D5 79                     265 	ld	a, c
+      0000D6 22                     266 	ld	(hl+), a
+      0000D7 73                     267 	ld	(hl), e
+                                    268 ;source/default/bullets.c:45: bullets[bulletsOnScreen]=i;
+      0000D8 3Er00                  269 	ld	a, #<(_bullets)
+      0000DA 21r0Ar00               270 	ld	hl, #_bulletsOnScreen
+      0000DD 86                     271 	add	a, (hl)
+      0000DE 4F                     272 	ld	c, a
+      0000DF 3Es00                  273 	ld	a, #>(_bullets)
+      0000E1 CE 00                  274 	adc	a, #0x00
+      0000E3 47                     275 	ld	b, a
+      0000E4 F8 00                  276 	ldhl	sp,	#0
+      0000E6 7E                     277 	ld	a, (hl)
+      0000E7 02                     278 	ld	(bc), a
+                                    279 ;source/default/bullets.c:46: bulletsOnScreen++;
+      0000E8 21r0Ar00               280 	ld	hl, #_bulletsOnScreen
+      0000EB 34                     281 	inc	(hl)
+                                    282 ;source/default/bullets.c:48: ReSortBullets();
+      0000EC 33                     283 	inc	sp
+      0000ED C3rFAr00               284 	jp	_ReSortBullets
+                                    285 ;source/default/bullets.c:49: break;
+      0000F0 18 06                  286 	jr	00110$
+      0000F2                        287 00109$:
+                                    288 ;source/default/bullets.c:41: for(INT8 i=2;i<40;i++){
+      0000F2 0C                     289 	inc	c
+      0000F3 F8 00                  290 	ldhl	sp,	#0
+      0000F5 71                     291 	ld	(hl), c
+      0000F6 18 9E                  292 	jr	00108$
+      0000F8                        293 00110$:
+                                    294 ;source/default/bullets.c:52: }
+      0000F8 33                     295 	inc	sp
+      0000F9 C9                     296 	ret
+                                    297 ;source/default/bullets.c:54: void ReSortBullets(){
+                                    298 ;	---------------------------------
+                                    299 ; Function ReSortBullets
+                                    300 ; ---------------------------------
+      0000FA                        301 _ReSortBullets::
+      0000FA E8 F4                  302 	add	sp, #-12
+                                    303 ;source/default/bullets.c:61: for( i=0;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++){
+      0000FC F8 00                  304 	ldhl	sp,	#0
+      0000FE 7D                     305 	ld	a, l
+      0000FF 54                     306 	ld	d, h
+      000100 F8 0A                  307 	ldhl	sp,	#10
+      000102 22                     308 	ld	(hl+), a
+      000103 72                     309 	ld	(hl), d
+      000104 1E 00                  310 	ld	e, #0x00
+      000106                        311 00106$:
+                                    312 ;source/default/bullets.c:62: sorted[i]=bullets[i];
+      000106 D5                     313 	push	de
+      000107 16 00                  314 	ld	d, #0x00
+      000109 F8 0C                  315 	ldhl	sp,	#12
+      00010B 2A                     316 	ld	a,	(hl+)
+      00010C 66                     317 	ld	h, (hl)
+      00010D 6F                     318 	ld	l, a
+      00010E 19                     319 	add	hl, de
+      00010F D1                     320 	pop	de
+      000110 4D                     321 	ld	c, l
+      000111 44                     322 	ld	b, h
+      000112 21r00r00               323 	ld	hl, #_bullets
+      000115 16 00                  324 	ld	d, #0x00
+      000117 19                     325 	add	hl, de
+      000118 7E                     326 	ld	a, (hl)
+      000119 02                     327 	ld	(bc), a
+                                    328 ;source/default/bullets.c:61: for( i=0;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++){
+      00011A 1C                     329 	inc	e
+      00011B 7B                     330 	ld	a, e
+      00011C D6 0A                  331 	sub	a, #0x0a
+      00011E 38 E6                  332 	jr	C, 00106$
+                                    333 ;source/default/bullets.c:66: for( i=0;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++){
+      000120 01 00 00               334 	ld	bc, #0x0
+      000123                        335 00108$:
+                                    336 ;source/default/bullets.c:67: if(sorted[i]!=0)bullets[count++]=sorted[i];
+      000123 F8 0A                  337 	ldhl	sp,#10
+      000125 2A                     338 	ld	a, (hl+)
+      000126 5F                     339 	ld	e, a
+      000127 56                     340 	ld	d, (hl)
+      000128 68                     341 	ld	l, b
+      000129 26 00                  342 	ld	h, #0x00
+      00012B 19                     343 	add	hl, de
+      00012C 5D                     344 	ld	e, l
+      00012D 54                     345 	ld	d, h
+      00012E 1A                     346 	ld	a, (de)
+      00012F 5F                     347 	ld	e, a
+      000130 B7                     348 	or	a, a
+      000131 28 0B                  349 	jr	Z, 00109$
+      000133 3Er00                  350 	ld	a, #<(_bullets)
+      000135 81                     351 	add	a, c
+      000136 6F                     352 	ld	l, a
+                                    353 ;	spillPairReg hl
+                                    354 ;	spillPairReg hl
+      000137 3Es00                  355 	ld	a, #>(_bullets)
+      000139 CE 00                  356 	adc	a, #0x00
+      00013B 67                     357 	ld	h, a
+                                    358 ;	spillPairReg hl
+                                    359 ;	spillPairReg hl
+      00013C 0C                     360 	inc	c
+      00013D 73                     361 	ld	(hl), e
+      00013E                        362 00109$:
+                                    363 ;source/default/bullets.c:66: for( i=0;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++){
+      00013E 04                     364 	inc	b
+      00013F 78                     365 	ld	a, b
+      000140 D6 0A                  366 	sub	a, #0x0a
+      000142 38 DF                  367 	jr	C, 00108$
+                                    368 ;source/default/bullets.c:71: for( i=count;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++){
+      000144 41                     369 	ld	b, c
+      000145 3E 0A                  370 	ld	a, #0x0a
+      000147 90                     371 	sub	a, b
+      000148 5F                     372 	ld	e, a
+      000149                        373 00112$:
+                                    374 ;source/default/bullets.c:72: bullets[count++]=0;
+      000149 21r00r00               375 	ld	hl, #_bullets
+      00014C 06 00                  376 	ld	b, #0x00
+      00014E 09                     377 	add	hl, bc
+      00014F 0C                     378 	inc	c
+      000150 36 00                  379 	ld	(hl), #0x00
+                                    380 ;source/default/bullets.c:71: for( i=count;i<MAX_NUMBER_OF_BULLETS_ON_SCREEN;i++){
+      000152 1D                     381 	dec	e
+      000153 20 F4                  382 	jr	NZ, 00112$
+                                    383 ;source/default/bullets.c:74: }
+      000155 E8 0C                  384 	add	sp, #12
+      000157 C9                     385 	ret
+                                    386 ;source/default/bullets.c:76: void RemoveBullet(UINT8 j){
+                                    387 ;	---------------------------------
+                                    388 ; Function RemoveBullet
+                                    389 ; ---------------------------------
+      000158                        390 _RemoveBullet::
+      000158 3B                     391 	dec	sp
+                                    392 ;source/default/bullets.c:77: bulletsOnScreen--;
+      000159 21r0Ar00               393 	ld	hl, #_bulletsOnScreen
+      00015C 35                     394 	dec	(hl)
+                                    395 ;source/default/bullets.c:78: INT8 sprite = bullets[j];
+      00015D 01r00r00               396 	ld	bc, #_bullets+0
+      000160 F8 03                  397 	ldhl	sp,	#3
+      000162 6E                     398 	ld	l, (hl)
+      000163 26 00                  399 	ld	h, #0x00
+      000165 09                     400 	add	hl, bc
+      000166 4D                     401 	ld	c, l
+      000167 44                     402 	ld	b, h
+      000168 0A                     403 	ld	a, (bc)
+      000169 F8 00                  404 	ldhl	sp,	#0
+      00016B 77                     405 	ld	(hl), a
+                                    406 ;source/default/bullets.c:79: if(sprite<0)sprite=-sprite;
+      00016C 7E                     407 	ld	a, (hl)
+      00016D CB 7F                  408 	bit	7, a
+      00016F 28 03                  409 	jr	Z, 00102$
+      000171 AF                     410 	xor	a, a
+      000172 96                     411 	sub	a, (hl)
+      000173 77                     412 	ld	(hl), a
+      000174                        413 00102$:
+                                    414 ;source/default/bullets.c:80: move_sprite(sprite,160,160);
+      000174 F8 00                  415 	ldhl	sp,	#0
+                                    416 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000176 6E                     417 	ld	l, (hl)
+                                    418 ;	spillPairReg hl
+                                    419 ;	spillPairReg hl
+      000177 26 00                  420 	ld	h, #0x00
+                                    421 ;	spillPairReg hl
+                                    422 ;	spillPairReg hl
+      000179 29                     423 	add	hl, hl
+      00017A 29                     424 	add	hl, hl
+      00017B 11r00r00               425 	ld	de, #_shadow_OAM
+      00017E 19                     426 	add	hl, de
+                                    427 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      00017F 36 A0                  428 	ld	(hl), #0xa0
+      000181 23                     429 	inc	hl
+      000182 36 A0                  430 	ld	(hl), #0xa0
+                                    431 ;source/default/bullets.c:81: set_sprite_tile(sprite,0);
+      000184 F8 00                  432 	ldhl	sp,	#0
+                                    433 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000186 6E                     434 	ld	l, (hl)
+                                    435 ;	spillPairReg hl
+                                    436 ;	spillPairReg hl
+      000187 26 00                  437 	ld	h, #0x00
+                                    438 ;	spillPairReg hl
+                                    439 ;	spillPairReg hl
+      000189 29                     440 	add	hl, hl
+      00018A 29                     441 	add	hl, hl
+      00018B 11r00r00               442 	ld	de, #_shadow_OAM
+      00018E 19                     443 	add	hl, de
+      00018F 23                     444 	inc	hl
+      000190 23                     445 	inc	hl
+      000191 36 00                  446 	ld	(hl), #0x00
+                                    447 ;source/default/bullets.c:82: bullets[j]=0;
+      000193 AF                     448 	xor	a, a
+      000194 02                     449 	ld	(bc), a
+                                    450 ;source/default/bullets.c:84: ReSortBullets();
+      000195 33                     451 	inc	sp
+      000196 C3rFAr00               452 	jp	_ReSortBullets
+                                    453 ;source/default/bullets.c:85: }
+      000199 33                     454 	inc	sp
+      00019A C9                     455 	ret
+                                    456 ;source/default/bullets.c:87: void UpdateBullets(){
+                                    457 ;	---------------------------------
+                                    458 ; Function UpdateBullets
+                                    459 ; ---------------------------------
+      00019B                        460 _UpdateBullets::
+      00019B E8 F0                  461 	add	sp, #-16
+                                    462 ;source/default/bullets.c:91: for(UINT8 j=0;j<MAX_NUMBER_OF_BULLETS_ON_SCREEN;j++){
+      00019D F8 0F                  463 	ldhl	sp,	#15
+      00019F 36 00                  464 	ld	(hl), #0x00
+      0001A1                        465 00150$:
+      0001A1 F8 0F                  466 	ldhl	sp,	#15
+      0001A3 7E                     467 	ld	a, (hl)
+      0001A4 D6 0A                  468 	sub	a, #0x0a
+      0001A6 D2r67r06               469 	jp	NC, 00151$
+                                    470 ;source/default/bullets.c:93: if(bullets[j]==0)continue;
+      0001A9 11r00r00               471 	ld	de, #_bullets
+      0001AC 6E                     472 	ld	l, (hl)
+      0001AD 26 00                  473 	ld	h, #0x00
+      0001AF 19                     474 	add	hl, de
+      0001B0 33                     475 	inc	sp
+      0001B1 33                     476 	inc	sp
+                                    477 ;source/default/bullets.c:98: if(bullets[j]<0)scroll_sprite(sprite,0,4);
+      0001B2 5D                     478 	ld	e, l
+      0001B3 54                     479 	ld	d, h
+      0001B4 D5                     480 	push	de
+      0001B5 1A                     481 	ld	a, (de)
+      0001B6 F8 0D                  482 	ldhl	sp,	#13
+      0001B8 77                     483 	ld	(hl), a
+                                    484 ;source/default/bullets.c:93: if(bullets[j]==0)continue;
+      0001B9 7E                     485 	ld	a, (hl)
+      0001BA B7                     486 	or	a, a
+      0001BB CAr61r06               487 	jp	Z, 00145$
+                                    488 ;source/default/bullets.c:95: INT8 sprite = bullets[j];
+      0001BE 2A                     489 	ld	a, (hl+)
+      0001BF 77                     490 	ld	(hl), a
+                                    491 ;source/default/bullets.c:96: if(sprite<0)sprite=-sprite;
+      0001C0 CB 7E                  492 	bit	7, (hl)
+      0001C2 28 03                  493 	jr	Z, 00104$
+      0001C4 AF                     494 	xor	a, a
+      0001C5 96                     495 	sub	a, (hl)
+      0001C6 77                     496 	ld	(hl), a
+      0001C7                        497 00104$:
+                                    498 ;source/default/bullets.c:98: if(bullets[j]<0)scroll_sprite(sprite,0,4);
+      0001C7 F8 0D                  499 	ldhl	sp,	#13
+      0001C9 CB 7E                  500 	bit	7, (hl)
+      0001CB 28 12                  501 	jr	Z, 00106$
+      0001CD 23                     502 	inc	hl
+                                    503 ;C:/gbdk/include/gb/gb.h:1415: OAM_item_t * itm = &shadow_OAM[nb];
+      0001CE 6E                     504 	ld	l, (hl)
+      0001CF 01r00r00               505 	ld	bc, #_shadow_OAM+0
+                                    506 ;	spillPairReg hl
+                                    507 ;	spillPairReg hl
+      0001D2 26 00                  508 	ld	h, #0x00
+                                    509 ;	spillPairReg hl
+                                    510 ;	spillPairReg hl
+      0001D4 29                     511 	add	hl, hl
+      0001D5 29                     512 	add	hl, hl
+      0001D6 09                     513 	add	hl, bc
+                                    514 ;C:/gbdk/include/gb/gb.h:1416: itm->y+=y, itm->x+=x;
+      0001D7 7E                     515 	ld	a, (hl)
+      0001D8 C6 04                  516 	add	a, #0x04
+      0001DA 22                     517 	ld	(hl+), a
+      0001DB 7E                     518 	ld	a, (hl)
+      0001DC 77                     519 	ld	(hl), a
+                                    520 ;source/default/bullets.c:98: if(bullets[j]<0)scroll_sprite(sprite,0,4);
+      0001DD 18 11                  521 	jr	00107$
+      0001DF                        522 00106$:
+                                    523 ;source/default/bullets.c:99: else scroll_sprite(sprite,0,-4);
+      0001DF F8 0E                  524 	ldhl	sp,	#14
+                                    525 ;C:/gbdk/include/gb/gb.h:1415: OAM_item_t * itm = &shadow_OAM[nb];
+      0001E1 6E                     526 	ld	l, (hl)
+      0001E2 01r00r00               527 	ld	bc, #_shadow_OAM+0
+                                    528 ;	spillPairReg hl
+                                    529 ;	spillPairReg hl
+      0001E5 26 00                  530 	ld	h, #0x00
+                                    531 ;	spillPairReg hl
+                                    532 ;	spillPairReg hl
+      0001E7 29                     533 	add	hl, hl
+      0001E8 29                     534 	add	hl, hl
+      0001E9 09                     535 	add	hl, bc
+                                    536 ;C:/gbdk/include/gb/gb.h:1416: itm->y+=y, itm->x+=x;
+      0001EA 7E                     537 	ld	a, (hl)
+      0001EB C6 FC                  538 	add	a, #0xfc
+      0001ED 22                     539 	ld	(hl+), a
+      0001EE 7E                     540 	ld	a, (hl)
+      0001EF 77                     541 	ld	(hl), a
+                                    542 ;source/default/bullets.c:99: else scroll_sprite(sprite,0,-4);
+      0001F0                        543 00107$:
+                                    544 ;source/default/bullets.c:101: bx = shadow_OAM[sprite].x-4;
+      0001F0 F8 0E                  545 	ldhl	sp,	#14
+      0001F2 7E                     546 	ld	a, (hl)
+      0001F3 4F                     547 	ld	c, a
+      0001F4 07                     548 	rlca
+      0001F5 9F                     549 	sbc	a, a
+      0001F6 47                     550 	ld	b, a
+      0001F7 CB 21                  551 	sla	c
+      0001F9 CB 10                  552 	rl	b
+      0001FB CB 21                  553 	sla	c
+      0001FD CB 10                  554 	rl	b
+      0001FF 21r01r00               555 	ld	hl,#_shadow_OAM + 1
+      000202 09                     556 	add	hl,bc
+      000203 7E                     557 	ld	a, (hl)
+      000204 C6 FC                  558 	add	a, #0xfc
+      000206 F8 0C                  559 	ldhl	sp,	#12
+      000208 77                     560 	ld	(hl), a
+                                    561 ;source/default/bullets.c:102: by = shadow_OAM[sprite].y-12;
+      000209 21r00r00               562 	ld	hl, #_shadow_OAM
+      00020C 09                     563 	add	hl, bc
+      00020D 7E                     564 	ld	a, (hl)
+      00020E C6 F4                  565 	add	a, #0xf4
+      000210 F8 0D                  566 	ldhl	sp,	#13
+      000212 77                     567 	ld	(hl), a
+                                    568 ;source/default/bullets.c:106: if(by<8||by>176){
+      000213 7E                     569 	ld	a, (hl)
+      000214 D6 08                  570 	sub	a, #0x08
+      000216 38 05                  571 	jr	C, 00108$
+      000218 3E B0                  572 	ld	a, #0xb0
+      00021A 96                     573 	sub	a, (hl)
+      00021B 30 0C                  574 	jr	NC, 00109$
+      00021D                        575 00108$:
+                                    576 ;source/default/bullets.c:108: RemoveBullet(j);
+      00021D F8 0F                  577 	ldhl	sp,	#15
+      00021F 7E                     578 	ld	a, (hl)
+      000220 F5                     579 	push	af
+      000221 33                     580 	inc	sp
+      000222 CDr58r01               581 	call	_RemoveBullet
+      000225 33                     582 	inc	sp
+                                    583 ;source/default/bullets.c:110: continue;
+      000226 C3r61r06               584 	jp	00145$
+      000229                        585 00109$:
+                                    586 ;source/default/bullets.c:113: if(bullets[j]<0){
+      000229 D1                     587 	pop	de
+      00022A D5                     588 	push	de
+      00022B 1A                     589 	ld	a, (de)
+      00022C F8 0E                  590 	ldhl	sp,	#14
+                                    591 ;source/default/bullets.c:115: INT16 xd = paddle.x-bx;
+      00022E 32                     592 	ld	(hl-), a
+      00022F 2B                     593 	dec	hl
+      000230 7E                     594 	ld	a, (hl)
+      000231 F8 02                  595 	ldhl	sp,	#2
+      000233 22                     596 	ld	(hl+), a
+      000234 36 00                  597 	ld	(hl), #0x00
+                                    598 ;source/default/bullets.c:116: INT16 yd = paddle.y-by;
+      000236 F8 0D                  599 	ldhl	sp,	#13
+      000238 7E                     600 	ld	a, (hl)
+      000239 F8 04                  601 	ldhl	sp,	#4
+      00023B 22                     602 	ld	(hl+), a
+      00023C 36 00                  603 	ld	(hl), #0x00
+                                    604 ;source/default/bullets.c:113: if(bullets[j]<0){
+      00023E F8 0E                  605 	ldhl	sp,	#14
+      000240 CB 7E                  606 	bit	7, (hl)
+      000242 CArDAr02               607 	jp	Z, 00119$
+                                    608 ;source/default/bullets.c:115: INT16 xd = paddle.x-bx;
+      000245 FAr00r00               609 	ld	a, (#_paddle + 0)
+      000248 F8 0E                  610 	ldhl	sp,#14
+      00024A 77                     611 	ld	(hl), a
+      00024B 7E                     612 	ld	a, (hl)
+      00024C F8 0B                  613 	ldhl	sp,	#11
+      00024E 22                     614 	ld	(hl+), a
+      00024F AF                     615 	xor	a, a
+      000250 32                     616 	ld	(hl-), a
+      000251 2A                     617 	ld	a, (hl+)
+      000252 5F                     618 	ld	e, a
+      000253 56                     619 	ld	d, (hl)
+      000254 F8 02                  620 	ldhl	sp,	#2
+      000256 2A                     621 	ld	a,	(hl+)
+      000257 66                     622 	ld	h, (hl)
+      000258 6F                     623 	ld	l, a
+      000259 7B                     624 	ld	a, e
+      00025A 95                     625 	sub	a, l
+      00025B 5F                     626 	ld	e, a
+      00025C 7A                     627 	ld	a, d
+      00025D 9C                     628 	sbc	a, h
+      00025E F8 0E                  629 	ldhl	sp,	#14
+      000260 32                     630 	ld	(hl-), a
+      000261 73                     631 	ld	(hl), e
+                                    632 ;source/default/bullets.c:116: INT16 yd = paddle.y-by;
+      000262 FAr01r00               633 	ld	a, (#(_paddle + 1) + 0)
+      000265 F8 0C                  634 	ldhl	sp,#12
+      000267 77                     635 	ld	(hl), a
+      000268 7E                     636 	ld	a, (hl)
+      000269 F8 09                  637 	ldhl	sp,	#9
+      00026B 22                     638 	ld	(hl+), a
+      00026C AF                     639 	xor	a, a
+      00026D 32                     640 	ld	(hl-), a
+      00026E 2A                     641 	ld	a, (hl+)
+      00026F 5F                     642 	ld	e, a
+      000270 56                     643 	ld	d, (hl)
+      000271 F8 04                  644 	ldhl	sp,	#4
+      000273 2A                     645 	ld	a,	(hl+)
+      000274 66                     646 	ld	h, (hl)
+      000275 6F                     647 	ld	l, a
+      000276 7B                     648 	ld	a, e
+      000277 95                     649 	sub	a, l
+      000278 5F                     650 	ld	e, a
+      000279 7A                     651 	ld	a, d
+      00027A 9C                     652 	sbc	a, h
+      00027B F8 0C                  653 	ldhl	sp,	#12
+      00027D 32                     654 	ld	(hl-), a
+      00027E 73                     655 	ld	(hl), e
+      00027F 2A                     656 	ld	a, (hl+)
+      000280 4F                     657 	ld	c, a
+                                    658 ;source/default/bullets.c:118: if(xd<0)xd=-xd;
+      000281 2A                     659 	ld	a, (hl+)
+      000282 23                     660 	inc	hl
+      000283 47                     661 	ld	b, a
+      000284 CB 7E                  662 	bit	7, (hl)
+      000286 28 0F                  663 	jr	Z, 00112$
+      000288 11 00 00               664 	ld	de, #0x0000
+      00028B 3A                     665 	ld	a, (hl-)
+      00028C 6E                     666 	ld	l, (hl)
+      00028D 67                     667 	ld	h, a
+      00028E 7B                     668 	ld	a, e
+      00028F 95                     669 	sub	a, l
+      000290 5F                     670 	ld	e, a
+      000291 7A                     671 	ld	a, d
+      000292 9C                     672 	sbc	a, h
+      000293 F8 0E                  673 	ldhl	sp,	#14
+      000295 32                     674 	ld	(hl-), a
+      000296 73                     675 	ld	(hl), e
+      000297                        676 00112$:
+                                    677 ;source/default/bullets.c:119: if(yd<0)yd=-yd;
+      000297 CB 78                  678 	bit	7, b
+      000299 28 06                  679 	jr	Z, 00114$
+      00029B AF                     680 	xor	a, a
+      00029C 91                     681 	sub	a, c
+      00029D 4F                     682 	ld	c, a
+      00029E 9F                     683 	sbc	a, a
+      00029F 90                     684 	sub	a, b
+      0002A0 47                     685 	ld	b, a
+      0002A1                        686 00114$:
+                                    687 ;source/default/bullets.c:121: if(xd<8&&yd<6){
+      0002A1 F8 0D                  688 	ldhl	sp,	#13
+      0002A3 2A                     689 	ld	a, (hl+)
+      0002A4 D6 08                  690 	sub	a, #0x08
+      0002A6 7E                     691 	ld	a, (hl)
+      0002A7 DE 00                  692 	sbc	a, #0x00
+      0002A9 56                     693 	ld	d, (hl)
+      0002AA 3E 00                  694 	ld	a, #0x00
+      0002AC CB 7F                  695 	bit	7,a
+      0002AE 28 07                  696 	jr	Z, 00337$
+      0002B0 CB 7A                  697 	bit	7, d
+      0002B2 20 08                  698 	jr	NZ, 00338$
+      0002B4 BF                     699 	cp	a, a
+      0002B5 18 05                  700 	jr	00338$
+      0002B7                        701 00337$:
+      0002B7 CB 7A                  702 	bit	7, d
+      0002B9 28 01                  703 	jr	Z, 00338$
+      0002BB 37                     704 	scf
+      0002BC                        705 00338$:
+      0002BC 30 1C                  706 	jr	NC, 00119$
+      0002BE 79                     707 	ld	a, c
+      0002BF D6 06                  708 	sub	a, #0x06
+      0002C1 78                     709 	ld	a, b
+      0002C2 17                     710 	rla
+      0002C3 3F                     711 	ccf
+      0002C4 1F                     712 	rra
+      0002C5 DE 80                  713 	sbc	a, #0x80
+      0002C7 30 11                  714 	jr	NC, 00119$
+                                    715 ;source/default/bullets.c:123: RemoveBullet(j);
+      0002C9 F8 0F                  716 	ldhl	sp,	#15
+      0002CB 7E                     717 	ld	a, (hl)
+      0002CC F5                     718 	push	af
+      0002CD 33                     719 	inc	sp
+      0002CE CDr58r01               720 	call	_RemoveBullet
+      0002D1 33                     721 	inc	sp
+                                    722 ;source/default/bullets.c:125: paddle.dead=1;
+      0002D2 21r02r00               723 	ld	hl, #(_paddle + 2)
+      0002D5 36 01                  724 	ld	(hl), #0x01
+                                    725 ;source/default/bullets.c:127: continue;
+      0002D7 C3r61r06               726 	jp	00145$
+      0002DA                        727 00119$:
+                                    728 ;source/default/bullets.c:133: get_bkg_tiles(bx/8,by/8,1,1,helper);
+      0002DA F8 04                  729 	ldhl	sp,	#4
+      0002DC 7E                     730 	ld	a, (hl)
+      0002DD F8 0D                  731 	ldhl	sp,	#13
+      0002DF 77                     732 	ld	(hl), a
+      0002E0 F8 05                  733 	ldhl	sp,	#5
+      0002E2 7E                     734 	ld	a, (hl)
+      0002E3 F8 0E                  735 	ldhl	sp,	#14
+      0002E5 77                     736 	ld	(hl), a
+      0002E6 F8 05                  737 	ldhl	sp,	#5
+      0002E8 2A                     738 	ld	a, (hl+)
+      0002E9 07                     739 	rlca
+      0002EA E6 01                  740 	and	a,#0x01
+      0002EC 32                     741 	ld	(hl-), a
+      0002ED 2B                     742 	dec	hl
+      0002EE 2A                     743 	ld	a, (hl+)
+      0002EF 5F                     744 	ld	e, a
+      0002F0 56                     745 	ld	d, (hl)
+      0002F1 21 07 00               746 	ld	hl, #0x0007
+      0002F4 19                     747 	add	hl, de
+      0002F5 E5                     748 	push	hl
+      0002F6 7D                     749 	ld	a, l
+      0002F7 F8 09                  750 	ldhl	sp,	#9
+      0002F9 77                     751 	ld	(hl), a
+      0002FA E1                     752 	pop	hl
+      0002FB 7C                     753 	ld	a, h
+      0002FC F8 08                  754 	ldhl	sp,	#8
+      0002FE 32                     755 	ld	(hl-), a
+      0002FF 2B                     756 	dec	hl
+      000300 7E                     757 	ld	a, (hl)
+      000301 B7                     758 	or	a, a
+      000302 28 0B                  759 	jr	Z, 00153$
+      000304 23                     760 	inc	hl
+      000305 7E                     761 	ld	a, (hl)
+      000306 F8 0D                  762 	ldhl	sp,	#13
+      000308 77                     763 	ld	(hl), a
+      000309 F8 08                  764 	ldhl	sp,	#8
+      00030B 7E                     765 	ld	a, (hl)
+      00030C F8 0E                  766 	ldhl	sp,	#14
+      00030E 77                     767 	ld	(hl), a
+      00030F                        768 00153$:
+      00030F F8 0E                  769 	ldhl	sp,	#14
+      000311 CB 2E                  770 	sra	(hl)
+      000313 2B                     771 	dec	hl
+      000314 CB 1E                  772 	rr	(hl)
+      000316 23                     773 	inc	hl
+      000317 CB 2E                  774 	sra	(hl)
+      000319 2B                     775 	dec	hl
+      00031A CB 1E                  776 	rr	(hl)
+      00031C 23                     777 	inc	hl
+      00031D CB 2E                  778 	sra	(hl)
+      00031F 2B                     779 	dec	hl
+      000320 CB 1E                  780 	rr	(hl)
+      000322 3A                     781 	ld	a, (hl-)
+      000323 77                     782 	ld	(hl), a
+      000324 F8 02                  783 	ldhl	sp,	#2
+      000326 7E                     784 	ld	a, (hl)
+      000327 F8 0D                  785 	ldhl	sp,	#13
+      000329 77                     786 	ld	(hl), a
+      00032A F8 03                  787 	ldhl	sp,	#3
+      00032C 7E                     788 	ld	a, (hl)
+      00032D F8 0E                  789 	ldhl	sp,	#14
+      00032F 77                     790 	ld	(hl), a
+      000330 F8 03                  791 	ldhl	sp,	#3
+      000332 7E                     792 	ld	a, (hl)
+      000333 07                     793 	rlca
+      000334 E6 01                  794 	and	a,#0x01
+      000336 F8 09                  795 	ldhl	sp,	#9
+      000338 77                     796 	ld	(hl), a
+      000339 F8 02                  797 	ldhl	sp,#2
+      00033B 2A                     798 	ld	a, (hl+)
+      00033C 5F                     799 	ld	e, a
+      00033D 56                     800 	ld	d, (hl)
+      00033E 21 07 00               801 	ld	hl, #0x0007
+      000341 19                     802 	add	hl, de
+      000342 E5                     803 	push	hl
+      000343 7D                     804 	ld	a, l
+      000344 F8 0C                  805 	ldhl	sp,	#12
+      000346 77                     806 	ld	(hl), a
+      000347 E1                     807 	pop	hl
+      000348 7C                     808 	ld	a, h
+      000349 F8 0B                  809 	ldhl	sp,	#11
+      00034B 32                     810 	ld	(hl-), a
+      00034C 2B                     811 	dec	hl
+      00034D 7E                     812 	ld	a, (hl)
+      00034E B7                     813 	or	a, a
+      00034F 28 0A                  814 	jr	Z, 00154$
+      000351 23                     815 	inc	hl
+      000352 7E                     816 	ld	a, (hl)
+      000353 F8 0D                  817 	ldhl	sp,	#13
+      000355 32                     818 	ld	(hl-), a
+      000356 2B                     819 	dec	hl
+      000357 7E                     820 	ld	a, (hl)
+      000358 F8 0E                  821 	ldhl	sp,	#14
+      00035A 77                     822 	ld	(hl), a
+      00035B                        823 00154$:
+      00035B F8 0D                  824 	ldhl	sp,#13
+      00035D 2A                     825 	ld	a, (hl+)
+      00035E 4F                     826 	ld	c, a
+      00035F 46                     827 	ld	b, (hl)
+      000360 CB 28                  828 	sra	b
+      000362 CB 19                  829 	rr	c
+      000364 CB 28                  830 	sra	b
+      000366 CB 19                  831 	rr	c
+      000368 CB 28                  832 	sra	b
+      00036A CB 19                  833 	rr	c
+      00036C 79                     834 	ld	a, c
+      00036D 11r00r00               835 	ld	de, #_helper
+      000370 D5                     836 	push	de
+      000371 26 01                  837 	ld	h, #0x01
+                                    838 ;	spillPairReg hl
+                                    839 ;	spillPairReg hl
+      000373 E5                     840 	push	hl
+      000374 33                     841 	inc	sp
+      000375 26 01                  842 	ld	h, #0x01
+                                    843 ;	spillPairReg hl
+                                    844 ;	spillPairReg hl
+      000377 E5                     845 	push	hl
+      000378 33                     846 	inc	sp
+      000379 F8 10                  847 	ldhl	sp,	#16
+      00037B 66                     848 	ld	h, (hl)
+                                    849 ;	spillPairReg hl
+                                    850 ;	spillPairReg hl
+      00037C E5                     851 	push	hl
+      00037D 33                     852 	inc	sp
+      00037E F5                     853 	push	af
+      00037F 33                     854 	inc	sp
+      000380 CDr00r00               855 	call	_get_bkg_tiles
+      000383 E8 06                  856 	add	sp, #6
+                                    857 ;source/default/bullets.c:135: if(helper[0]>=3&&helper[0]<=17){
+      000385 FAr00r00               858 	ld	a, (#_helper + 0)
+      000388 F8 0E                  859 	ldhl	sp,#14
+      00038A 77                     860 	ld	(hl), a
+      00038B 7E                     861 	ld	a, (hl)
+      00038C D6 03                  862 	sub	a, #0x03
+      00038E DAr53r04               863 	jp	C, 00142$
+      000391 3E 11                  864 	ld	a, #0x11
+      000393 96                     865 	sub	a, (hl)
+      000394 DAr53r04               866 	jp	C, 00142$
+                                    867 ;source/default/bullets.c:137: helper[0]=helper[0]+1;
+      000397 7E                     868 	ld	a, (hl)
+      000398 3C                     869 	inc	a
+      000399 EAr00r00               870 	ld	(#_helper),a
+                                    871 ;source/default/bullets.c:135: if(helper[0]>=3&&helper[0]<=17){
+      00039C FAr00r00               872 	ld	a, (#_helper + 0)
+                                    873 ;source/default/bullets.c:138: if(helper[0]==5)helper[0]=0;
+      00039F F8 0E                  874 	ldhl	sp,#14
+      0003A1 77                     875 	ld	(hl), a
+      0003A2 7E                     876 	ld	a, (hl)
+      0003A3 D6 05                  877 	sub	a, #0x05
+      0003A5 20 07                  878 	jr	NZ, 00132$
+      0003A7 21r00r00               879 	ld	hl, #_helper
+      0003AA 36 00                  880 	ld	(hl), #0x00
+      0003AC 18 36                  881 	jr	00133$
+      0003AE                        882 00132$:
+                                    883 ;source/default/bullets.c:139: else if(helper[0]==8)helper[0]=0;
+      0003AE F8 0E                  884 	ldhl	sp,	#14
+      0003B0 7E                     885 	ld	a, (hl)
+      0003B1 D6 08                  886 	sub	a, #0x08
+      0003B3 20 07                  887 	jr	NZ, 00129$
+      0003B5 21r00r00               888 	ld	hl, #_helper
+      0003B8 36 00                  889 	ld	(hl), #0x00
+      0003BA 18 28                  890 	jr	00133$
+      0003BC                        891 00129$:
+                                    892 ;source/default/bullets.c:140: else if(helper[0]==11)helper[0]=0;
+      0003BC F8 0E                  893 	ldhl	sp,	#14
+      0003BE 7E                     894 	ld	a, (hl)
+      0003BF D6 0B                  895 	sub	a, #0x0b
+      0003C1 20 07                  896 	jr	NZ, 00126$
+      0003C3 21r00r00               897 	ld	hl, #_helper
+      0003C6 36 00                  898 	ld	(hl), #0x00
+      0003C8 18 1A                  899 	jr	00133$
+      0003CA                        900 00126$:
+                                    901 ;source/default/bullets.c:141: else if(helper[0]==14)helper[0]=0;
+      0003CA F8 0E                  902 	ldhl	sp,	#14
+      0003CC 7E                     903 	ld	a, (hl)
+      0003CD D6 0E                  904 	sub	a, #0x0e
+      0003CF 20 07                  905 	jr	NZ, 00123$
+      0003D1 21r00r00               906 	ld	hl, #_helper
+      0003D4 36 00                  907 	ld	(hl), #0x00
+      0003D6 18 0C                  908 	jr	00133$
+      0003D8                        909 00123$:
+                                    910 ;source/default/bullets.c:142: else if(helper[0]==17)helper[0]=0;
+      0003D8 F8 0E                  911 	ldhl	sp,	#14
+      0003DA 7E                     912 	ld	a, (hl)
+      0003DB D6 11                  913 	sub	a, #0x11
+      0003DD 20 05                  914 	jr	NZ, 00133$
+      0003DF 21r00r00               915 	ld	hl, #_helper
+      0003E2 36 00                  916 	ld	(hl), #0x00
+      0003E4                        917 00133$:
+                                    918 ;source/default/bullets.c:145: set_bkg_tiles(bx/8,by/8,1,1,helper);
+      0003E4 F8 04                  919 	ldhl	sp,	#4
+      0003E6 2A                     920 	ld	a, (hl+)
+      0003E7 5F                     921 	ld	e, a
+      0003E8 2A                     922 	ld	a, (hl+)
+      0003E9 57                     923 	ld	d, a
+      0003EA 7E                     924 	ld	a, (hl)
+      0003EB B7                     925 	or	a, a
+      0003EC 28 04                  926 	jr	Z, 00155$
+      0003EE 23                     927 	inc	hl
+      0003EF 2A                     928 	ld	a, (hl+)
+      0003F0 5F                     929 	ld	e, a
+      0003F1 56                     930 	ld	d, (hl)
+      0003F2                        931 00155$:
+      0003F2 CB 2A                  932 	sra	d
+      0003F4 CB 1B                  933 	rr	e
+      0003F6 CB 2A                  934 	sra	d
+      0003F8 CB 1B                  935 	rr	e
+      0003FA CB 2A                  936 	sra	d
+      0003FC CB 1B                  937 	rr	e
+      0003FE F8 0C                  938 	ldhl	sp,	#12
+      000400 73                     939 	ld	(hl), e
+      000401 F8 02                  940 	ldhl	sp,	#2
+      000403 7E                     941 	ld	a, (hl)
+      000404 F8 0D                  942 	ldhl	sp,	#13
+      000406 77                     943 	ld	(hl), a
+      000407 F8 03                  944 	ldhl	sp,	#3
+      000409 7E                     945 	ld	a, (hl)
+      00040A F8 0E                  946 	ldhl	sp,	#14
+      00040C 77                     947 	ld	(hl), a
+      00040D F8 09                  948 	ldhl	sp,	#9
+      00040F 7E                     949 	ld	a, (hl)
+      000410 B7                     950 	or	a, a
+      000411 28 0A                  951 	jr	Z, 00156$
+      000413 23                     952 	inc	hl
+      000414 7E                     953 	ld	a, (hl)
+      000415 F8 0D                  954 	ldhl	sp,	#13
+      000417 32                     955 	ld	(hl-), a
+      000418 2B                     956 	dec	hl
+      000419 7E                     957 	ld	a, (hl)
+      00041A F8 0E                  958 	ldhl	sp,	#14
+      00041C 77                     959 	ld	(hl), a
+      00041D                        960 00156$:
+      00041D F8 0E                  961 	ldhl	sp,	#14
+      00041F CB 2E                  962 	sra	(hl)
+      000421 2B                     963 	dec	hl
+      000422 CB 1E                  964 	rr	(hl)
+      000424 23                     965 	inc	hl
+      000425 CB 2E                  966 	sra	(hl)
+      000427 2B                     967 	dec	hl
+      000428 CB 1E                  968 	rr	(hl)
+      00042A 23                     969 	inc	hl
+      00042B CB 2E                  970 	sra	(hl)
+      00042D 2B                     971 	dec	hl
+      00042E CB 1E                  972 	rr	(hl)
+      000430 2A                     973 	ld	a, (hl+)
+      000431 32                     974 	ld	(hl-), a
+      000432 2B                     975 	dec	hl
+      000433 11r00r00               976 	ld	de, #_helper
+      000436 D5                     977 	push	de
+      000437 11 01 01               978 	ld	de, #0x101
+      00043A D5                     979 	push	de
+      00043B 2A                     980 	ld	a, (hl+)
+      00043C 23                     981 	inc	hl
+      00043D F5                     982 	push	af
+      00043E 33                     983 	inc	sp
+      00043F 7E                     984 	ld	a, (hl)
+      000440 F5                     985 	push	af
+      000441 33                     986 	inc	sp
+      000442 CDr00r00               987 	call	_set_bkg_tiles
+      000445 E8 06                  988 	add	sp, #6
+                                    989 ;source/default/bullets.c:147: RemoveBullet(j);
+      000447 F8 0F                  990 	ldhl	sp,	#15
+      000449 7E                     991 	ld	a, (hl)
+      00044A F5                     992 	push	af
+      00044B 33                     993 	inc	sp
+      00044C CDr58r01               994 	call	_RemoveBullet
+      00044F 33                     995 	inc	sp
+      000450 C3r61r06               996 	jp	00145$
+      000453                        997 00142$:
+                                    998 ;source/default/bullets.c:150: } else if(helper[0]>=19&&helper[0]<=23&&bullets[j]>0){
+      000453 F8 0E                  999 	ldhl	sp,	#14
+      000455 7E                    1000 	ld	a, (hl)
+      000456 D6 13                 1001 	sub	a, #0x13
+      000458 DAr61r06              1002 	jp	C, 00145$
+      00045B 3E 17                 1003 	ld	a, #0x17
+      00045D 96                    1004 	sub	a, (hl)
+      00045E DAr61r06              1005 	jp	C, 00145$
+      000461 D1                    1006 	pop	de
+      000462 D5                    1007 	push	de
+      000463 1A                    1008 	ld	a, (de)
+      000464 4F                    1009 	ld	c, a
+      000465 59                    1010 	ld	e, c
+      000466 AF                    1011 	xor	a, a
+      000467 57                    1012 	ld	d, a
+      000468 91                    1013 	sub	a, c
+      000469 CB 7B                 1014 	bit	7, e
+      00046B 28 07                 1015 	jr	Z, 00349$
+      00046D CB 7A                 1016 	bit	7, d
+      00046F 20 08                 1017 	jr	NZ, 00350$
+      000471 BF                    1018 	cp	a, a
+      000472 18 05                 1019 	jr	00350$
+      000474                       1020 00349$:
+      000474 CB 7A                 1021 	bit	7, d
+      000476 28 01                 1022 	jr	Z, 00350$
+      000478 37                    1023 	scf
+      000479                       1024 00350$:
+      000479 D2r61r06              1025 	jp	NC, 00145$
+                                   1026 ;source/default/bullets.c:153: set_bkg_tile_xy(bx/8,by/8,0);
+      00047C F8 04                 1027 	ldhl	sp,	#4
+      00047E 7E                    1028 	ld	a, (hl)
+      00047F F8 0D                 1029 	ldhl	sp,	#13
+      000481 77                    1030 	ld	(hl), a
+      000482 F8 05                 1031 	ldhl	sp,	#5
+      000484 7E                    1032 	ld	a, (hl)
+      000485 F8 0E                 1033 	ldhl	sp,	#14
+      000487 77                    1034 	ld	(hl), a
+      000488 F8 06                 1035 	ldhl	sp,	#6
+      00048A 7E                    1036 	ld	a, (hl)
+      00048B B7                    1037 	or	a, a
+      00048C 28 0B                 1038 	jr	Z, 00157$
+      00048E 23                    1039 	inc	hl
+      00048F 7E                    1040 	ld	a, (hl)
+      000490 F8 0D                 1041 	ldhl	sp,	#13
+      000492 77                    1042 	ld	(hl), a
+      000493 F8 08                 1043 	ldhl	sp,	#8
+      000495 7E                    1044 	ld	a, (hl)
+      000496 F8 0E                 1045 	ldhl	sp,	#14
+      000498 77                    1046 	ld	(hl), a
+      000499                       1047 00157$:
+      000499 F8 0E                 1048 	ldhl	sp,	#14
+      00049B CB 2E                 1049 	sra	(hl)
+      00049D 2B                    1050 	dec	hl
+      00049E CB 1E                 1051 	rr	(hl)
+      0004A0 23                    1052 	inc	hl
+      0004A1 CB 2E                 1053 	sra	(hl)
+      0004A3 2B                    1054 	dec	hl
+      0004A4 CB 1E                 1055 	rr	(hl)
+      0004A6 23                    1056 	inc	hl
+      0004A7 CB 2E                 1057 	sra	(hl)
+      0004A9 2B                    1058 	dec	hl
+      0004AA CB 1E                 1059 	rr	(hl)
+      0004AC 3A                    1060 	ld	a, (hl-)
+      0004AD 77                    1061 	ld	(hl), a
+      0004AE F8 02                 1062 	ldhl	sp,	#2
+      0004B0 7E                    1063 	ld	a, (hl)
+      0004B1 F8 0D                 1064 	ldhl	sp,	#13
+      0004B3 77                    1065 	ld	(hl), a
+      0004B4 F8 03                 1066 	ldhl	sp,	#3
+      0004B6 7E                    1067 	ld	a, (hl)
+      0004B7 F8 0E                 1068 	ldhl	sp,	#14
+      0004B9 77                    1069 	ld	(hl), a
+      0004BA F8 09                 1070 	ldhl	sp,	#9
+      0004BC 7E                    1071 	ld	a, (hl)
+      0004BD B7                    1072 	or	a, a
+      0004BE 28 0A                 1073 	jr	Z, 00158$
+      0004C0 23                    1074 	inc	hl
+      0004C1 7E                    1075 	ld	a, (hl)
+      0004C2 F8 0D                 1076 	ldhl	sp,	#13
+      0004C4 32                    1077 	ld	(hl-), a
+      0004C5 2B                    1078 	dec	hl
+      0004C6 7E                    1079 	ld	a, (hl)
+      0004C7 F8 0E                 1080 	ldhl	sp,	#14
+      0004C9 77                    1081 	ld	(hl), a
+      0004CA                       1082 00158$:
+      0004CA F8 0E                 1083 	ldhl	sp,	#14
+      0004CC CB 2E                 1084 	sra	(hl)
+      0004CE 2B                    1085 	dec	hl
+      0004CF CB 1E                 1086 	rr	(hl)
+      0004D1 23                    1087 	inc	hl
+      0004D2 CB 2E                 1088 	sra	(hl)
+      0004D4 2B                    1089 	dec	hl
+      0004D5 CB 1E                 1090 	rr	(hl)
+      0004D7 23                    1091 	inc	hl
+      0004D8 CB 2E                 1092 	sra	(hl)
+      0004DA 2B                    1093 	dec	hl
+      0004DB CB 1E                 1094 	rr	(hl)
+      0004DD 2A                    1095 	ld	a, (hl+)
+      0004DE 32                    1096 	ld	(hl-), a
+      0004DF 2B                    1097 	dec	hl
+      0004E0 AF                    1098 	xor	a, a
+      0004E1 F5                    1099 	push	af
+      0004E2 33                    1100 	inc	sp
+      0004E3 2A                    1101 	ld	a, (hl+)
+      0004E4 23                    1102 	inc	hl
+      0004E5 F5                    1103 	push	af
+      0004E6 33                    1104 	inc	sp
+      0004E7 7E                    1105 	ld	a, (hl)
+      0004E8 F5                    1106 	push	af
+      0004E9 33                    1107 	inc	sp
+      0004EA CDr00r00              1108 	call	_set_bkg_tile_xy
+      0004ED E8 03                 1109 	add	sp, #3
+                                   1110 ;source/default/bullets.c:154: if(slideDir>0)set_bkg_tile_xy(bx/8-1,by/8,0);
+      0004EF 21r00r00              1111 	ld	hl, #_slideDir
+      0004F2 5E                    1112 	ld	e, (hl)
+      0004F3 AF                    1113 	xor	a, a
+      0004F4 57                    1114 	ld	d, a
+      0004F5 96                    1115 	sub	a, (hl)
+      0004F6 CB 7B                 1116 	bit	7, e
+      0004F8 28 07                 1117 	jr	Z, 00351$
+      0004FA CB 7A                 1118 	bit	7, d
+      0004FC 20 08                 1119 	jr	NZ, 00352$
+      0004FE BF                    1120 	cp	a, a
+      0004FF 18 05                 1121 	jr	00352$
+      000501                       1122 00351$:
+      000501 CB 7A                 1123 	bit	7, d
+      000503 28 01                 1124 	jr	Z, 00352$
+      000505 37                    1125 	scf
+      000506                       1126 00352$:
+      000506 30 71                 1127 	jr	NC, 00135$
+      000508 F8 04                 1128 	ldhl	sp,	#4
+      00050A 7E                    1129 	ld	a, (hl)
+      00050B F8 0D                 1130 	ldhl	sp,	#13
+      00050D 77                    1131 	ld	(hl), a
+      00050E F8 05                 1132 	ldhl	sp,	#5
+      000510 7E                    1133 	ld	a, (hl)
+      000511 F8 0E                 1134 	ldhl	sp,	#14
+      000513 77                    1135 	ld	(hl), a
+      000514 F8 06                 1136 	ldhl	sp,	#6
+      000516 7E                    1137 	ld	a, (hl)
+      000517 B7                    1138 	or	a, a
+      000518 28 0B                 1139 	jr	Z, 00159$
+      00051A 23                    1140 	inc	hl
+      00051B 7E                    1141 	ld	a, (hl)
+      00051C F8 0D                 1142 	ldhl	sp,	#13
+      00051E 77                    1143 	ld	(hl), a
+      00051F F8 08                 1144 	ldhl	sp,	#8
+      000521 7E                    1145 	ld	a, (hl)
+      000522 F8 0E                 1146 	ldhl	sp,	#14
+      000524 77                    1147 	ld	(hl), a
+      000525                       1148 00159$:
+      000525 F8 0E                 1149 	ldhl	sp,	#14
+      000527 CB 2E                 1150 	sra	(hl)
+      000529 2B                    1151 	dec	hl
+      00052A CB 1E                 1152 	rr	(hl)
+      00052C 23                    1153 	inc	hl
+      00052D CB 2E                 1154 	sra	(hl)
+      00052F 2B                    1155 	dec	hl
+      000530 CB 1E                 1156 	rr	(hl)
+      000532 23                    1157 	inc	hl
+      000533 CB 2E                 1158 	sra	(hl)
+      000535 2B                    1159 	dec	hl
+      000536 CB 1E                 1160 	rr	(hl)
+      000538 3A                    1161 	ld	a, (hl-)
+      000539 77                    1162 	ld	(hl), a
+      00053A F8 02                 1163 	ldhl	sp,	#2
+      00053C 7E                    1164 	ld	a, (hl)
+      00053D F8 0D                 1165 	ldhl	sp,	#13
+      00053F 77                    1166 	ld	(hl), a
+      000540 F8 03                 1167 	ldhl	sp,	#3
+      000542 7E                    1168 	ld	a, (hl)
+      000543 F8 0E                 1169 	ldhl	sp,	#14
+      000545 77                    1170 	ld	(hl), a
+      000546 F8 09                 1171 	ldhl	sp,	#9
+      000548 7E                    1172 	ld	a, (hl)
+      000549 B7                    1173 	or	a, a
+      00054A 28 0A                 1174 	jr	Z, 00160$
+      00054C 23                    1175 	inc	hl
+      00054D 7E                    1176 	ld	a, (hl)
+      00054E F8 0D                 1177 	ldhl	sp,	#13
+      000550 32                    1178 	ld	(hl-), a
+      000551 2B                    1179 	dec	hl
+      000552 7E                    1180 	ld	a, (hl)
+      000553 F8 0E                 1181 	ldhl	sp,	#14
+      000555 77                    1182 	ld	(hl), a
+      000556                       1183 00160$:
+      000556 F8 0D                 1184 	ldhl	sp,	#13
+      000558 2A                    1185 	ld	a, (hl+)
+      000559 47                    1186 	ld	b, a
+      00055A 3A                    1187 	ld	a, (hl-)
+      00055B 2B                    1188 	dec	hl
+      00055C 4F                    1189 	ld	c, a
+      00055D CB 29                 1190 	sra	c
+      00055F CB 18                 1191 	rr	b
+      000561 CB 29                 1192 	sra	c
+      000563 CB 18                 1193 	rr	b
+      000565 CB 29                 1194 	sra	c
+      000567 CB 18                 1195 	rr	b
+      000569 05                    1196 	dec	b
+      00056A AF                    1197 	xor	a, a
+      00056B F5                    1198 	push	af
+      00056C 33                    1199 	inc	sp
+      00056D 7E                    1200 	ld	a, (hl)
+      00056E F5                    1201 	push	af
+      00056F 33                    1202 	inc	sp
+      000570 C5                    1203 	push	bc
+      000571 33                    1204 	inc	sp
+      000572 CDr00r00              1205 	call	_set_bkg_tile_xy
+      000575 E8 03                 1206 	add	sp, #3
+      000577 18 6F                 1207 	jr	00136$
+      000579                       1208 00135$:
+                                   1209 ;source/default/bullets.c:155: else set_bkg_tile_xy(bx/8+1,by/8,0);
+      000579 F8 04                 1210 	ldhl	sp,	#4
+      00057B 7E                    1211 	ld	a, (hl)
+      00057C F8 0D                 1212 	ldhl	sp,	#13
+      00057E 77                    1213 	ld	(hl), a
+      00057F F8 05                 1214 	ldhl	sp,	#5
+      000581 7E                    1215 	ld	a, (hl)
+      000582 F8 0E                 1216 	ldhl	sp,	#14
+      000584 77                    1217 	ld	(hl), a
+      000585 F8 06                 1218 	ldhl	sp,	#6
+      000587 7E                    1219 	ld	a, (hl)
+      000588 B7                    1220 	or	a, a
+      000589 28 0B                 1221 	jr	Z, 00161$
+      00058B 23                    1222 	inc	hl
+      00058C 7E                    1223 	ld	a, (hl)
+      00058D F8 0D                 1224 	ldhl	sp,	#13
+      00058F 77                    1225 	ld	(hl), a
+      000590 F8 08                 1226 	ldhl	sp,	#8
+      000592 7E                    1227 	ld	a, (hl)
+      000593 F8 0E                 1228 	ldhl	sp,	#14
+      000595 77                    1229 	ld	(hl), a
+      000596                       1230 00161$:
+      000596 F8 0E                 1231 	ldhl	sp,	#14
+      000598 CB 2E                 1232 	sra	(hl)
+      00059A 2B                    1233 	dec	hl
+      00059B CB 1E                 1234 	rr	(hl)
+      00059D 23                    1235 	inc	hl
+      00059E CB 2E                 1236 	sra	(hl)
+      0005A0 2B                    1237 	dec	hl
+      0005A1 CB 1E                 1238 	rr	(hl)
+      0005A3 23                    1239 	inc	hl
+      0005A4 CB 2E                 1240 	sra	(hl)
+      0005A6 2B                    1241 	dec	hl
+      0005A7 CB 1E                 1242 	rr	(hl)
+      0005A9 3A                    1243 	ld	a, (hl-)
+      0005AA 77                    1244 	ld	(hl), a
+      0005AB F8 02                 1245 	ldhl	sp,	#2
+      0005AD 7E                    1246 	ld	a, (hl)
+      0005AE F8 0D                 1247 	ldhl	sp,	#13
+      0005B0 77                    1248 	ld	(hl), a
+      0005B1 F8 03                 1249 	ldhl	sp,	#3
+      0005B3 7E                    1250 	ld	a, (hl)
+      0005B4 F8 0E                 1251 	ldhl	sp,	#14
+      0005B6 77                    1252 	ld	(hl), a
+      0005B7 F8 09                 1253 	ldhl	sp,	#9
+      0005B9 7E                    1254 	ld	a, (hl)
+      0005BA B7                    1255 	or	a, a
+      0005BB 28 0A                 1256 	jr	Z, 00162$
+      0005BD 23                    1257 	inc	hl
+      0005BE 7E                    1258 	ld	a, (hl)
+      0005BF F8 0D                 1259 	ldhl	sp,	#13
+      0005C1 32                    1260 	ld	(hl-), a
+      0005C2 2B                    1261 	dec	hl
+      0005C3 7E                    1262 	ld	a, (hl)
+      0005C4 F8 0E                 1263 	ldhl	sp,	#14
+      0005C6 77                    1264 	ld	(hl), a
+      0005C7                       1265 00162$:
+      0005C7 F8 0D                 1266 	ldhl	sp,	#13
+      0005C9 2A                    1267 	ld	a, (hl+)
+      0005CA 47                    1268 	ld	b, a
+      0005CB 3A                    1269 	ld	a, (hl-)
+      0005CC 2B                    1270 	dec	hl
+      0005CD 4F                    1271 	ld	c, a
+      0005CE CB 29                 1272 	sra	c
+      0005D0 CB 18                 1273 	rr	b
+      0005D2 CB 29                 1274 	sra	c
+      0005D4 CB 18                 1275 	rr	b
+      0005D6 CB 29                 1276 	sra	c
+      0005D8 CB 18                 1277 	rr	b
+      0005DA 04                    1278 	inc	b
+      0005DB AF                    1279 	xor	a, a
+      0005DC F5                    1280 	push	af
+      0005DD 33                    1281 	inc	sp
+      0005DE 7E                    1282 	ld	a, (hl)
+      0005DF F5                    1283 	push	af
+      0005E0 33                    1284 	inc	sp
+      0005E1 C5                    1285 	push	bc
+      0005E2 33                    1286 	inc	sp
+      0005E3 CDr00r00              1287 	call	_set_bkg_tile_xy
+      0005E6 E8 03                 1288 	add	sp, #3
+      0005E8                       1289 00136$:
+                                   1290 ;source/default/bullets.c:157: UINT8 invader= GetInvaderForNode(bx/8,by/8);
+      0005E8 F8 04                 1291 	ldhl	sp,	#4
+      0005EA 7E                    1292 	ld	a, (hl)
+      0005EB F8 0D                 1293 	ldhl	sp,	#13
+      0005ED 77                    1294 	ld	(hl), a
+      0005EE F8 05                 1295 	ldhl	sp,	#5
+      0005F0 7E                    1296 	ld	a, (hl)
+      0005F1 F8 0E                 1297 	ldhl	sp,	#14
+      0005F3 77                    1298 	ld	(hl), a
+      0005F4 F8 06                 1299 	ldhl	sp,	#6
+      0005F6 7E                    1300 	ld	a, (hl)
+      0005F7 B7                    1301 	or	a, a
+      0005F8 28 0B                 1302 	jr	Z, 00163$
+      0005FA 23                    1303 	inc	hl
+      0005FB 7E                    1304 	ld	a, (hl)
+      0005FC F8 0D                 1305 	ldhl	sp,	#13
+      0005FE 77                    1306 	ld	(hl), a
+      0005FF F8 08                 1307 	ldhl	sp,	#8
+      000601 7E                    1308 	ld	a, (hl)
+      000602 F8 0E                 1309 	ldhl	sp,	#14
+      000604 77                    1310 	ld	(hl), a
+      000605                       1311 00163$:
+      000605 F8 0E                 1312 	ldhl	sp,	#14
+      000607 CB 2E                 1313 	sra	(hl)
+      000609 2B                    1314 	dec	hl
+      00060A CB 1E                 1315 	rr	(hl)
+      00060C 23                    1316 	inc	hl
+      00060D CB 2E                 1317 	sra	(hl)
+      00060F 2B                    1318 	dec	hl
+      000610 CB 1E                 1319 	rr	(hl)
+      000612 23                    1320 	inc	hl
+      000613 CB 2E                 1321 	sra	(hl)
+      000615 2B                    1322 	dec	hl
+      000616 CB 1E                 1323 	rr	(hl)
+      000618 2A                    1324 	ld	a, (hl+)
+      000619 77                    1325 	ld	(hl), a
+      00061A F8 02                 1326 	ldhl	sp,	#2
+      00061C 7E                    1327 	ld	a, (hl)
+      00061D F8 0C                 1328 	ldhl	sp,	#12
+      00061F 77                    1329 	ld	(hl), a
+      000620 F8 03                 1330 	ldhl	sp,	#3
+      000622 7E                    1331 	ld	a, (hl)
+      000623 F8 0D                 1332 	ldhl	sp,	#13
+      000625 77                    1333 	ld	(hl), a
+      000626 F8 09                 1334 	ldhl	sp,	#9
+      000628 7E                    1335 	ld	a, (hl)
+      000629 B7                    1336 	or	a, a
+      00062A 28 07                 1337 	jr	Z, 00164$
+      00062C 23                    1338 	inc	hl
+      00062D 2A                    1339 	ld	a, (hl+)
+      00062E 23                    1340 	inc	hl
+      00062F 32                    1341 	ld	(hl-), a
+      000630 2A                    1342 	ld	a, (hl+)
+      000631 23                    1343 	inc	hl
+      000632 77                    1344 	ld	(hl), a
+      000633                       1345 00164$:
+      000633 F8 0D                 1346 	ldhl	sp,	#13
+      000635 CB 2E                 1347 	sra	(hl)
+      000637 2B                    1348 	dec	hl
+      000638 CB 1E                 1349 	rr	(hl)
+      00063A 23                    1350 	inc	hl
+      00063B CB 2E                 1351 	sra	(hl)
+      00063D 2B                    1352 	dec	hl
+      00063E CB 1E                 1353 	rr	(hl)
+      000640 23                    1354 	inc	hl
+      000641 CB 2E                 1355 	sra	(hl)
+      000643 2B                    1356 	dec	hl
+      000644 CB 1E                 1357 	rr	(hl)
+      000646 2A                    1358 	ld	a, (hl+)
+      000647 22                    1359 	ld	(hl+), a
+      000648 3A                    1360 	ld	a, (hl-)
+      000649 57                    1361 	ld	d, a
+      00064A 5E                    1362 	ld	e, (hl)
+      00064B D5                    1363 	push	de
+      00064C CDr00r00              1364 	call	_GetInvaderForNode
+      00064F E1                    1365 	pop	hl
+                                   1366 ;source/default/bullets.c:159: IncreaseScore(10);
+      000650 3E 0A                 1367 	ld	a, #0x0a
+      000652 F5                    1368 	push	af
+      000653 33                    1369 	inc	sp
+      000654 CDr00r00              1370 	call	_IncreaseScore
+      000657 33                    1371 	inc	sp
+                                   1372 ;source/default/bullets.c:175: RemoveBullet(j);
+      000658 F8 0F                 1373 	ldhl	sp,	#15
+      00065A 7E                    1374 	ld	a, (hl)
+      00065B F5                    1375 	push	af
+      00065C 33                    1376 	inc	sp
+      00065D CDr58r01              1377 	call	_RemoveBullet
+      000660 33                    1378 	inc	sp
+      000661                       1379 00145$:
+                                   1380 ;source/default/bullets.c:91: for(UINT8 j=0;j<MAX_NUMBER_OF_BULLETS_ON_SCREEN;j++){
+      000661 F8 0F                 1381 	ldhl	sp,	#15
+      000663 34                    1382 	inc	(hl)
+      000664 C3rA1r01              1383 	jp	00150$
+      000667                       1384 00151$:
+                                   1385 ;source/default/bullets.c:180: }
+      000667 E8 10                 1386 	add	sp, #16
+      000669 C9                    1387 	ret
+                                   1388 	.area _CODE
+                                   1389 	.area _INITIALIZER
+                                   1390 	.area _CABS (ABS)

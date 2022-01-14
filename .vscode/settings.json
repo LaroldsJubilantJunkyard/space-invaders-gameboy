@@ -1,0 +1,21 @@
+{
+    "files.associations": {
+        "tileset1.h": "c",
+        "levels.h": "c",
+        "bullets.h": "c",
+        "enemies.h": "c",
+        "gb.h": "c",
+        "player.h": "c",
+        "boss.h": "c",
+        "gameplay.h": "c",
+        "common.h": "c",
+        "gameover.h": "c",
+        "mainmenu.h": "c",
+        "storyscreen.h": "c",
+        "backgroundmanager.h": "c",
+        "background1.h": "c",
+        "enemytypes.h": "c",
+        "enemypaths.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
+}
