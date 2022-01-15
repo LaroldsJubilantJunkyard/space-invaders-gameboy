@@ -1,0 +1,51 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+    _BarricadeMap                                                  ****** GX
+  0 _IncreaseScore                                                 0000FD GR
+    _SetupBullets                                                  ****** GX
+  0 _SetupGameplayScreen                                           00016E GR
+    _SetupInvaders                                                 ****** GX
+  0 _SetupLevel                                                    00010E GR
+    _SetupPlayer                                                   ****** GX
+    _UpdateBullets                                                 ****** GX
+  0 _UpdateGameplayScreen                                          000188 GR
+    _UpdateInvaders                                                ****** GX
+    _UpdatePlayer                                                  ****** GX
+  0 _UpdateScore                                                   000000 GR
+    __divsint                                                      ****** GX
+    __divuint                                                      ****** GX
+    __modsint                                                      ****** GX
+    __moduint                                                      ****** GX
+  7 __xinit__helper                                                000000 R
+    _delay                                                         ****** GX
+    _fill_bkg_rect                                                 ****** GX
+  2 _helper                                                        000000 GR
+    _invadersRemaining                                             ****** GX
+    _paddle                                                        ****** GX
+  1 _score                                                         000000 GR
+    _set_bkg_tiles                                                 ****** GX
+    _set_win_tiles                                                 ****** GX
+    _shadow_OAM                                                    ****** GX
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    1DA   flags    0
+   1 _DATA                                      size      2   flags    0
+   2 _INITIALIZED                               size      5   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      5   flags    0
+   8 _CABS                                      size      0   flags    8
+

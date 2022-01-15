@@ -8,174 +8,163 @@
                                       8 ;--------------------------------------------------------
                                       9 ; Public variables in this module
                                      10 ;--------------------------------------------------------
-                                     11 	.globl _SpawnBullet
-                                     12 	.globl _joypad
-                                     13 	.globl _joypadPrevious
-                                     14 	.globl _joypadCurrent
-                                     15 	.globl _paddle
-                                     16 	.globl _SetupPlayer
-                                     17 	.globl _UpdatePlayer
+                                     11 	.globl _joypad
+                                     12 	.globl _paddle
+                                     13 	.globl _SetupPlayer
+                                     14 	.globl _UpdatePlayer
+                                     15 ;--------------------------------------------------------
+                                     16 ; special function registers
+                                     17 ;--------------------------------------------------------
                                      18 ;--------------------------------------------------------
-                                     19 ; special function registers
+                                     19 ; ram data
                                      20 ;--------------------------------------------------------
-                                     21 ;--------------------------------------------------------
-                                     22 ; ram data
-                                     23 ;--------------------------------------------------------
-                                     24 	.area _DATA
-      000000                         25 _paddle::
-      000000                         26 	.ds 4
-      000004                         27 _joypadCurrent::
-      000004                         28 	.ds 1
-      000005                         29 _joypadPrevious::
-      000005                         30 	.ds 1
-                                     31 ;--------------------------------------------------------
-                                     32 ; ram data
-                                     33 ;--------------------------------------------------------
-                                     34 	.area _INITIALIZED
-                                     35 ;--------------------------------------------------------
-                                     36 ; absolute external ram data
-                                     37 ;--------------------------------------------------------
-                                     38 	.area _DABS (ABS)
+                                     21 	.area _DATA
+      000000                         22 _paddle::
+      000000                         23 	.ds 4
+                                     24 ;--------------------------------------------------------
+                                     25 ; ram data
+                                     26 ;--------------------------------------------------------
+                                     27 	.area _INITIALIZED
+                                     28 ;--------------------------------------------------------
+                                     29 ; absolute external ram data
+                                     30 ;--------------------------------------------------------
+                                     31 	.area _DABS (ABS)
+                                     32 ;--------------------------------------------------------
+                                     33 ; global & static initialisations
+                                     34 ;--------------------------------------------------------
+                                     35 	.area _HOME
+                                     36 	.area _GSINIT
+                                     37 	.area _GSFINAL
+                                     38 	.area _GSINIT
                                      39 ;--------------------------------------------------------
-                                     40 ; global & static initialisations
+                                     40 ; Home
                                      41 ;--------------------------------------------------------
                                      42 	.area _HOME
-                                     43 	.area _GSINIT
-                                     44 	.area _GSFINAL
-                                     45 	.area _GSINIT
+                                     43 	.area _HOME
+                                     44 ;--------------------------------------------------------
+                                     45 ; code
                                      46 ;--------------------------------------------------------
-                                     47 ; Home
-                                     48 ;--------------------------------------------------------
-                                     49 	.area _HOME
-                                     50 	.area _HOME
-                                     51 ;--------------------------------------------------------
-                                     52 ; code
-                                     53 ;--------------------------------------------------------
-                                     54 	.area _CODE
-                                     55 ;source/default/player.c:8: void SetupPlayer(){
-                                     56 ;	---------------------------------
-                                     57 ; Function SetupPlayer
-                                     58 ; ---------------------------------
-      000000                         59 _SetupPlayer::
-                                     60 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
-      000000 21r02r00                61 	ld	hl, #(_shadow_OAM + 2)
-      000003 36 01                   62 	ld	(hl), #0x01
-      000005 21r06r00                63 	ld	hl, #(_shadow_OAM + 6)
-      000008 36 02                   64 	ld	(hl), #0x02
-                                     65 ;source/default/player.c:13: paddle.x=80;
-      00000A 21r00r00                66 	ld	hl, #_paddle
-      00000D 36 50                   67 	ld	(hl), #0x50
-                                     68 ;source/default/player.c:14: paddle.y=128;
-      00000F 21r01r00                69 	ld	hl, #(_paddle + 1)
-      000012 36 80                   70 	ld	(hl), #0x80
-                                     71 ;source/default/player.c:15: paddle.dead=0;
-      000014 21r02r00                72 	ld	hl, #(_paddle + 2)
-      000017 36 00                   73 	ld	(hl), #0x00
-                                     74 ;source/default/player.c:17: joypadCurrent=0;
-      000019 21r04r00                75 	ld	hl, #_joypadCurrent
-      00001C 36 00                   76 	ld	(hl), #0x00
-                                     77 ;source/default/player.c:18: joypadPrevious=0; 
-      00001E 21r05r00                78 	ld	hl, #_joypadPrevious
-      000021 36 00                   79 	ld	(hl), #0x00
-                                     80 ;source/default/player.c:19: }
-      000023 C9                      81 	ret
-                                     82 ;source/default/player.c:21: void UpdatePlayer(){
-                                     83 ;	---------------------------------
-                                     84 ; Function UpdatePlayer
-                                     85 ; ---------------------------------
-      000024                         86 _UpdatePlayer::
-                                     87 ;source/default/player.c:23: joypadPrevious=joypadCurrent;
-      000024 FAr04r00                88 	ld	a, (#_joypadCurrent)
-      000027 EAr05r00                89 	ld	(#_joypadPrevious),a
-                                     90 ;source/default/player.c:24: joypadCurrent=joypad();
-      00002A CDr00r00                91 	call	_joypad
-      00002D 21r04r00                92 	ld	hl, #_joypadCurrent
-      000030 73                      93 	ld	(hl), e
-                                     94 ;source/default/player.c:26: if(joypad() & J_LEFT)paddle.x-=2;
-      000031 CDr00r00                95 	call	_joypad
-      000034 CB 4B                   96 	bit	1, e
-      000036 28 09                   97 	jr	Z, 00104$
-      000038 01r00r00                98 	ld	bc, #_paddle+0
-      00003B 0A                      99 	ld	a, (bc)
-      00003C 3D                     100 	dec	a
-      00003D 3D                     101 	dec	a
-      00003E 02                     102 	ld	(bc), a
-      00003F 18 0E                  103 	jr	00105$
-      000041                        104 00104$:
-                                    105 ;source/default/player.c:27: else if(joypad() & J_RIGHT)paddle.x+=2;
-      000041 CDr00r00               106 	call	_joypad
-      000044 7B                     107 	ld	a, e
-      000045 0F                     108 	rrca
-      000046 30 07                  109 	jr	NC, 00105$
-      000048 01r00r00               110 	ld	bc, #_paddle+0
-      00004B 0A                     111 	ld	a, (bc)
-      00004C C6 02                  112 	add	a, #0x02
-      00004E 02                     113 	ld	(bc), a
-      00004F                        114 00105$:
-                                    115 ;source/default/player.c:30: if(paddle.x<8)paddle.x=8;
-      00004F 01r00r00               116 	ld	bc, #_paddle+0
-      000052 0A                     117 	ld	a, (bc)
-      000053 D6 08                  118 	sub	a, #0x08
-      000055 30 03                  119 	jr	NC, 00107$
-      000057 3E 08                  120 	ld	a, #0x08
-      000059 02                     121 	ld	(bc), a
-      00005A                        122 00107$:
-                                    123 ;source/default/player.c:31: if(paddle.x>152)paddle.x=152;
-      00005A 0A                     124 	ld	a, (bc)
-      00005B 5F                     125 	ld	e, a
-      00005C 3E 98                  126 	ld	a,#0x98
-      00005E BB                     127 	cp	a,e
-      00005F 30 01                  128 	jr	NC, 00109$
-      000061 02                     129 	ld	(bc), a
-      000062                        130 00109$:
-                                    131 ;source/default/player.c:34: if((joypadCurrent & J_A) && !(joypadPrevious & J_A)){
-      000062 FAr04r00               132 	ld	a, (#_joypadCurrent)
-      000065 CB 67                  133 	bit	4, a
-      000067 28 18                  134 	jr	Z, 00111$
-      000069 FAr05r00               135 	ld	a, (#_joypadPrevious)
-      00006C CB 67                  136 	bit	4, a
-      00006E 20 11                  137 	jr	NZ, 00111$
-                                    138 ;source/default/player.c:35: SpawnBullet(paddle.x,paddle.y-12);
-      000070 FAr01r00               139 	ld	a, (#(_paddle + 1) + 0)
-      000073 C6 F4                  140 	add	a, #0xf4
-      000075 47                     141 	ld	b, a
-      000076 FAr00r00               142 	ld	a, (#_paddle + 0)
-      000079 C5                     143 	push	bc
-      00007A 33                     144 	inc	sp
-      00007B F5                     145 	push	af
-      00007C 33                     146 	inc	sp
-      00007D CDr00r00               147 	call	_SpawnBullet
-      000080 E1                     148 	pop	hl
-      000081                        149 00111$:
-                                    150 ;source/default/player.c:38: move_sprite(0,paddle.x,paddle.y+12);
-      000081 01r00r00               151 	ld	bc, #_paddle+0
-      000084 FAr01r00               152 	ld	a, (#(_paddle + 1) + 0)
-      000087 C6 0C                  153 	add	a, #0x0c
-      000089 57                     154 	ld	d, a
-      00008A 0A                     155 	ld	a, (bc)
-      00008B 5F                     156 	ld	e, a
-                                    157 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
-      00008C 21r00r00               158 	ld	hl, #_shadow_OAM
-                                    159 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
-      00008F 7A                     160 	ld	a, d
-      000090 22                     161 	ld	(hl+), a
-      000091 73                     162 	ld	(hl), e
-                                    163 ;source/default/player.c:39: move_sprite(1,paddle.x+8,paddle.y+12);
-      000092 FAr01r00               164 	ld	a, (#(_paddle + 1) + 0)
-      000095 C6 0C                  165 	add	a, #0x0c
-      000097 5F                     166 	ld	e, a
-      000098 0A                     167 	ld	a, (bc)
-      000099 C6 08                  168 	add	a, #0x08
-      00009B 4F                     169 	ld	c, a
-                                    170 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
-      00009C 21r04r00               171 	ld	hl, #(_shadow_OAM + 4)
-                                    172 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
-      00009F 7B                     173 	ld	a, e
-      0000A0 22                     174 	ld	(hl+), a
-      0000A1 71                     175 	ld	(hl), c
-                                    176 ;source/default/player.c:39: move_sprite(1,paddle.x+8,paddle.y+12);
-                                    177 ;source/default/player.c:40: }
-      0000A2 C9                     178 	ret
-                                    179 	.area _CODE
-                                    180 	.area _INITIALIZER
-                                    181 	.area _CABS (ABS)
+                                     47 	.area _CODE
+                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:8: void SetupPlayer(){
+                                     49 ;	---------------------------------
+                                     50 ; Function SetupPlayer
+                                     51 ; ---------------------------------
+      000000                         52 _SetupPlayer::
+                                     53 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000000 21r02r00                54 	ld	hl, #(_shadow_OAM + 2)
+      000003 36 01                   55 	ld	(hl), #0x01
+      000005 21r06r00                56 	ld	hl, #(_shadow_OAM + 6)
+      000008 36 02                   57 	ld	(hl), #0x02
+                                     58 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:13: paddle.x=80;
+      00000A 21r00r00                59 	ld	hl, #_paddle
+      00000D 36 50                   60 	ld	(hl), #0x50
+                                     61 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:14: paddle.y=128;
+      00000F 21r01r00                62 	ld	hl, #(_paddle + 1)
+      000012 36 80                   63 	ld	(hl), #0x80
+                                     64 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:15: paddle.dead=0;
+      000014 21r02r00                65 	ld	hl, #(_paddle + 2)
+      000017 36 00                   66 	ld	(hl), #0x00
+                                     67 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:16: paddle.lives=3;
+      000019 21r03r00                68 	ld	hl, #(_paddle + 3)
+      00001C 36 03                   69 	ld	(hl), #0x03
+                                     70 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:17: }
+      00001E C9                      71 	ret
+                                     72 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:19: void UpdatePlayer(){
+                                     73 ;	---------------------------------
+                                     74 ; Function UpdatePlayer
+                                     75 ; ---------------------------------
+      00001F                         76 _UpdatePlayer::
+                                     77 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:21: if(joypad() & J_LEFT)paddle.x-=2;
+      00001F CDr00r00                78 	call	_joypad
+      000022 CB 4B                   79 	bit	1, e
+      000024 28 09                   80 	jr	Z, 00104$
+      000026 01r00r00                81 	ld	bc, #_paddle+0
+      000029 0A                      82 	ld	a, (bc)
+      00002A 3D                      83 	dec	a
+      00002B 3D                      84 	dec	a
+      00002C 02                      85 	ld	(bc), a
+      00002D 18 0E                   86 	jr	00105$
+      00002F                         87 00104$:
+                                     88 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:22: else if(joypad() & J_RIGHT)paddle.x+=2;
+      00002F CDr00r00                89 	call	_joypad
+      000032 7B                      90 	ld	a, e
+      000033 0F                      91 	rrca
+      000034 30 07                   92 	jr	NC, 00105$
+      000036 01r00r00                93 	ld	bc, #_paddle+0
+      000039 0A                      94 	ld	a, (bc)
+      00003A C6 02                   95 	add	a, #0x02
+      00003C 02                      96 	ld	(bc), a
+      00003D                         97 00105$:
+                                     98 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:25: if(paddle.x<8)paddle.x=8;
+      00003D 01r00r00                99 	ld	bc, #_paddle+0
+      000040 0A                     100 	ld	a, (bc)
+      000041 D6 08                  101 	sub	a, #0x08
+      000043 30 03                  102 	jr	NC, 00107$
+      000045 3E 08                  103 	ld	a, #0x08
+      000047 02                     104 	ld	(bc), a
+      000048                        105 00107$:
+                                    106 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:26: if(paddle.x>152)paddle.x=152;
+      000048 0A                     107 	ld	a, (bc)
+      000049 5F                     108 	ld	e, a
+      00004A 3E 98                  109 	ld	a,#0x98
+      00004C BB                     110 	cp	a,e
+      00004D 30 01                  111 	jr	NC, 00109$
+      00004F 02                     112 	ld	(bc), a
+      000050                        113 00109$:
+                                    114 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:29: if((joypadCurrent & J_A) && !(joypadPrevious & J_A)){
+      000050 FAr00r00               115 	ld	a, (#_joypadCurrent)
+      000053 CB 67                  116 	bit	4, a
+      000055 28 22                  117 	jr	Z, 00113$
+      000057 FAr00r00               118 	ld	a, (#_joypadPrevious)
+      00005A CB 67                  119 	bit	4, a
+      00005C 20 1B                  120 	jr	NZ, 00113$
+                                    121 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:31: if(shadow_OAM[2].tile==0){
+      00005E FAr0Ar00               122 	ld	a, (#(_shadow_OAM + 10) + 0)
+      000061 B7                     123 	or	a, a
+      000062 20 15                  124 	jr	NZ, 00113$
+                                    125 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:32: shadow_OAM[2].x=paddle.x+4;
+      000064 11r09r00               126 	ld	de, #_shadow_OAM+9
+      000067 0A                     127 	ld	a, (bc)
+      000068 C6 04                  128 	add	a, #0x04
+      00006A 12                     129 	ld	(de), a
+                                    130 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:33: shadow_OAM[2].y=paddle.y+12;
+      00006B 01r08r00               131 	ld	bc, #_shadow_OAM+8
+      00006E FAr01r00               132 	ld	a, (#(_paddle + 1) + 0)
+      000071 C6 0C                  133 	add	a, #0x0c
+      000073 02                     134 	ld	(bc), a
+                                    135 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:34: shadow_OAM[2].tile=42;
+      000074 21r0Ar00               136 	ld	hl, #(_shadow_OAM + 10)
+      000077 36 2A                  137 	ld	(hl), #0x2a
+      000079                        138 00113$:
+                                    139 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:39: move_sprite(0,paddle.x,paddle.y+12);
+      000079 01r00r00               140 	ld	bc, #_paddle+0
+      00007C FAr01r00               141 	ld	a, (#(_paddle + 1) + 0)
+      00007F C6 0C                  142 	add	a, #0x0c
+      000081 57                     143 	ld	d, a
+      000082 0A                     144 	ld	a, (bc)
+      000083 5F                     145 	ld	e, a
+                                    146 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000084 21r00r00               147 	ld	hl, #_shadow_OAM
+                                    148 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000087 7A                     149 	ld	a, d
+      000088 22                     150 	ld	(hl+), a
+      000089 73                     151 	ld	(hl), e
+                                    152 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:40: move_sprite(1,paddle.x+8,paddle.y+12);
+      00008A FAr01r00               153 	ld	a, (#(_paddle + 1) + 0)
+      00008D C6 0C                  154 	add	a, #0x0c
+      00008F 5F                     155 	ld	e, a
+      000090 0A                     156 	ld	a, (bc)
+      000091 C6 08                  157 	add	a, #0x08
+      000093 4F                     158 	ld	c, a
+                                    159 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000094 21r04r00               160 	ld	hl, #(_shadow_OAM + 4)
+                                    161 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000097 7B                     162 	ld	a, e
+      000098 22                     163 	ld	(hl+), a
+      000099 71                     164 	ld	(hl), c
+                                    165 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:40: move_sprite(1,paddle.x+8,paddle.y+12);
+                                    166 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:41: }
+      00009A C9                     167 	ret
+                                    168 	.area _CODE
+                                    169 	.area _INITIALIZER
+                                    170 	.area _CABS (ABS)

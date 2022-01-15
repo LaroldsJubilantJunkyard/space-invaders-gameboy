@@ -8,21 +8,21 @@ Symbol Table
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
   0 _SetupPlayer                                                   000000 GR
-    _SpawnBullet                                                   ****** GX
-  0 _UpdatePlayer                                                  000024 GR
+  0 _UpdatePlayer                                                  00001F GR
     _joypad                                                        ****** GX
-  1 _joypadCurrent                                                 000004 GR
-  1 _joypadPrevious                                                000005 GR
+    _joypadCurrent                                                 ****** GX
+    _joypadPrevious                                                ****** GX
   1 _paddle                                                        000000 GR
     _shadow_OAM                                                    ****** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     A3   flags    0
-   1 _DATA                                      size      6   flags    0
+   0 _CODE                                      size     9B   flags    0
+   1 _DATA                                      size      4   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8
    4 _HOME                                      size      0   flags    0

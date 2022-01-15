@@ -1,0 +1,407 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module GamplayScreen
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _UpdateGameplayScreen
+                                     12 	.globl _SetupGameplayScreen
+                                     13 	.globl _SetupLevel
+                                     14 	.globl _IncreaseScore
+                                     15 	.globl _UpdateScore
+                                     16 	.globl _SetupBullets
+                                     17 	.globl _UpdateInvaders
+                                     18 	.globl _SetupInvaders
+                                     19 	.globl _SetupPlayer
+                                     20 	.globl _UpdatePlayer
+                                     21 	.globl _fill_bkg_rect
+                                     22 	.globl _set_win_tiles
+                                     23 	.globl _set_bkg_tiles
+                                     24 	.globl _delay
+                                     25 	.globl _helper
+                                     26 	.globl _score
+                                     27 ;--------------------------------------------------------
+                                     28 ; special function registers
+                                     29 ;--------------------------------------------------------
+                                     30 ;--------------------------------------------------------
+                                     31 ; ram data
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _DATA
+      000000                         34 _score::
+      000000                         35 	.ds 2
+                                     36 ;--------------------------------------------------------
+                                     37 ; ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _INITIALIZED
+      000000                         40 _helper::
+      000000                         41 	.ds 5
+                                     42 ;--------------------------------------------------------
+                                     43 ; absolute external ram data
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _DABS (ABS)
+                                     46 ;--------------------------------------------------------
+                                     47 ; global & static initialisations
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _HOME
+                                     50 	.area _GSINIT
+                                     51 	.area _GSFINAL
+                                     52 	.area _GSINIT
+                                     53 ;--------------------------------------------------------
+                                     54 ; Home
+                                     55 ;--------------------------------------------------------
+                                     56 	.area _HOME
+                                     57 	.area _HOME
+                                     58 ;--------------------------------------------------------
+                                     59 ; code
+                                     60 ;--------------------------------------------------------
+                                     61 	.area _CODE
+                                     62 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:14: void UpdateScore(){
+                                     63 ;	---------------------------------
+                                     64 ; Function UpdateScore
+                                     65 ; ---------------------------------
+      000000                         66 _UpdateScore::
+                                     67 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:16: helper[0]=(score/10000)%10+47;
+      000000 11 10 27                68 	ld	de, #0x2710
+      000003 D5                      69 	push	de
+      000004 21r00r00                70 	ld	hl, #_score
+      000007 2A                      71 	ld	a, (hl+)
+      000008 5F                      72 	ld	e, a
+      000009 56                      73 	ld	d, (hl)
+      00000A D5                      74 	push	de
+      00000B CDr00r00                75 	call	__divuint
+      00000E E8 04                   76 	add	sp, #4
+      000010 01 0A 00                77 	ld	bc, #0x000a
+      000013 C5                      78 	push	bc
+      000014 D5                      79 	push	de
+      000015 CDr00r00                80 	call	__moduint
+      000018 E8 04                   81 	add	sp, #4
+      00001A 7B                      82 	ld	a, e
+      00001B C6 2F                   83 	add	a, #0x2f
+      00001D EAr00r00                84 	ld	(#_helper),a
+                                     85 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:17: helper[1]=(score/1000)%10+47;
+      000020 11 E8 03                86 	ld	de, #0x03e8
+      000023 D5                      87 	push	de
+      000024 21r00r00                88 	ld	hl, #_score
+      000027 2A                      89 	ld	a, (hl+)
+      000028 5F                      90 	ld	e, a
+      000029 56                      91 	ld	d, (hl)
+      00002A D5                      92 	push	de
+      00002B CDr00r00                93 	call	__divuint
+      00002E E8 04                   94 	add	sp, #4
+      000030 01 0A 00                95 	ld	bc, #0x000a
+      000033 C5                      96 	push	bc
+      000034 D5                      97 	push	de
+      000035 CDr00r00                98 	call	__moduint
+      000038 E8 04                   99 	add	sp, #4
+      00003A 7B                     100 	ld	a, e
+      00003B C6 2F                  101 	add	a, #0x2f
+      00003D EAr01r00               102 	ld	(#(_helper + 1)),a
+                                    103 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:18: helper[2]=(score/100)%10+47;
+      000040 11 64 00               104 	ld	de, #0x0064
+      000043 D5                     105 	push	de
+      000044 21r00r00               106 	ld	hl, #_score
+      000047 2A                     107 	ld	a, (hl+)
+      000048 5F                     108 	ld	e, a
+      000049 56                     109 	ld	d, (hl)
+      00004A D5                     110 	push	de
+      00004B CDr00r00               111 	call	__divuint
+      00004E E8 04                  112 	add	sp, #4
+      000050 01 0A 00               113 	ld	bc, #0x000a
+      000053 C5                     114 	push	bc
+      000054 D5                     115 	push	de
+      000055 CDr00r00               116 	call	__moduint
+      000058 E8 04                  117 	add	sp, #4
+      00005A 7B                     118 	ld	a, e
+      00005B C6 2F                  119 	add	a, #0x2f
+      00005D EAr02r00               120 	ld	(#(_helper + 2)),a
+                                    121 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:19: helper[3]=(score/10)%10+47;
+      000060 11 0A 00               122 	ld	de, #0x000a
+      000063 D5                     123 	push	de
+      000064 21r00r00               124 	ld	hl, #_score
+      000067 2A                     125 	ld	a, (hl+)
+      000068 5F                     126 	ld	e, a
+      000069 56                     127 	ld	d, (hl)
+      00006A D5                     128 	push	de
+      00006B CDr00r00               129 	call	__divuint
+      00006E E8 04                  130 	add	sp, #4
+      000070 01 0A 00               131 	ld	bc, #0x000a
+      000073 C5                     132 	push	bc
+      000074 D5                     133 	push	de
+      000075 CDr00r00               134 	call	__moduint
+      000078 E8 04                  135 	add	sp, #4
+      00007A 7B                     136 	ld	a, e
+      00007B C6 2F                  137 	add	a, #0x2f
+      00007D EAr03r00               138 	ld	(#(_helper + 3)),a
+                                    139 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:20: helper[4]=score%10+47;
+      000080 11 0A 00               140 	ld	de, #0x000a
+      000083 D5                     141 	push	de
+      000084 21r00r00               142 	ld	hl, #_score
+      000087 2A                     143 	ld	a, (hl+)
+      000088 5F                     144 	ld	e, a
+      000089 56                     145 	ld	d, (hl)
+      00008A D5                     146 	push	de
+      00008B CDr00r00               147 	call	__moduint
+      00008E E8 04                  148 	add	sp, #4
+      000090 7B                     149 	ld	a, e
+      000091 C6 2F                  150 	add	a, #0x2f
+      000093 EAr04r00               151 	ld	(#(_helper + 4)),a
+                                    152 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:22: set_win_tiles(0,0,5,1,helper);
+      000096 11r00r00               153 	ld	de, #_helper
+      000099 D5                     154 	push	de
+      00009A 21 05 01               155 	ld	hl, #0x105
+      00009D E5                     156 	push	hl
+      00009E AF                     157 	xor	a, a
+      00009F 0F                     158 	rrca
+      0000A0 F5                     159 	push	af
+      0000A1 CDr00r00               160 	call	_set_win_tiles
+      0000A4 E8 06                  161 	add	sp, #6
+                                    162 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:24: helper[0]=1;
+      0000A6 21r00r00               163 	ld	hl, #_helper
+      0000A9 36 01                  164 	ld	(hl), #0x01
+                                    165 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:25: helper[1]=2;
+      0000AB 21r01r00               166 	ld	hl, #(_helper + 1)
+      0000AE 36 02                  167 	ld	(hl), #0x02
+                                    168 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:26: helper[2]=57;
+      0000B0 21r02r00               169 	ld	hl, #(_helper + 2)
+      0000B3 36 39                  170 	ld	(hl), #0x39
+                                    171 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:27: helper[3]=(paddle.lives/10)%10+47;
+      0000B5 FAr03r00               172 	ld	a, (#(_paddle + 3) + 0)
+      0000B8 06 00                  173 	ld	b, #0x00
+      0000BA 11 0A 00               174 	ld	de, #0x000a
+      0000BD D5                     175 	push	de
+      0000BE 4F                     176 	ld	c, a
+      0000BF C5                     177 	push	bc
+      0000C0 CDr00r00               178 	call	__divsint
+      0000C3 E8 04                  179 	add	sp, #4
+      0000C5 01 0A 00               180 	ld	bc, #0x000a
+      0000C8 C5                     181 	push	bc
+      0000C9 D5                     182 	push	de
+      0000CA CDr00r00               183 	call	__modsint
+      0000CD E8 04                  184 	add	sp, #4
+      0000CF 7B                     185 	ld	a, e
+      0000D0 C6 2F                  186 	add	a, #0x2f
+      0000D2 EAr03r00               187 	ld	(#(_helper + 3)),a
+                                    188 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:28: helper[4]=paddle.lives%10+47;
+      0000D5 FAr03r00               189 	ld	a, (#(_paddle + 3) + 0)
+      0000D8 06 00                  190 	ld	b, #0x00
+      0000DA 11 0A 00               191 	ld	de, #0x000a
+      0000DD D5                     192 	push	de
+      0000DE 4F                     193 	ld	c, a
+      0000DF C5                     194 	push	bc
+      0000E0 CDr00r00               195 	call	__modsint
+      0000E3 E8 04                  196 	add	sp, #4
+      0000E5 7B                     197 	ld	a, e
+      0000E6 C6 2F                  198 	add	a, #0x2f
+      0000E8 EAr04r00               199 	ld	(#(_helper + 4)),a
+                                    200 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:29: set_win_tiles(14,0,5,1,helper);
+      0000EB 11r00r00               201 	ld	de, #_helper
+      0000EE D5                     202 	push	de
+      0000EF 21 05 01               203 	ld	hl, #0x105
+      0000F2 E5                     204 	push	hl
+      0000F3 21 0E 00               205 	ld	hl, #0x0e
+      0000F6 E5                     206 	push	hl
+      0000F7 CDr00r00               207 	call	_set_win_tiles
+      0000FA E8 06                  208 	add	sp, #6
+                                    209 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:30: }
+      0000FC C9                     210 	ret
+                                    211 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:32: void IncreaseScore(UINT8 amount){
+                                    212 ;	---------------------------------
+                                    213 ; Function IncreaseScore
+                                    214 ; ---------------------------------
+      0000FD                        215 _IncreaseScore::
+                                    216 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:34: score+=amount;
+      0000FD F8 02                  217 	ldhl	sp,	#2
+      0000FF 4E                     218 	ld	c, (hl)
+      000100 06 00                  219 	ld	b, #0x00
+      000102 21r00r00               220 	ld	hl, #_score
+      000105 7E                     221 	ld	a, (hl)
+      000106 81                     222 	add	a, c
+      000107 22                     223 	ld	(hl+), a
+      000108 7E                     224 	ld	a, (hl)
+      000109 88                     225 	adc	a, b
+      00010A 77                     226 	ld	(hl), a
+                                    227 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:36: UpdateScore();
+                                    228 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:37: }
+      00010B C3r00r00               229 	jp	_UpdateScore
+                                    230 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:40: void SetupLevel(){
+                                    231 ;	---------------------------------
+                                    232 ; Function SetupLevel
+                                    233 ; ---------------------------------
+      00010E                        234 _SetupLevel::
+                                    235 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:41: for(UINT8 i=2;i<40;i++){
+      00010E 0E 02                  236 	ld	c, #0x02
+      000110                        237 00105$:
+      000110 79                     238 	ld	a, c
+      000111 D6 28                  239 	sub	a, #0x28
+      000113 30 1A                  240 	jr	NC, 00101$
+                                    241 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000115 69                     242 	ld	l, c
+                                    243 ;	spillPairReg hl
+                                    244 ;	spillPairReg hl
+      000116 26 00                  245 	ld	h, #0x00
+                                    246 ;	spillPairReg hl
+                                    247 ;	spillPairReg hl
+      000118 29                     248 	add	hl, hl
+      000119 29                     249 	add	hl, hl
+      00011A 5D                     250 	ld	e, l
+      00011B 54                     251 	ld	d, h
+      00011C 21r00r00               252 	ld	hl, #_shadow_OAM
+      00011F 19                     253 	add	hl, de
+                                    254 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000120 36 A0                  255 	ld	(hl), #0xa0
+      000122 23                     256 	inc	hl
+      000123 36 A0                  257 	ld	(hl), #0xa0
+                                    258 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000125 21r01r00               259 	ld	hl,#_shadow_OAM + 1
+      000128 19                     260 	add	hl,de
+      000129 23                     261 	inc	hl
+      00012A 36 00                  262 	ld	(hl), #0x00
+                                    263 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:41: for(UINT8 i=2;i<40;i++){
+      00012C 0C                     264 	inc	c
+      00012D 18 E1                  265 	jr	00105$
+      00012F                        266 00101$:
+                                    267 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:46: fill_bkg_rect(0,0,18,20,0);
+      00012F AF                     268 	xor	a, a
+      000130 67                     269 	ld	h, a
+      000131 2E 14                  270 	ld	l, #0x14
+      000133 E5                     271 	push	hl
+      000134 3E 12                  272 	ld	a, #0x12
+      000136 F5                     273 	push	af
+      000137 33                     274 	inc	sp
+      000138 AF                     275 	xor	a, a
+      000139 0F                     276 	rrca
+      00013A F5                     277 	push	af
+      00013B CDr00r00               278 	call	_fill_bkg_rect
+      00013E E8 05                  279 	add	sp, #5
+                                    280 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:49: set_bkg_tiles(2,11,5,4,BarricadeMap);
+      000140 01r00r00               281 	ld	bc, #_BarricadeMap+0
+      000143 C5                     282 	push	bc
+      000144 21 05 04               283 	ld	hl, #0x405
+      000147 E5                     284 	push	hl
+      000148 21 02 0B               285 	ld	hl, #0xb02
+      00014B E5                     286 	push	hl
+      00014C CDr00r00               287 	call	_set_bkg_tiles
+      00014F E8 06                  288 	add	sp, #6
+                                    289 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:50: set_bkg_tiles(8,11,5,4,BarricadeMap);
+      000151 C5                     290 	push	bc
+      000152 21 05 04               291 	ld	hl, #0x405
+      000155 E5                     292 	push	hl
+      000156 21 08 0B               293 	ld	hl, #0xb08
+      000159 E5                     294 	push	hl
+      00015A CDr00r00               295 	call	_set_bkg_tiles
+      00015D E8 06                  296 	add	sp, #6
+                                    297 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:51: set_bkg_tiles(14,11,5,4,BarricadeMap);
+      00015F C5                     298 	push	bc
+      000160 21 05 04               299 	ld	hl, #0x405
+      000163 E5                     300 	push	hl
+      000164 21 0E 0B               301 	ld	hl, #0xb0e
+      000167 E5                     302 	push	hl
+      000168 CDr00r00               303 	call	_set_bkg_tiles
+      00016B E8 06                  304 	add	sp, #6
+                                    305 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:52: }
+      00016D C9                     306 	ret
+                                    307 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:54: void SetupGameplayScreen(){
+                                    308 ;	---------------------------------
+                                    309 ; Function SetupGameplayScreen
+                                    310 ; ---------------------------------
+      00016E                        311 _SetupGameplayScreen::
+                                    312 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:57: score=0;
+      00016E AF                     313 	xor	a, a
+      00016F 21r00r00               314 	ld	hl, #_score
+      000172 22                     315 	ld	(hl+), a
+      000173 77                     316 	ld	(hl), a
+                                    317 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:58: paddle.lives=3;
+      000174 21r03r00               318 	ld	hl, #(_paddle + 3)
+      000177 36 03                  319 	ld	(hl), #0x03
+                                    320 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:60: SetupLevel();  
+      000179 CDr0Er01               321 	call	_SetupLevel
+                                    322 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:61: SetupBullets();
+      00017C CDr00r00               323 	call	_SetupBullets
+                                    324 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:62: SetupInvaders();
+      00017F CDr00r00               325 	call	_SetupInvaders
+                                    326 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:63: SetupPlayer();
+      000182 CDr00r00               327 	call	_SetupPlayer
+                                    328 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:65: UpdateScore();
+                                    329 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:66: }
+      000185 C3r00r00               330 	jp	_UpdateScore
+                                    331 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:68: UINT8 UpdateGameplayScreen(){
+                                    332 ;	---------------------------------
+                                    333 ; Function UpdateGameplayScreen
+                                    334 ; ---------------------------------
+      000188                        335 _UpdateGameplayScreen::
+                                    336 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:70: UpdateInvaders();     
+      000188 CDr00r00               337 	call	_UpdateInvaders
+                                    338 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:71: UpdateBullets();
+      00018B CDr00r00               339 	call	_UpdateBullets
+                                    340 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:72: UpdatePlayer();
+      00018E CDr00r00               341 	call	_UpdatePlayer
+                                    342 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:74: if (paddle.dead==1&&invadersRemaining>0){
+      000191 FAr02r00               343 	ld	a, (#(_paddle + 2) + 0)
+      000194 3D                     344 	dec	a
+      000195 20 39                  345 	jr	NZ, 00106$
+      000197 FAr00r00               346 	ld	a, (#_invadersRemaining)
+      00019A B7                     347 	or	a, a
+      00019B 28 33                  348 	jr	Z, 00106$
+                                    349 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:77: if(paddle.lives==0){
+      00019D 01r03r00               350 	ld	bc, #_paddle + 3
+      0001A0 0A                     351 	ld	a, (bc)
+      0001A1 B7                     352 	or	a, a
+      0001A2 20 03                  353 	jr	NZ, 00102$
+                                    354 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:78: return GAMEOVERSCREEN;
+      0001A4 1E 05                  355 	ld	e, #0x05
+      0001A6 C9                     356 	ret
+      0001A7                        357 00102$:
+                                    358 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:81: paddle.lives--;
+      0001A7 3D                     359 	dec	a
+      0001A8 02                     360 	ld	(bc), a
+                                    361 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      0001A9 21r00r00               362 	ld	hl, #_shadow_OAM
+                                    363 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      0001AC 36 A0                  364 	ld	(hl), #0xa0
+      0001AE 23                     365 	inc	hl
+      0001AF 36 A0                  366 	ld	(hl), #0xa0
+                                    367 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      0001B1 21r04r00               368 	ld	hl, #(_shadow_OAM + 4)
+                                    369 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      0001B4 36 A0                  370 	ld	(hl), #0xa0
+      0001B6 23                     371 	inc	hl
+      0001B7 36 A0                  372 	ld	(hl), #0xa0
+                                    373 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:85: delay(1000);
+      0001B9 11 E8 03               374 	ld	de, #0x03e8
+      0001BC D5                     375 	push	de
+      0001BD CDr00r00               376 	call	_delay
+      0001C0 E1                     377 	pop	hl
+                                    378 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:87: paddle.dead=0;
+      0001C1 21r02r00               379 	ld	hl, #(_paddle + 2)
+      0001C4 36 00                  380 	ld	(hl), #0x00
+                                    381 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:88: paddle.x=80;
+      0001C6 21r00r00               382 	ld	hl, #_paddle
+      0001C9 36 50                  383 	ld	(hl), #0x50
+                                    384 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:90: UpdateScore();
+      0001CB CDr00r00               385 	call	_UpdateScore
+      0001CE 18 07                  386 	jr	00107$
+      0001D0                        387 00106$:
+                                    388 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:92: }else if(invadersRemaining==0){
+      0001D0 FAr00r00               389 	ld	a, (#_invadersRemaining)
+      0001D3 B7                     390 	or	a, a
+                                    391 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:93: return NEXTLEVELSCREEN;
+                                    392 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:96: return GAMEPLAYSCREEN;
+      0001D4 1E 04                  393 	ld	e, #0x04
+      0001D6 C8                     394 	ret	Z
+      0001D7                        395 00107$:
+      0001D7 1E 03                  396 	ld	e, #0x03
+                                    397 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:97: }
+      0001D9 C9                     398 	ret
+                                    399 	.area _CODE
+                                    400 	.area _INITIALIZER
+      000000                        401 __xinit__helper:
+      000000 00                     402 	.db #0x00	; 0
+      000001 00                     403 	.db #0x00	; 0
+      000002 00                     404 	.db #0x00	; 0
+      000003 00                     405 	.db #0x00	; 0
+      000004 00                     406 	.db #0x00	; 0
+                                    407 	.area _CABS (ABS)

@@ -1,0 +1,92 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module GameFirstLoad
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _GameFirstLoad
+                                     12 	.globl _set_sprite_data
+                                     13 	.globl _set_bkg_data
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
+                                     16 ;--------------------------------------------------------
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _HOME
+                                     40 	.area _HOME
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:4: void GameFirstLoad(){
+                                     46 ;	---------------------------------
+                                     47 ; Function GameFirstLoad
+                                     48 ; ---------------------------------
+      000000                         49 _GameFirstLoad::
+                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:7: DISPLAY_ON;
+      000000 F0r00                   51 	ldh	a, (_LCDC_REG + 0)
+      000002 F6 80                   52 	or	a, #0x80
+      000004 E0r00                   53 	ldh	(_LCDC_REG + 0), a
+                                     54 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:8: SHOW_SPRITES;
+      000006 F0r00                   55 	ldh	a, (_LCDC_REG + 0)
+      000008 F6 02                   56 	or	a, #0x02
+      00000A E0r00                   57 	ldh	(_LCDC_REG + 0), a
+                                     58 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:9: SHOW_BKG;
+      00000C F0r00                   59 	ldh	a, (_LCDC_REG + 0)
+      00000E F6 01                   60 	or	a, #0x01
+      000010 E0r00                   61 	ldh	(_LCDC_REG + 0), a
+                                     62 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:10: SPRITES_8x8;
+      000012 F0r00                   63 	ldh	a, (_LCDC_REG + 0)
+      000014 E6 FB                   64 	and	a, #0xfb
+      000016 E0r00                   65 	ldh	(_LCDC_REG + 0), a
+                                     66 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:11: SHOW_WIN;
+      000018 F0r00                   67 	ldh	a, (_LCDC_REG + 0)
+      00001A F6 20                   68 	or	a, #0x20
+      00001C E0r00                   69 	ldh	(_LCDC_REG + 0), a
+                                     70 ;C:/gbdk/include/gb/gb.h:1195: WX_REG=x, WY_REG=y;
+      00001E 3E 07                   71 	ld	a, #0x07
+      000020 E0r00                   72 	ldh	(_WX_REG + 0), a
+      000022 3E 88                   73 	ld	a, #0x88
+      000024 E0r00                   74 	ldh	(_WY_REG + 0), a
+                                     75 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:17: set_bkg_data(0,58,SpaceInvadersTiles);
+      000026 01r00r00                76 	ld	bc, #_SpaceInvadersTiles+0
+      000029 C5                      77 	push	bc
+      00002A 21 00 3A                78 	ld	hl, #0x3a00
+      00002D E5                      79 	push	hl
+      00002E CDr00r00                80 	call	_set_bkg_data
+      000031 E8 04                   81 	add	sp, #4
+                                     82 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:18: set_sprite_data(0,58,SpaceInvadersTiles);
+      000033 C5                      83 	push	bc
+      000034 21 00 3A                84 	ld	hl, #0x3a00
+      000037 E5                      85 	push	hl
+      000038 CDr00r00                86 	call	_set_sprite_data
+      00003B E8 04                   87 	add	sp, #4
+                                     88 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:19: }
+      00003D C9                      89 	ret
+                                     90 	.area _CODE
+                                     91 	.area _INITIALIZER
+                                     92 	.area _CABS (ABS)

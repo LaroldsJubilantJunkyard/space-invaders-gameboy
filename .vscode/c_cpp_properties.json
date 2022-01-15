@@ -5,7 +5,8 @@
             "includePath":[
                 "C:/gbdk/lib/hUGETracker_1_0b9/hUGEDriver/**",
                 "C:/gbdk/include/**",
-                "${workspaceFolder}/headers/**"
+                "${workspaceFolder}/headers/main/**",
+                "${workspaceFolder}/headers/gen/**"
             ],
             "defines":[
                 "_DEBUG",
