@@ -1,0 +1,42 @@
+XL3
+H 9 areas 7 global symbols
+M Alien
+O -mgbz80
+S ___bank_Alien Def000000
+S .__.ABS. Def000000
+A _CODE size 36 flags 0 addr 0
+S _Alien_tiles Def000008
+S _Alien_palettes Def000000
+S ___func_Alien Def000000
+S _Alien_metasprite0 Def000028
+S _Alien_metasprites Def000034
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 00
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 FF 7F 00 00 0A 0C 05 00
+R 00 00 00 00
+T 08 00 00
+R 00 00 00 00
+T 08 00 00 01 00 07 00 0F 00 1F 00 3F 00 75 00 FF
+R 00 00 00 00
+T 15 00 00 00 31 00 80 00 E0 00 F0 00 F8 00 FC 00
+R 00 00 00 00
+T 22 00 00 5E 00 FF 00 8C 00
+R 00 00 00 00
+T 28 00 00
+R 00 00 00 00
+T 28 00 00 FC F8 00 00 00 08 01 00 80 00 00 00
+R 00 00 00 00
+T 34 00 00
+R 00 00 00 00
+T 34 00 00 28 00
+R 00 00 00 00 00 03 00 00

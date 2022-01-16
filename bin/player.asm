@@ -58,9 +58,9 @@ _SetupPlayer::
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:13: paddle.x=80;
 	ld	hl, #_paddle
 	ld	(hl), #0x50
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:14: paddle.y=128;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:14: paddle.y=138;
 	ld	hl, #(_paddle + 1)
-	ld	(hl), #0x80
+	ld	(hl), #0x8a
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:15: paddle.dead=0;
 	ld	hl, #(_paddle + 2)
 	ld	(hl), #0x00
@@ -132,9 +132,9 @@ _UpdatePlayer::
 	ld	a, (#(_paddle + 1) + 0)
 	add	a, #0x0c
 	ld	(bc), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:34: shadow_OAM[2].tile=42;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:34: shadow_OAM[2].tile=BULLETA_SPRITE_START;
 	ld	hl, #(_shadow_OAM + 10)
-	ld	(hl), #0x2a
+	ld	(hl), #0x03
 00113$:
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:39: move_sprite(0,paddle.x,paddle.y+12);
 	ld	bc, #_paddle+0

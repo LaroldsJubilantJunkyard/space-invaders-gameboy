@@ -7,13 +7,22 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
+    _Barricade_tiles                                               ****** GX
+    _BulletA_tiles                                                 ****** GX
+    _BulletB_tiles                                                 ****** GX
   0 _GameFirstLoad                                                 000000 GR
+    _Invader1_tiles                                                ****** GX
+    _Invader2_tiles                                                ****** GX
+    _Invader3_tiles                                                ****** GX
     _LCDC_REG                                                      ****** GX
-    _SpaceInvadersTiles                                            ****** GX
+    _Player_tiles                                                  ****** GX
+    _SpaceInvadersFont_tiles                                       ****** GX
     _WX_REG                                                        ****** GX
     _WY_REG                                                        ****** GX
     _set_bkg_data                                                  ****** GX
+    _set_bkg_palette                                               ****** GX
     _set_sprite_data                                               ****** GX
+    _set_sprite_palette                                            ****** GX
 
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
@@ -21,7 +30,7 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     3E   flags    0
+   0 _CODE                                      size     EB   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

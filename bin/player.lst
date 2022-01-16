@@ -58,9 +58,9 @@
                                      58 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:13: paddle.x=80;
       00000A 21r00r00                59 	ld	hl, #_paddle
       00000D 36 50                   60 	ld	(hl), #0x50
-                                     61 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:14: paddle.y=128;
+                                     61 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:14: paddle.y=138;
       00000F 21r01r00                62 	ld	hl, #(_paddle + 1)
-      000012 36 80                   63 	ld	(hl), #0x80
+      000012 36 8A                   63 	ld	(hl), #0x8a
                                      64 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:15: paddle.dead=0;
       000014 21r02r00                65 	ld	hl, #(_paddle + 2)
       000017 36 00                   66 	ld	(hl), #0x00
@@ -132,9 +132,9 @@
       00006E FAr01r00               132 	ld	a, (#(_paddle + 1) + 0)
       000071 C6 0C                  133 	add	a, #0x0c
       000073 02                     134 	ld	(bc), a
-                                    135 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:34: shadow_OAM[2].tile=42;
+                                    135 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:34: shadow_OAM[2].tile=BULLETA_SPRITE_START;
       000074 21r0Ar00               136 	ld	hl, #(_shadow_OAM + 10)
-      000077 36 2A                  137 	ld	(hl), #0x2a
+      000077 36 03                  137 	ld	(hl), #0x03
       000079                        138 00113$:
                                     139 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\player.c:39: move_sprite(0,paddle.x,paddle.y+12);
       000079 01r00r00               140 	ld	bc, #_paddle+0

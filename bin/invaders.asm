@@ -8,6 +8,13 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
+	.globl _InvadersShouldMove
+	.globl _ShiftAllInvadersDown
+	.globl _InvaderTryFireBullet
+	.globl _SlideInvader
+	.globl _UpdateInvaderTiles
+	.globl _InvaderCheckBulletCollision
+	.globl _InvaderCheckPlayerCollision
 	.globl _RandomNumber
 	.globl _IncreaseScore
 	.globl _GetAvailableBulletSprite
@@ -21,7 +28,6 @@
 	.globl _invaders
 	.globl _tiles
 	.globl _SetupInvaders
-	.globl _GetInvaderForNode
 	.globl _UpdateInvaders
 ;--------------------------------------------------------
 ; special function registers
@@ -71,12 +77,12 @@ _shotTimer::
 ; Function SetupInvaders
 ; ---------------------------------
 _SetupInvaders::
-	add	sp, #-10
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:17: UINT8 alienTypes[3]={21,29,37};
+	add	sp, #-15
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:17: UINT8 alienTypes[3]={INVADER1_TILES_START,INVADER2_TILES_START,INVADER3_TILES_START};
 	ldhl	sp,	#0
 	ld	c, l
 	ld	b, h
-	ld	(hl), #0x15
+	ld	(hl), #0x12
 	ld	l, c
 ;	spillPairReg hl
 ;	spillPairReg hl
@@ -84,16 +90,25 @@ _SetupInvaders::
 ;	spillPairReg hl
 ;	spillPairReg hl
 	inc	hl
-	ld	(hl), #0x1d
-	inc	bc
-	inc	bc
-	ld	a, #0x25
-	ld	(bc), a
+	ld	(hl), #0x22
+	ld	l, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	h, b
+;	spillPairReg hl
+;	spillPairReg hl
+	inc	hl
+	inc	hl
+	ld	(hl), #0x32
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:19: for(UINT8 i=0;i<40;i++){
-	ldhl	sp,	#9
+	ldhl	sp,	#3
+	ld	a, c
+	ld	(hl+), a
+	ld	(hl), b
+	ldhl	sp,	#14
 	ld	(hl), #0x00
 00103$:
-	ldhl	sp,	#9
+	ldhl	sp,	#14
 	ld	a, (hl)
 	sub	a, #0x28
 	jp	NC, 00101$
@@ -107,23 +122,6 @@ _SetupInvaders::
 	add	hl, bc
 	ld	bc,#_invaders
 	add	hl,bc
-	ld	c, l
-	ld	b, h
-	ldhl	sp,	#9
-	ld	a, (hl)
-	ldhl	sp,	#3
-	ld	(hl+), a
-	xor	a, a
-	ld	(hl-), a
-	ld	a, (hl)
-	and	a, #0x07
-	add	a, a
-	add	a, #0x02
-	ld	(bc), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:21: invaders[i].row=(i/8);
-	ld	l, c
-	ld	h, b
-	inc	hl
 	push	hl
 	ld	a, l
 	ldhl	sp,	#7
@@ -132,104 +130,179 @@ _SetupInvaders::
 	ld	a, h
 	ldhl	sp,	#6
 	ld	(hl), a
-	ldhl	sp,	#3
+	ldhl	sp,	#14
 	ld	a, (hl)
 	ldhl	sp,	#7
+	ld	(hl+), a
+	xor	a, a
+	ld	(hl-), a
+	ld	a, (hl-)
+	and	a, #0x07
+	add	a, a
+	add	a, #0x02
+	ld	c, a
+	ld	a, (hl-)
+	ld	l, (hl)
+	ld	h, a
+	ld	(hl), c
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:21: invaders[i].row=(i/8)+2;
+	ldhl	sp,#5
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	l, e
+	ld	h, d
+	inc	hl
+	push	hl
+	ld	a, l
+	ldhl	sp,	#11
 	ld	(hl), a
-	ldhl	sp,	#4
-	ld	a, (hl)
-	ldhl	sp,	#8
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#10
 	ld	(hl), a
-	ldhl	sp,	#4
-	bit	7, (hl)
+	ldhl	sp,	#7
+	ld	a, (hl+)
+	ld	c, a
+	ld	a,(hl)
+	ld	b,a
+	rlca
+	and	a,#0x01
+	ldhl	sp,	#11
+	ld	(hl), a
+	or	a, a
 	jr	Z, 00107$
-	dec	hl
+	ldhl	sp,#7
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	hl, #0x0007
 	add	hl, de
+	ld	c, l
+	ld	b, h
+00107$:
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	inc	c
+	inc	c
+	ldhl	sp,	#9
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	ld	(hl), c
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:22: invaders[i].slide=0;
+	ldhl	sp,#5
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	hl, #0x0004
+	add	hl, de
+	ld	c, l
+	ld	b, h
+	xor	a, a
+	ld	(bc), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:23: invaders[i].active=1;
+	ldhl	sp,	#5
+	ld	a, (hl+)
+	ld	c, a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:24: invaders[i].originalTile=alienTypes[i/16];
+	ld	a, (hl-)
+	ld	b, a
+	inc	bc
+	inc	bc
+	ld	a, #0x01
+	ld	(bc), a
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	hl, #0x0003
+	add	hl, de
 	push	hl
 	ld	a, l
-	ldhl	sp,	#9
+	ldhl	sp,	#14
 	ld	(hl), a
 	pop	hl
 	ld	a, h
-	ldhl	sp,	#8
+	ldhl	sp,	#13
 	ld	(hl), a
-00107$:
+	ldhl	sp,	#7
+	ld	a, (hl+)
+	ld	c, a
+	ld	b, (hl)
+	ldhl	sp,	#11
+	ld	a, (hl)
+	or	a, a
+	jr	Z, 00108$
 	ldhl	sp,#7
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	sra	d
-	rr	e
-	sra	d
-	rr	e
-	sra	d
-	rr	e
-	ld	a, e
-	ld	(hl-), a
-	dec	hl
-	dec	hl
-	ld	a, (hl+)
-	ld	e, a
-	ld	a, (hl+)
-	inc	hl
-	ld	d, a
-	ld	a, (hl)
-	ld	(de), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:22: invaders[i].slide=0;
-	ld	hl, #0x0004
-	add	hl, bc
-	ld	(hl), #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:23: invaders[i].active=1;
-	ld	l, c
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	h, b
-;	spillPairReg hl
-;	spillPairReg hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x01
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:24: invaders[i].originalTile=21;
-	ld	l, c
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	h, b
-;	spillPairReg hl
-;	spillPairReg hl
-	inc	hl
-	inc	hl
-	inc	hl
-	ld	(hl), #0x15
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:27: set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile);
-	ld	e, (hl)
-	ld	a, (bc)
-	ld	h, e
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	ldhl	sp,	#9
+	ld	hl, #0x000f
+	add	hl, de
+	ld	c, l
+	ld	b, h
+00108$:
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	sra	b
+	rr	c
+	ldhl	sp,	#3
+	ld	a,	(hl+)
 	ld	h, (hl)
+	ld	l, a
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+	ldhl	sp,	#12
+	push	af
+	ld	a,	(hl+)
+	ld	h, (hl)
+	ld	l, a
+	pop	af
+	ld	(hl), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:27: set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile);
+	ldhl	sp,#9
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	push	af
+	ld	a, (de)
+	ld	c, a
+	pop	af
+	ldhl	sp,#5
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	push	af
+	ld	a, (de)
+	ld	l, a
 ;	spillPairReg hl
 ;	spillPairReg hl
-	push	hl
-	inc	sp
+	pop	af
+	ld	b, a
+	push	bc
+	ld	a, l
 	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:19: for(UINT8 i=0;i<40;i++){
-	ldhl	sp,	#9
+	ldhl	sp,	#14
 	inc	(hl)
 	jp	00103$
 00101$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:31: topRow=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:31: topRow=2;
 	ld	hl, #_topRow
-	ld	(hl), #0x00
+	ld	(hl), #0x02
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:32: shotTimer=SHOT_TIMER_MAX;
 	ld	hl, #_shotTimer
 	ld	(hl), #0x32
@@ -246,7 +319,7 @@ _SetupInvaders::
 	ld	hl, #_invadersRemaining
 	ld	(hl), #0x28
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:37: }
-	add	sp, #10
+	add	sp, #15
 	ret
 _tiles:
 	.db #0x19	; 25
@@ -258,186 +331,14 @@ _tiles:
 	.db #0x17	; 23
 	.db #0x18	; 24
 	.db #0x19	; 25
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:39: UINT8 GetInvaderForNode(UINT8 column, UINT8 row){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:39: void InvaderCheckPlayerCollision(UINT8 i){
 ;	---------------------------------
-; Function GetInvaderForNode
+; Function InvaderCheckPlayerCollision
 ; ---------------------------------
-_GetInvaderForNode::
-	add	sp, #-8
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:42: for(UINT8 i=0;i<40;i++){
-	ldhl	sp,	#0
-	ld	(hl), #0x00
-	ldhl	sp,	#7
-	ld	(hl), #0x00
-00120$:
-	ldhl	sp,	#7
-	ld	a, (hl)
-	sub	a, #0x28
-	jp	NC, 00118$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:45: if(invaders[i].active==0)continue;
-	ld	bc, #_invaders+0
-	ld	e, (hl)
-	ld	d, #0x00
-	ld	l, e
-	ld	h, d
-	add	hl, hl
-	add	hl, hl
-	add	hl, de
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-	ld	e, c
-	ld	d, b
-	inc	de
-	inc	de
-	ld	a, (de)
-	or	a, a
-	jp	Z, 00117$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:54: if(column==invaders[i].column+1&&row==invaders[i].row)return i;
-	ld	a, (bc)
-	ldhl	sp,	#1
-	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:48: if(column==invaders[i].column&&row==invaders[i].row)return i;
-	ld	l, c
-	ld	h, b
-	inc	hl
-	push	hl
-	ld	a, l
-	ldhl	sp,	#4
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#3
-	ld	(hl), a
-	ldhl	sp,	#10
-	ld	a, (hl)
-	ldhl	sp,	#1
-	sub	a, (hl)
-	jr	NZ, 00104$
-	ldhl	sp,#2
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ldhl	sp,	#6
-	ld	(hl), a
-	ldhl	sp,	#11
-	ld	a, (hl)
-	ldhl	sp,	#6
-	sub	a, (hl)
-	jr	NZ, 00104$
-	ldhl	sp,	#0
-	ld	e, (hl)
-	jr	00121$
-00104$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:51: if(invaders[i].slide>0){
-	inc	bc
-	inc	bc
-	inc	bc
-	inc	bc
-	ld	a, (bc)
-	ldhl	sp,	#4
-	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:54: if(column==invaders[i].column+1&&row==invaders[i].row)return i;
-	ldhl	sp,	#10
-	ld	a, (hl)
-	ldhl	sp,	#5
-	ld	(hl+), a
-	ld	(hl), #0x00
-	ldhl	sp,	#1
-	ld	c, (hl)
-	ld	b, #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:51: if(invaders[i].slide>0){
-	ldhl	sp,	#4
-	ld	e, (hl)
-	xor	a, a
-	ld	d, a
-	sub	a, (hl)
-	bit	7, e
-	jr	Z, 00182$
-	bit	7, d
-	jr	NZ, 00183$
-	cp	a, a
-	jr	00183$
-00182$:
-	bit	7, d
-	jr	Z, 00183$
-	scf
-00183$:
-	jr	NC, 00115$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:54: if(column==invaders[i].column+1&&row==invaders[i].row)return i;
-	inc	bc
-	ldhl	sp,	#5
-	ld	a, (hl)
-	sub	a, c
-	jr	NZ, 00117$
-	inc	hl
-	ld	a, (hl)
-	sub	a, b
-	jr	NZ, 00117$
-	ldhl	sp,#2
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	c, a
-	ldhl	sp,	#11
-	ld	a, (hl)
-	sub	a, c
-	jr	NZ, 00117$
-	ldhl	sp,	#0
-	ld	e, (hl)
-	jr	00121$
-00115$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:57: }else if(invaders[i].slide<0){
-	ldhl	sp,	#4
-	bit	7, (hl)
-	jr	Z, 00117$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:60: if(column==invaders[i].column-1&&row==invaders[i].row)return i;
-	inc	hl
-	dec	bc
-	ld	a, (hl)
-	sub	a, c
-	jr	NZ, 00117$
-	inc	hl
-	ld	a, (hl)
-	sub	a, b
-	jr	NZ, 00117$
-	ldhl	sp,#2
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	c, a
-	ldhl	sp,	#11
-	ld	a, (hl)
-	sub	a, c
-	jr	NZ, 00117$
-	ldhl	sp,	#0
-	ld	e, (hl)
-	jr	00121$
-00117$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:42: for(UINT8 i=0;i<40;i++){
-	ldhl	sp,	#7
-	inc	(hl)
-	ld	a, (hl)
-	ldhl	sp,	#0
-	ld	(hl), a
-	jp	00120$
-00118$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:65: return 255;
-	ld	e, #0xff
-00121$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:66: }
-	add	sp, #8
-	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:67: void UpdateInvaders(){
-;	---------------------------------
-; Function UpdateInvaders
-; ---------------------------------
-_UpdateInvaders::
-	add	sp, #-10
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:69: UINT8 playerColumn=paddle.x/8;
+_InvaderCheckPlayerCollision::
+	dec	sp
+	dec	sp
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:41: UINT8 playerColumn=paddle.x/8;
 	ld	a, (#_paddle + 0)
 	ld	c, a
 	ld	b, #0x00
@@ -448,10 +349,10 @@ _UpdateInvaders::
 ;	spillPairReg hl
 ;	spillPairReg hl
 	bit	7, b
-	jr	Z, 00159$
+	jr	Z, 00106$
 	ld	hl, #0x0007
 	add	hl, bc
-00159$:
+00106$:
 	ld	c, l
 	ld	b, h
 	sra	b
@@ -462,7 +363,7 @@ _UpdateInvaders::
 	rr	c
 	ldhl	sp,	#0
 	ld	(hl), c
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:70: UINT8 playerRow=paddle.y/8;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:42: UINT8 playerRow=paddle.y/8;
 	ld	a, (#(_paddle + 1) + 0)
 	ld	c, a
 	ld	b, #0x00
@@ -473,10 +374,10 @@ _UpdateInvaders::
 ;	spillPairReg hl
 ;	spillPairReg hl
 	bit	7, b
-	jr	Z, 00160$
+	jr	Z, 00107$
 	ld	hl, #0x0007
 	add	hl, bc
-00160$:
+00107$:
 	ld	c, l
 	ld	b, h
 	sra	b
@@ -486,32 +387,9 @@ _UpdateInvaders::
 	sra	b
 	rr	c
 	ldhl	sp,	#1
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:72: UINT8 anyInvaderHasReachedEndOfScreen=0;
-	ld	a, c
-	ld	(hl+), a
-	ld	(hl), #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:74: invadersRemaining=0;
-	ld	hl, #_invadersRemaining
-	ld	(hl), #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:75: invaderCounter++;
-	ld	hl, #_invaderCounter
-	inc	(hl)
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:76: if(shotTimer!=0)shotTimer--;
-	ld	hl, #_shotTimer
-	ld	a, (hl)
-	or	a, a
-	jr	Z, 00186$
-	dec	(hl)
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:78: for(UINT8 i=0;i<40;i++){
-00186$:
-	ldhl	sp,	#9
-	ld	(hl), #0x00
-00152$:
-	ldhl	sp,	#9
-	ld	a, (hl)
-	sub	a, #0x28
-	jp	NC, 00142$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:82: if(invaders[i].active==1){
+	ld	(hl), c
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:44: if((playerColumn==invaders[i].column&&playerRow==invaders[i].row)){
+	ldhl	sp,	#4
 	ld	c, (hl)
 	ld	b, #0x00
 	ld	l, c
@@ -521,115 +399,49 @@ _UpdateInvaders::
 	add	hl, bc
 	ld	bc,#_invaders
 	add	hl,bc
-	push	hl
-	ld	a, l
-	ldhl	sp,	#7
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#6
-	ld	(hl-), a
-	ld	a, (hl+)
-	ld	c, a
-	ld	b, (hl)
-	inc	bc
+	ld	c, l
+	ld	b, h
+	ld	a, (bc)
+	ld	e, a
+	ldhl	sp,	#0
+	ld	a, (hl)
+	sub	a, e
+	jr	NZ, 00104$
 	inc	bc
 	ld	a, (bc)
-	dec	a
-	jp	NZ,00121$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:84: invadersRemaining++;
-	ld	hl, #_invadersRemaining
-	inc	(hl)
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:86: if(shotTimer==0&&RandomNumber(0,100)<10){
-	ld	a, (#_shotTimer)
-	or	a, a
-	jr	NZ, 00106$
-	ld	hl, #0x6400
-	push	hl
-	call	_RandomNumber
-	pop	hl
-	ld	a, e
-	sub	a, #0x0a
-	jr	NC, 00106$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:88: UINT8 availableBulletSprite=GetAvailableBulletSprite();
-	call	_GetAvailableBulletSprite
-	ld	a, e
 	ld	c, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:90: if(availableBulletSprite!=0){
-	or	a, a
-	jr	Z, 00106$
-;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
-	ld	l, c
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	h, #0x00
-;	spillPairReg hl
-;	spillPairReg hl
-	add	hl, hl
-	add	hl, hl
-	ld	c, l
-	ld	b, h
-	ld	hl,#_shadow_OAM + 1
-	add	hl,bc
-	inc	hl
-	ld	(hl), #0x2a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:93: move_sprite(availableBulletSprite,invaders[i].column*8+4+invaders[i].slide*2,invaders[i].row*8+16);
-	ldhl	sp,	#5
-	ld	a, (hl+)
-	ld	e, a
-	ld	a, (hl+)
-	ld	d, a
-	inc	de
-	ld	a, (de)
-	add	a, a
-	add	a, a
-	add	a, a
-	add	a, #0x10
-	ld	(hl-), a
-	dec	hl
-	ld	a, (hl+)
-	ld	e, a
-	ld	a, (hl+)
-	inc	hl
-	ld	d, a
-	ld	a, (de)
-	add	a, a
-	add	a, a
-	add	a, a
-	add	a, #0x04
-	ld	(hl-), a
-	dec	hl
-	dec	hl
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	hl, #0x0004
-	add	hl, de
-	ld	e, l
-	ld	d, h
-	ld	a, (de)
-	add	a, a
-	ldhl	sp,	#8
-	add	a, (hl)
-	ld	e, a
-;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #_shadow_OAM
-	add	hl, bc
-	ld	c, l
-	ld	b, h
-;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
-	ldhl	sp,	#7
+	ldhl	sp,	#1
 	ld	a, (hl)
-	ld	(bc), a
-	inc	bc
-	ld	a, e
-	ld	(bc), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:94: shotTimer=SHOT_TIMER_MAX;
-	ld	hl, #_shotTimer
-	ld	(hl), #0x32
-00106$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:99: if((playerColumn==invaders[i].column&&playerRow==invaders[i].row)){
-	ldhl	sp,	#9
+	sub	a, c
+	jr	NZ, 00104$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:45: paddle.dead=1;
+	ld	hl, #(_paddle + 2)
+	ld	(hl), #0x01
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:46: paddle.lives=0;
+	ld	hl, #(_paddle + 3)
+	ld	(hl), #0x00
+00104$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:48: }
+	inc	sp
+	inc	sp
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:50: void InvaderCheckBulletCollision(UINT8 i){
+;	---------------------------------
+; Function InvaderCheckBulletCollision
+; ---------------------------------
+_InvaderCheckBulletCollision::
+	dec	sp
+	dec	sp
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:52: if(PlayerBulletSprite.tile!=0){
+	ld	a, (#(_shadow_OAM + 10) + 0)
+	or	a, a
+	jr	Z, 00110$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:54: INT8 xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+(invaders[i].slide*2));
+	ld	a, (#(_shadow_OAM + 9) + 0)
+	add	a, #0xfc
+	ldhl	sp,	#1
+	ld	(hl), a
+	ldhl	sp,	#4
 	ld	c, (hl)
 	ld	b, #0x00
 	ld	l, c
@@ -637,83 +449,26 @@ _UpdateInvaders::
 	add	hl, hl
 	add	hl, hl
 	add	hl, bc
-	push	hl
-	ld	a, l
-	ldhl	sp,	#8
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#7
-	ld	(hl-), a
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	hl, #_invaders
-	add	hl, de
-	ld	e, l
-	ld	d, h
-	ld	a, (de)
-	ld	c, a
-	ldhl	sp,	#0
-	ld	a, (hl)
-	sub	a, c
-	jr	NZ, 00109$
-	ld	l, e
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	h, d
-;	spillPairReg hl
-;	spillPairReg hl
-	inc	hl
-	ld	c, (hl)
-	ldhl	sp,	#1
-	ld	a, (hl)
-	sub	a, c
-	jr	NZ, 00109$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:100: paddle.dead=1;
-	ld	hl, #_paddle + 2
-	ld	(hl), #0x01
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:101: paddle.lives=0;
-	ld	bc, #_paddle + 3
-	xor	a, a
-	ld	(bc), a
-00109$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:104: if(PlayerBulletSprite.tile!=0){
-	ld	bc, #_shadow_OAM+10
+	ld	bc,#_invaders
+	add	hl,bc
+	ld	c, l
+	ld	b, h
 	ld	a, (bc)
-	or	a, a
-	jr	Z, 00121$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:106: INT8 xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+(invaders[i].slide*2));
-	ld	bc, #_shadow_OAM+9
-	ld	a, (bc)
-	add	a, #0xfc
-	ldhl	sp,	#8
-	ld	(hl-), a
-	ld	a, (de)
 	add	a, a
 	add	a, a
 	add	a, a
 	add	a, #0x04
 	ld	e, a
-	push	de
-	ld	de, #_invaders
-	ld	a, (hl-)
-	ld	l, (hl)
-	ld	h, a
-	add	hl, de
-	pop	de
-	ld	c, l
-	ld	b, h
 	ld	hl, #0x0004
 	add	hl, bc
 	ld	a, (hl)
 	add	a, a
 	add	a, e
 	ld	e, a
-	ldhl	sp,	#8
+	ldhl	sp,	#1
 	ld	a, (hl-)
 	sub	a, e
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:107: INT8 yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:55: INT8 yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
 	ld	(hl+), a
 	ld	e, c
 	ld	d, b
@@ -728,34 +483,34 @@ _UpdateInvaders::
 	ld	(hl), a
 	ld	a, (#(_shadow_OAM + 8) + 0)
 	add	a, (hl)
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:109: if(xd<0)xd=-xd;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:57: if(xd<0)xd=-xd;
 	ld	(hl-), a
 	bit	7, (hl)
-	jr	Z, 00112$
+	jr	Z, 00102$
 	xor	a, a
 	sub	a, (hl)
 	ld	(hl), a
-00112$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:110: if(yd<0)yd=-yd;
-	ldhl	sp,	#8
+00102$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:58: if(yd<0)yd=-yd;
+	ldhl	sp,	#1
 	bit	7, (hl)
-	jr	Z, 00114$
+	jr	Z, 00104$
 	xor	a, a
 	sub	a, (hl)
 	ld	(hl), a
-00114$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:112: if(xd<5&&yd<8){
-	ldhl	sp,	#7
+00104$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:60: if(xd<5&&yd<8){
+	ldhl	sp,	#0
 	ld	a, (hl)
 	xor	a, #0x80
 	sub	a, #0x85
-	jr	NC, 00121$
+	jr	NC, 00110$
 	inc	hl
 	ld	a, (hl)
 	xor	a, #0x80
 	sub	a, #0x88
-	jr	NC, 00121$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:114: IncreaseScore(10);
+	jr	NC, 00110$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:62: IncreaseScore(10);
 	push	bc
 	ld	a, #0x0a
 	push	af
@@ -763,17 +518,27 @@ _UpdateInvaders::
 	call	_IncreaseScore
 	inc	sp
 	pop	bc
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:117: invaders[i].active=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:65: invaders[i].active=0;
 	inc	bc
 	inc	bc
 	xor	a, a
 	ld	(bc), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:120: PlayerBulletSprite.tile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:68: PlayerBulletSprite.tile=0;
 	ld	hl, #(_shadow_OAM + 10)
 	ld	(hl), #0x00
-00121$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:82: if(invaders[i].active==1){
-	ldhl	sp,	#9
+00110$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:72: }
+	inc	sp
+	inc	sp
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:74: void UpdateInvaderTiles(UINT8 i){
+;	---------------------------------
+; Function UpdateInvaderTiles
+; ---------------------------------
+_UpdateInvaderTiles::
+	add	sp, #-9
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:77: if(invaders[i].active==0){
+	ldhl	sp,	#11
 	ld	c, (hl)
 	ld	b, #0x00
 	ld	l, c
@@ -781,461 +546,579 @@ _UpdateInvaders::
 	add	hl, hl
 	add	hl, hl
 	add	hl, bc
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:126: if(invaders[i].active==0){
 	ld	bc,#_invaders
 	add	hl,bc
-	push	hl
-	ld	a, l
-	ldhl	sp,	#5
-	ld	(hl), a
-	pop	hl
-	ld	a, h
-	ldhl	sp,	#4
-	ld	(hl-), a
-	ld	a, (hl+)
-	ld	c, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:129: set_bkg_tile_xy(invaders[i].column,invaders[i].row,0);
-	ld	a, (hl-)
-	ld	b, a
+	inc	sp
+	inc	sp
+	ld	c, l
+	ld	b, h
+	push	bc
 	inc	bc
 	inc	bc
 	ld	a, (bc)
-	ld	e, a
-	ld	a, (hl+)
-	ld	c, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:132: }else if(invaders[i].slide==0){
-	ld	a, (hl-)
-	ld	b, a
-	inc	bc
+	ldhl	sp,	#8
+	ld	(hl), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:80: set_bkg_tile_xy(invaders[i].column,invaders[i].row,0);
+	pop	de
 	push	de
+	ld	l, e
+	ld	h, d
+	inc	hl
+	push	hl
+	ld	a, l
+	ldhl	sp,	#4
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#3
+	ld	(hl), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:77: if(invaders[i].active==0){
+	ldhl	sp,	#8
+	ld	a, (hl)
+	or	a, a
+	jr	NZ, 00110$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:80: set_bkg_tile_xy(invaders[i].column,invaders[i].row,0);
+	ldhl	sp,#2
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
+	ld	a, (de)
+	ld	c, a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	h, #0x00
+;	spillPairReg hl
+;	spillPairReg hl
+	push	hl
+	inc	sp
+	ld	h, c
+;	spillPairReg hl
+;	spillPairReg hl
+	push	hl
+	inc	sp
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:81: set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,0);
+	ldhl	sp,#2
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ldhl	sp,	#8
+	ld	(hl-), a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	(hl), a
+	inc	a
+	ld	h, #0x00
+;	spillPairReg hl
+;	spillPairReg hl
+	push	hl
+	inc	sp
+	ldhl	sp,	#9
+	ld	h, (hl)
+;	spillPairReg hl
+;	spillPairReg hl
+	push	hl
+	inc	sp
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+	jp	00112$
+00110$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:84: }else if(invaders[i].slide==0){
+	pop	de
+	push	de
 	ld	hl, #0x0004
 	add	hl, de
-	pop	de
 	push	hl
 	ld	a, l
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	(hl), a
 	pop	hl
 	ld	a, h
-	ldhl	sp,	#6
-	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:126: if(invaders[i].active==0){
-	ld	a, e
-	or	a, a
-	jr	NZ, 00131$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:129: set_bkg_tile_xy(invaders[i].column,invaders[i].row,0);
-	inc	hl
-	inc	hl
-	ld	a, (bc)
-	ld	(hl), a
-	ldhl	sp,#3
+	ldhl	sp,	#5
+	ld	(hl-), a
 	ld	a, (hl+)
 	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	h, #0x00
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	ldhl	sp,	#9
-	ld	h, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	push	af
-	inc	sp
-	call	_set_bkg_tile_xy
-	add	sp, #3
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:130: set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,0);
-	ld	a, (bc)
-	ld	b, a
-	ldhl	sp,#3
 	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	inc	a
-	ld	h, #0x00
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	l, b
-	push	hl
-	push	af
-	inc	sp
-	call	_set_bkg_tile_xy
-	add	sp, #3
-	jp	00132$
-00131$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:132: }else if(invaders[i].slide==0){
-	ldhl	sp,#5
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	l, a
-	or	a, a
-	jr	NZ, 00128$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:135: set_bkg_tile_xy(invaders[i].column,invaders[i].row,tiles[4]);
-	ld	a, (#(_tiles + 4) + 0)
-	ldhl	sp,	#7
-	ld	(hl), a
-	ld	a, (bc)
-	ldhl	sp,	#8
-	ld	(hl), a
-	ldhl	sp,#3
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ldhl	sp,	#7
-	ld	h, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	ldhl	sp,	#9
-	ld	h, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	push	af
-	inc	sp
-	call	_set_bkg_tile_xy
-	add	sp, #3
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:136: set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,0);
-	ld	a, (bc)
-	ld	b, a
-	ldhl	sp,#3
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	inc	a
-	ld	h, #0x00
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	l, b
-	push	hl
-	push	af
-	inc	sp
-	call	_set_bkg_tile_xy
-	add	sp, #3
-	jp	00132$
-00128$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:138: }else if(invaders[i].slide>0){
-	ld	e, l
-	xor	a, a
 	ld	d, a
-	sub	a, l
-	bit	7, e
-	jr	Z, 00316$
-	bit	7, d
-	jr	NZ, 00317$
-	cp	a, a
-	jr	00317$
-00316$:
-	bit	7, d
-	jr	Z, 00317$
-	scf
-00317$:
-	jr	NC, 00125$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:141: set_bkg_tile_xy(invaders[i].column,invaders[i].row,tiles[4-invaders[i].slide]);
-	ld	a, #0x04
-	sub	a, l
-	ld	e, a
-	rlca
-	sbc	a, a
-	ld	d, a
-	ld	hl, #_tiles
-	add	hl, de
-	ld	a, (hl)
-	ldhl	sp,	#7
+	ld	a, (de)
 	ld	(hl), a
-	ld	a, (bc)
-	ldhl	sp,	#8
-	ld	(hl), a
-	ldhl	sp,#3
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ldhl	sp,	#7
-	ld	h, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	ldhl	sp,	#9
-	ld	h, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	push	af
-	inc	sp
-	call	_set_bkg_tile_xy
-	add	sp, #3
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:142: set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,tiles[8-invaders[i].slide]);
-	ldhl	sp,#5
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	l, a
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	a, #0x08
-	sub	a, l
-	ld	e, a
-	rlca
-	sbc	a, a
-	ld	d, a
-	ld	hl, #_tiles
-	add	hl, de
-	ld	a, (hl)
-	push	af
-	ld	a, (bc)
-	ld	b, a
-	pop	af
-	ldhl	sp,#3
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	push	af
-	ld	a, (de)
-	ld	c, a
-	pop	af
-	inc	c
-	push	af
-	inc	sp
-	push	bc
-	call	_set_bkg_tile_xy
-	add	sp, #3
-	jr	00132$
-00125$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:144: }else if(invaders[i].slide<0){
-	bit	7, l
-	jr	Z, 00132$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:146: set_bkg_tile_xy(invaders[i].column-1,invaders[i].row,tiles[-invaders[i].slide]);
-	xor	a, a
-	sub	a, l
-	ld	e, a
-	rlca
-	sbc	a, a
-	ld	d, a
-	ld	hl, #_tiles
-	add	hl, de
-	ld	a, (hl)
-	ldhl	sp,	#8
-	ld	(hl), a
-	ld	a, (bc)
-	ldhl	sp,#3
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	push	af
-	ld	a, (de)
-	ld	l, a
-;	spillPairReg hl
-;	spillPairReg hl
-	pop	af
-	ld	d, l
-	dec	d
-	ldhl	sp,	#8
-	ld	h, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
-	push	hl
-	inc	sp
-	push	af
-	inc	sp
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:86: set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile);
+	pop	de
 	push	de
-	inc	sp
-	call	_set_bkg_tile_xy
-	add	sp, #3
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:147: set_bkg_tile_xy(invaders[i].column,invaders[i].row,tiles[4-invaders[i].slide]);
-	ldhl	sp,#5
+	ld	hl, #0x0003
+	add	hl, de
+	push	hl
+	ld	a, l
+	ldhl	sp,	#9
+	ld	(hl), a
+	pop	hl
+	ld	a, h
+	ldhl	sp,	#8
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:84: }else if(invaders[i].slide==0){
+	ld	(hl-), a
+	dec	hl
+	ld	a, (hl)
+	or	a, a
+	jr	NZ, 00107$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:86: set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile);
+	inc	hl
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
-	ld	l, a
-;	spillPairReg hl
-;	spillPairReg hl
-	ld	a, #0x04
-	sub	a, l
-	ld	e, a
-	rlca
-	sbc	a, a
-	ld	d, a
-	ld	hl, #_tiles
-	add	hl, de
-	ld	a, (hl)
-	push	af
-	ld	a, (bc)
-	ld	b, a
-	pop	af
-	ldhl	sp,#3
-	ld	e, (hl)
-	inc	hl
-	ld	d, (hl)
-	push	af
-	ld	a, (de)
-;	spillPairReg hl
-;	spillPairReg hl
 	ld	c, a
+	ldhl	sp,#2
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ld	b, a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	h, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	l, b
+	push	hl
+	push	af
 	inc	sp
-	push	bc
 	call	_set_bkg_tile_xy
 	add	sp, #3
-00132$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:150: if(invaderCounter>4-topRow/2||topRow>9){
-	ld	hl, #_topRow
-	ld	l, (hl)
-;	spillPairReg hl
-;	spillPairReg hl
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:87: set_bkg_tile_xy(invaders[i].column-slideDir,invaders[i].row,0);
+	ldhl	sp,#2
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ld	b, a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	hl, #_slideDir
+	sub	a, (hl)
 	ld	h, #0x00
 ;	spillPairReg hl
 ;	spillPairReg hl
-	ld	c, l
-	ld	b, h
-	bit	7, h
-	jr	Z, 00161$
+	ld	l, b
+	push	hl
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+	jp	00112$
+00107$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:90: } else if(invaders[i].slide>0){
+	ldhl	sp,	#6
+	ld	e, (hl)
+	xor	a, a
+	ld	d, a
+	sub	a, (hl)
+	bit	7, e
+	jr	Z, 00134$
+	bit	7, d
+	jr	NZ, 00135$
+	cp	a, a
+	jr	00135$
+00134$:
+	bit	7, d
+	jr	Z, 00135$
+	scf
+00135$:
+	jr	NC, 00104$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:93: set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile+16-invaders[i].slide);
+	ldhl	sp,#7
+	ld	a, (hl+)
+	ld	e, a
+	ld	a, (hl-)
+	dec	hl
+	ld	d, a
+	ld	a, (de)
+	add	a, #0x10
+	sub	a, (hl)
+	ld	c, a
+	ldhl	sp,#2
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ld	b, a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	h, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	l, b
+	push	hl
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:94: set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,invaders[i].originalTile+8-invaders[i].slide);
+	ldhl	sp,#7
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	add	a, #0x08
+	ldhl	sp,#4
+	ld	e, (hl)
 	inc	hl
-	ld	c, l
-	ld	b, h
-00161$:
-	sra	b
-	rr	c
-	ld	a, #0x04
+	ld	d, (hl)
+	dec	hl
+	dec	hl
+	dec	hl
+	push	af
+	ld	a, (de)
+	ld	c, a
+	pop	af
 	sub	a, c
 	ld	c, a
-	sbc	a, a
-	sub	a, b
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
 	ld	b, a
-	ld	hl, #_invaderCounter
-	ld	l, (hl)
+	pop	de
+	push	de
+	ld	a, (de)
+	inc	a
+	ld	h, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	l, b
+	push	hl
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+	jr	00112$
+00104$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:98: }else if(invaders[i].slide<0){
+	ldhl	sp,	#6
+	bit	7, (hl)
+	jr	Z, 00112$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:100: set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile-invaders[i].slide);
+	inc	hl
+	ld	a, (hl+)
+	ld	e, a
+	ld	a, (hl-)
+	dec	hl
+	ld	d, a
+	ld	a, (de)
+	sub	a, (hl)
+	ld	c, a
+	ldhl	sp,#2
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ld	b, a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	h, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	l, b
+	push	hl
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:101: set_bkg_tile_xy(invaders[i].column-1,invaders[i].row,invaders[i].originalTile+8-invaders[i].slide);
+	ldhl	sp,#7
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	add	a, #0x08
+	ldhl	sp,#4
+	ld	e, (hl)
+	inc	hl
+	ld	d, (hl)
+	dec	hl
+	dec	hl
+	dec	hl
+	push	af
+	ld	a, (de)
+	ld	c, a
+	pop	af
+	sub	a, c
+	ld	c, a
+	ld	a, (hl+)
+	ld	e, a
+	ld	d, (hl)
+	ld	a, (de)
+	ld	b, a
+	pop	de
+	push	de
+	ld	a, (de)
+	dec	a
+	ld	h, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	l, b
+	push	hl
+	push	af
+	inc	sp
+	call	_set_bkg_tile_xy
+	add	sp, #3
+00112$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:105: }
+	add	sp, #9
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:107: UINT8 SlideInvader(UINT8 i){
+;	---------------------------------
+; Function SlideInvader
+; ---------------------------------
+_SlideInvader::
+	add	sp, #-4
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:110: invaders[i].slide+=slideDir;
+	ldhl	sp,	#6
+	ld	c, (hl)
+	ld	b, #0x00
+	ld	l, c
+	ld	h, b
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	ld	bc,#_invaders
+	add	hl,bc
+	ld	c, l
+	ld	b, h
+	ld	hl, #0x0004
+	add	hl, bc
+	inc	sp
+	inc	sp
+	ld	e, l
+	ld	d, h
+	push	de
+	ld	a, (de)
+	ld	hl, #_slideDir
+	ld	e, (hl)
+	add	a, e
+	ldhl	sp,	#2
+	ld	(hl), a
+	pop	de
+	push	de
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:114: if(invaders[i].slide>7||invaders[i].slide<-7){
+	ld	a, (hl+)
+	ld	(de), a
+	pop	de
+	push	de
+	ld	a, (de)
+	ld	(hl-), a
+	ld	e, (hl)
+	ld	a,#0x07
+	ld	d,a
+	sub	a, (hl)
+	bit	7, e
+	jr	Z, 00124$
+	bit	7, d
+	jr	NZ, 00125$
+	cp	a, a
+	jr	00125$
+00124$:
+	bit	7, d
+	jr	Z, 00125$
+	scf
+00125$:
+	jr	C, 00101$
+	ldhl	sp,	#3
+	ld	a, (hl)
+	xor	a, #0x80
+	sub	a, #0x79
+	jr	NC, 00102$
+00101$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:118: invaders[i].slide=0;
+	pop	hl
+	push	hl
+	ld	(hl), #0x00
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:119: invaders[i].column+=slideDir;
+	ld	a, (bc)
+	ld	hl, #_slideDir
+	add	a, (hl)
+	ld	(bc), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:122: return(invaders[i].column==0)||(invaders[i].column==19);
+	push	af
+	ld	a, (bc)
+	ld	c, a
+	pop	af
+	or	a, a
+	jr	Z, 00107$
+	ld	a, c
+	sub	a, #0x13
+	jr	Z, 00107$
+	ld	e, #0x00
+	jr	00104$
+00107$:
+	ld	e, #0x01
+	jr	00104$
+00102$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:125: return 0;
+	ld	e, #0x00
+00104$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:126: }
+	add	sp, #4
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:128: UINT8 InvaderTryFireBullet(UINT8 i){
+;	---------------------------------
+; Function InvaderTryFireBullet
+; ---------------------------------
+_InvaderTryFireBullet::
+	dec	sp
+	dec	sp
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:133: UINT8 availableBulletSprite=GetAvailableBulletSprite();
+	call	_GetAvailableBulletSprite
+	ld	a,e
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:136: if(availableBulletSprite!=0){
+	or	a, a
+	jr	Z, 00105$
+;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+	ld	l, e
 ;	spillPairReg hl
 ;	spillPairReg hl
 	ld	h, #0x00
 ;	spillPairReg hl
 ;	spillPairReg hl
-	ld	e, h
-	ld	d, b
+	add	hl, hl
+	add	hl, hl
+	ld	c, l
+	ld	b, h
+	ld	hl,#_shadow_OAM + 1
+	add	hl,bc
+	inc	hl
+	ld	(hl), #0x03
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:142: move_sprite(availableBulletSprite,invaders[i].column*8+12+invaders[i].slide*2,invaders[i].row*8+24);
+	ldhl	sp,	#4
+	ld	e, (hl)
+	ld	d, #0x00
+	ld	l, e
+	ld	h, d
+	add	hl, hl
+	add	hl, hl
+	add	hl, de
+	inc	sp
+	inc	sp
+	push	hl
+	ld	de, #_invaders
+	pop	hl
+	push	hl
+	add	hl, de
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	e,l
+	ld	d,h
+;	spillPairReg hl
+;	spillPairReg hl
+	inc	hl
+	ld	a, (hl)
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x18
+	ldhl	sp,	#1
+	ld	(hl), a
+	ld	a, (de)
+	add	a, a
+	add	a, a
+	add	a, a
+	add	a, #0x0c
+	ld	l, a
+;	spillPairReg hl
+;	spillPairReg hl
+	inc	de
+	inc	de
+	inc	de
+	inc	de
+	ld	a, (de)
+	add	a, a
+	add	a, l
+	ld	e, a
+;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	hl, #_shadow_OAM
+	add	hl, bc
+	ld	c, l
+	ld	b, h
+;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+	ldhl	sp,	#1
+	ld	a, (hl)
+	ld	(bc), a
+	inc	bc
+	ld	a, e
+	ld	(bc), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:145: shotTimer=SHOT_TIMER_MAX;
+	ld	hl, #_shotTimer
+	ld	(hl), #0x32
+00105$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:147: }
+	inc	sp
+	inc	sp
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:149: void ShiftAllInvadersDown(){
+;	---------------------------------
+; Function ShiftAllInvadersDown
+; ---------------------------------
+_ShiftAllInvadersDown::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:152: for(UINT8 i=0;i<40;i++){invaders[i].row++;}
+	ld	c, #0x00
+00103$:
 	ld	a, c
-	sub	a, l
-	ld	a, b
-	sbc	a, h
-	bit	7, e
-	jr	Z, 00318$
-	bit	7, d
-	jr	NZ, 00319$
-	cp	a, a
-	jr	00319$
-00318$:
-	bit	7, d
-	jr	Z, 00319$
-	scf
-00319$:
-	jr	C, 00139$
-	ld	a, #0x09
-	ld	hl, #_topRow
-	sub	a, (hl)
-	jr	NC, 00153$
-00139$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:152: invaders[i].slide+=slideDir;
-	ldhl	sp,#5
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	hl, #_slideDir
-	ld	c, (hl)
-	add	a, c
-	ld	b, a
-	ldhl	sp,	#5
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), b
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:154: if(invaders[i].slide>4||invaders[i].slide<-4){
-	ldhl	sp,#5
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	c, a
-	ld	e, b
-	ld	a,#0x04
-	ld	d,a
-	sub	a, b
-	bit	7, e
-	jr	Z, 00320$
-	bit	7, d
-	jr	NZ, 00321$
-	cp	a, a
-	jr	00321$
-00320$:
-	bit	7, d
-	jr	Z, 00321$
-	scf
-00321$:
-	jr	C, 00136$
-	ld	a, c
-	xor	a, #0x80
-	sub	a, #0x7c
-	jr	NC, 00153$
-00136$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:155: invaders[i].slide=0;
-	ldhl	sp,	#5
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:156: invaders[i].column+=slideDir;
-	ldhl	sp,#3
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	ld	hl, #_slideDir
-	add	a, (hl)
-	ld	c, a
-	ldhl	sp,	#3
-	ld	a,	(hl+)
-	ld	h, (hl)
-	ld	l, a
-	ld	(hl), c
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:157: if((invaders[i].column==0)||(invaders[i].column==19)){
-	ldhl	sp,#3
-	ld	a, (hl+)
-	ld	e, a
-	ld	d, (hl)
-	ld	a, (de)
-	inc	c
-	dec	c
-	jr	Z, 00133$
-	sub	a, #0x13
-	jr	NZ, 00153$
-00133$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:158: anyInvaderHasReachedEndOfScreen=1;
-	ldhl	sp,	#2
-	ld	(hl), #0x01
-00153$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:78: for(UINT8 i=0;i<40;i++){
-	ldhl	sp,	#9
+	sub	a, #0x28
+	jr	NC, 00101$
+	ld	b, #0x00
+	ld	l, c
+	ld	h, b
+	add	hl, hl
+	add	hl, hl
+	add	hl, bc
+	ld	de, #_invaders
+	add	hl, de
+	inc	hl
 	inc	(hl)
-	jp	00152$
-00142$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:168: if(invaderCounter>4-topRow/2||topRow>9){
+	inc	c
+	jr	00103$
+00101$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:155: slideDir=-slideDir;
+	xor	a, a
+	ld	hl, #_slideDir
+	sub	a, (hl)
+	ld	(hl), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:157: fill_bkg_rect(0,topRow,20,1,0);
+	xor	a, a
+	ld	h, a
+	ld	l, #0x01
+	push	hl
+	ld	a, #0x14
+	push	af
+	inc	sp
+	ld	a, (#_topRow)
+	ld	h, a
+	ld	l, #0x00
+	push	hl
+	call	_fill_bkg_rect
+	add	sp, #5
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:160: topRow++;
+	ld	hl, #_topRow
+	inc	(hl)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:161: }
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:163: UINT8 InvadersShouldMove(){
+;	---------------------------------
+; Function InvadersShouldMove
+; ---------------------------------
+_InvadersShouldMove::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:164: return invaderCounter>4-topRow/2||topRow>9;
 	ld	hl, #_topRow
 	ld	c, (hl)
 	ld	b, #0x00
@@ -1246,7 +1129,7 @@ _UpdateInvaders::
 ;	spillPairReg hl
 ;	spillPairReg hl
 	bit	7, b
-	jr	Z, 00162$
+	jr	Z, 00106$
 	ld	l, c
 ;	spillPairReg hl
 ;	spillPairReg hl
@@ -1254,7 +1137,7 @@ _UpdateInvaders::
 ;	spillPairReg hl
 ;	spillPairReg hl
 	inc	hl
-00162$:
+00106$:
 	sra	h
 	rr	l
 	ld	a, #0x04
@@ -1277,76 +1160,161 @@ _UpdateInvaders::
 	ld	a, b
 	sbc	a, h
 	bit	7, e
-	jr	Z, 00324$
+	jr	Z, 00122$
 	bit	7, d
-	jr	NZ, 00325$
+	jr	NZ, 00123$
 	cp	a, a
-	jr	00325$
-00324$:
+	jr	00123$
+00122$:
 	bit	7, d
-	jr	Z, 00325$
+	jr	Z, 00123$
 	scf
-00325$:
-	jr	C, 00143$
+00123$:
+	jr	C, 00104$
 	ld	a, #0x09
 	ld	hl, #_topRow
 	sub	a, (hl)
-	jr	NC, 00144$
-00143$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:169: invaderCounter=0;
-	ld	hl, #_invaderCounter
+	jr	C, 00104$
+	ld	e, #0x00
+	ret
+00104$:
+	ld	e, #0x01
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:165: }
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:167: void UpdateInvaders(){
+;	---------------------------------
+; Function UpdateInvaders
+; ---------------------------------
+_UpdateInvaders::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:169: UINT8 anyInvaderHasReachedEndOfScreen=0;
+	ld	c, #0x00
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:171: invadersRemaining=0;
+	ld	hl, #_invadersRemaining
 	ld	(hl), #0x00
-00144$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:175: if(anyInvaderHasReachedEndOfScreen){
-	ldhl	sp,	#2
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:172: invaderCounter++;
+	ld	hl, #_invaderCounter
+	inc	(hl)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:173: if(shotTimer!=0)shotTimer--;
+	ld	hl, #_shotTimer
 	ld	a, (hl)
 	or	a, a
-	jr	Z, 00157$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:178: for(UINT8 i=0;i<40;i++){invaders[i].row++;}
-	ld	c, #0x00
-00155$:
-	ld	a, c
-	sub	a, #0x28
-	jr	NC, 00146$
+	jr	Z, 00131$
+	dec	(hl)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:175: for(UINT8 i=0;i<40;i++){
+00131$:
 	ld	b, #0x00
-	ld	l, c
-	ld	h, b
+00116$:
+	ld	a, b
+	sub	a, #0x28
+	jr	NC, 00110$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:178: if(invaders[i].active==1){
+	ld	e, b
+	ld	d, #0x00
+	ld	l, e
+	ld	h, d
 	add	hl, hl
 	add	hl, hl
-	add	hl, bc
+	add	hl, de
 	ld	de, #_invaders
 	add	hl, de
 	inc	hl
-	inc	(hl)
+	inc	hl
 	ld	a, (hl)
-	inc	c
-	jr	00155$
-00146$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:181: slideDir=-slideDir;
-	xor	a, a
-	ld	hl, #_slideDir
-	sub	a, (hl)
-	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:183: fill_bkg_rect(0,topRow,20,1,0);
-	xor	a, a
-	ld	h, a
-	ld	l, #0x01
-	push	hl
-	ld	a, #0x14
-	push	af
-	inc	sp
-	ld	a, (#_topRow)
-	ld	h, a
-	ld	l, #0x00
-	push	hl
-	call	_fill_bkg_rect
-	add	sp, #5
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:186: topRow++;
-	ld	hl, #_topRow
+	dec	a
+	jr	NZ, 00107$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:181: invadersRemaining++;
+	ld	hl, #_invadersRemaining
 	inc	(hl)
-00157$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:188: }
-	add	sp, #10
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:183: if(shotTimer==0&&RandomNumber(0,100)<10){
+	ld	a, (#_shotTimer)
+	or	a, a
+	jr	NZ, 00104$
+	push	bc
+	ld	hl, #0x6400
+	push	hl
+	call	_RandomNumber
+	pop	hl
+	ld	a, e
+	pop	bc
+	sub	a, #0x0a
+	jr	NC, 00104$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:184: InvaderTryFireBullet(i);
+	push	bc
+	push	bc
+	inc	sp
+	call	_InvaderTryFireBullet
+	inc	sp
+	pop	bc
+00104$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:187: InvaderCheckPlayerCollision(i);
+	push	bc
+	push	bc
+	inc	sp
+	call	_InvaderCheckPlayerCollision
+	inc	sp
+	pop	bc
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:188: InvaderCheckBulletCollision(i);
+	push	bc
+	push	bc
+	inc	sp
+	call	_InvaderCheckBulletCollision
+	inc	sp
+	pop	bc
+00107$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:193: if(InvadersShouldMove()){
+	push	bc
+	call	_InvadersShouldMove
+	ld	a, e
+	pop	bc
+	or	a, a
+	jr	Z, 00109$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:196: anyInvaderHasReachedEndOfScreen=anyInvaderHasReachedEndOfScreen||SlideInvader(i);
+	ld	a, c
+	or	a, a
+	jr	NZ, 00121$
+	push	bc
+	push	bc
+	inc	sp
+	call	_SlideInvader
+	inc	sp
+	ld	a, e
+	pop	bc
+	or	a,a
+	jr	NZ, 00121$
+	ld	c,a
+	jr	00122$
+00121$:
+	ld	c, #0x01
+00122$:
+00109$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:201: UpdateInvaderTiles(i);
+	push	bc
+	push	bc
+	inc	sp
+	call	_UpdateInvaderTiles
+	inc	sp
+	pop	bc
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:175: for(UINT8 i=0;i<40;i++){
+	inc	b
+	jr	00116$
+00110$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:205: if(InvadersShouldMove()){
+	push	bc
+	call	_InvadersShouldMove
+	ld	a, e
+	pop	bc
+	or	a, a
+	jr	Z, 00112$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:206: invaderCounter=0;
+	ld	hl, #_invaderCounter
+	ld	(hl), #0x00
+00112$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:213: if(anyInvaderHasReachedEndOfScreen){
+	ld	a, c
+	or	a, a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:214: ShiftAllInvadersDown();
+	jp	NZ,_ShiftAllInvadersDown
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:216: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

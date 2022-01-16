@@ -1,8 +1,9 @@
 #include "Common.h"
+#include "Hud.h"
 #include "States/Gameplay/player.h"
 #include "States/Gameplay/invaders.h"
 #include "States/Gameplay/bullets.h"
-#include "Graphics/BarricadeMap.h"
+#include "Graphics/Barricade.h"
 
 unsigned char helper[5]={0x00,0x00,0x00,0x00,0x00};
 UINT16 score;
@@ -13,20 +14,14 @@ extern Paddle paddle;
 
 void UpdateScore(){
 
-    helper[0]=(score/10000)%10+47;
-    helper[1]=(score/1000)%10+47;
-    helper[2]=(score/100)%10+47;
-    helper[3]=(score/10)%10+47;
-    helper[4]=score%10+47;
+    DrawText(2,0,"SCORE");
+    DrawNumber(8,0,score,5);
 
-    set_win_tiles(0,0,5,1,helper);
+    set_bkg_tile_xy(13,0,PLAYER_SPRITE_START);
+    set_bkg_tile_xy(14,0,PLAYER_SPRITE_START+1);
+    DrawText(15,0,"=");
+    DrawNumber(16,0,paddle.lives,2);
 
-    helper[0]=1;
-    helper[1]=2;
-    helper[2]=57;
-    helper[3]=(paddle.lives/10)%10+47;
-    helper[4]=paddle.lives%10+47;
-    set_win_tiles(14,0,5,1,helper);
 }
 
 void IncreaseScore(UINT8 amount){
@@ -36,6 +31,26 @@ void IncreaseScore(UINT8 amount){
     UpdateScore();
 }
 
+void DrawBarricade(UINT8 topLeftX, UINT8 topLeftY){
+
+    UINT8 tileRowSize=3;
+    
+    set_bkg_tile_xy(topLeftX,topLeftY,BARRICADE_TILES_START+tileRowSize);
+    set_bkg_tile_xy(topLeftX+1,topLeftY,BARRICADE_TILES_START);
+    set_bkg_tile_xy(topLeftX+2,topLeftY,BARRICADE_TILES_START);
+    set_bkg_tile_xy(topLeftX+3,topLeftY,BARRICADE_TILES_START+tileRowSize*2);
+
+    set_bkg_tile_xy(topLeftX+0,topLeftY+1,BARRICADE_TILES_START);
+    set_bkg_tile_xy(topLeftX+1,topLeftY+1,BARRICADE_TILES_START);
+    set_bkg_tile_xy(topLeftX+2,topLeftY+1,BARRICADE_TILES_START);
+    set_bkg_tile_xy(topLeftX+3,topLeftY+1,BARRICADE_TILES_START);
+
+    
+    set_bkg_tile_xy(topLeftX+0,topLeftY+2,BARRICADE_TILES_START);
+    set_bkg_tile_xy(topLeftX+1,topLeftY+2,BARRICADE_TILES_START+tileRowSize*3);
+    set_bkg_tile_xy(topLeftX+2,topLeftY+2,BARRICADE_TILES_START+tileRowSize*4);
+    set_bkg_tile_xy(topLeftX+3,topLeftY+2,BARRICADE_TILES_START);
+}
 
 void SetupLevel(){
     for(UINT8 i=2;i<40;i++){
@@ -45,10 +60,10 @@ void SetupLevel(){
 
     fill_bkg_rect(0,0,18,20,0);
 
-    // Draw our barricades
-    set_bkg_tiles(2,11,5,4,BarricadeMap);
-    set_bkg_tiles(8,11,5,4,BarricadeMap);
-    set_bkg_tiles(14,11,5,4,BarricadeMap);
+    DrawBarricade(2,11);
+    DrawBarricade(8,11);
+    DrawBarricade(14,11);
+
 }
 
 void SetupGameplayScreen(){

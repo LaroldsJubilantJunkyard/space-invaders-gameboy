@@ -11,7 +11,7 @@ void SetupPlayer(){
     set_sprite_tile(1,2);
 
     paddle.x=80;
-    paddle.y=128;
+    paddle.y=138;
     paddle.dead=0;
     paddle.lives=3;
 }
@@ -31,7 +31,7 @@ void UpdatePlayer(){
         if(shadow_OAM[2].tile==0){
             shadow_OAM[2].x=paddle.x+4;
             shadow_OAM[2].y=paddle.y+12;
-            shadow_OAM[2].tile=42;
+            shadow_OAM[2].tile=BULLETA_SPRITE_START;
         }
         //SpawnBullet(paddle.x,paddle.y-12,0);
     }

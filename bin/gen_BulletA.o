@@ -1,0 +1,66 @@
+XL3
+H 9 areas B global symbols
+M BulletA
+O -mgbz80
+S ___bank_BulletA Def000000
+S .__.ABS. Def000000
+A _CODE size 7E flags 0 addr 0
+S _BulletA_tiles Def000008
+S _BulletA_palettes Def000000
+S ___func_BulletA Def000000
+S _BulletA_metasprite0 Def000038
+S _BulletA_metasprite1 Def000044
+S _BulletA_metasprite2 Def000050
+S _BulletA_metasprite3 Def00005C
+S _BulletA_metasprites Def000074
+S _BulletA_metasprite4 Def000068
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 00
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 FF 7F 00 00 0A 0C 07 00
+R 00 00 00 00
+T 08 00 00
+R 00 00 00 00
+T 08 00 00 18 00 18 00 18 00 18 00 18 00 18 00 18
+R 00 00 00 00
+T 15 00 00 00 18 00 18 00 18 00 18 00 18 00 18 00
+R 00 00 00 00
+T 22 00 00 FF 00 FF 00 FF 00 18 00 18 00 FF 00 FF
+R 00 00 00 00
+T 2F 00 00 00 FF 00 18 00 18 00 18 00
+R 00 00 00 00
+T 38 00 00
+R 00 00 00 00
+T 38 00 00 F8 FC 00 00 08 00 01 00 80 00 00 00
+R 00 00 00 00
+T 44 00 00
+R 00 00 00 00
+T 44 00 00 F8 FC 00 00 08 00 02 00 80 00 00 00
+R 00 00 00 00
+T 50 00 00
+R 00 00 00 00
+T 50 00 00 F8 FC 02 60 08 00 00 00 80 00 00 00
+R 00 00 00 00
+T 5C 00 00
+R 00 00 00 00
+T 5C 00 00 F8 FC 01 60 08 00 00 00 80 00 00 00
+R 00 00 00 00
+T 68 00 00
+R 00 00 00 00
+T 68 00 00 F8 FC 00 00 08 00 00 00 80 00 00 00
+R 00 00 00 00
+T 74 00 00
+R 00 00 00 00
+T 74 00 00 38 00 44 00 50 00
+R 00 00 00 00 00 03 00 00 00 05 00 00 00 07 00 00
+T 7A 00 00 5C 00 68 00
+R 00 00 00 00 00 03 00 00 00 05 00 00

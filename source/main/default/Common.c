@@ -1,6 +1,5 @@
 #include <gb/gb.h>
 
-
 UINT8 level=1,highScore=0,joypadCurrent,joypadPrevious,slideDir;
 
 
@@ -14,14 +13,6 @@ UINT8 GetNextAvailableSprite(){
     return 39;
 }
 
-void DrawNumber(UINT8 x,UINT8 y, UINT16 number,UINT8 digits){
-
-    if(digits>=5)set_win_tiles(x++,y,5,1,(number/10000)%10+47);
-    if(digits>=4)set_win_tiles(x++,y,5,1,(number/1000)%10+47);
-    if(digits>=3)set_win_tiles(x++,y,5,1,(number/100)%10+47);
-    if(digits>=2)set_win_tiles(x++,y,5,1,(number/10)%10+47);
-    set_win_tiles(x,y,5,1,number%10+47);
-}
 
 UINT8 RandomNumber(UINT8 min, UINT8 max){
 
