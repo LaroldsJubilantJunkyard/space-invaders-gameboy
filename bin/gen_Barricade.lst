@@ -45,7 +45,7 @@
                                      45 ; code
                                      46 ;--------------------------------------------------------
                                      47 	.area _CODE
-                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\Barricade.c:7: BANKREF(Barricade)
+                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\Barricade.c:7: BANKREF(Barricade)
                                      49 ;	---------------------------------
                                      50 ; Function __func_Barricade
                                      51 ; ---------------------------------
@@ -58,8 +58,8 @@
       000000                         58 _Barricade_palettes:
       000000 FF 7F                   59 	.dw #0x7fff
       000002 00 00                   60 	.dw #0x0000
-      000004 0A 18                   61 	.dw #0x180a
-      000006 0E 00                   62 	.dw #0x000e
+      000004 0A 38                   61 	.dw #0x380a
+      000006 01 00                   62 	.dw #0x0001
       000008                         63 _Barricade_tiles:
       000008 FF                      64 	.db #0xff	; 255
       000009 00                      65 	.db #0x00	; 0

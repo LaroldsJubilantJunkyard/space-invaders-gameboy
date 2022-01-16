@@ -47,7 +47,7 @@
 ; Function DrawNumber
 ; ---------------------------------
 _DrawNumber::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:6: if(digits>=5)set_bkg_tile_xy(x++,y,(number/10000)%10+SPACEINVADERSFONT_TILES_START+26);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:6: if(digits>=5)set_bkg_tile_xy(x++,y,(number/10000)%10+spaceInvadersFontCurrentStart+26);
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x05
@@ -68,7 +68,9 @@ _DrawNumber::
 	call	__moduint
 	add	sp, #4
 	ld	a, e
-	add	a, #0x5c
+	ld	hl, #_spaceInvadersFontCurrentStart
+	add	a, (hl)
+	add	a, #0x1a
 	ld	b, a
 	ldhl	sp,	#2
 	ld	d, (hl)
@@ -82,7 +84,7 @@ _DrawNumber::
 	call	_set_bkg_tile_xy
 	add	sp, #3
 00102$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:7: if(digits>=4)set_bkg_tile_xy(x++,y,(number/1000)%10+SPACEINVADERSFONT_TILES_START+26);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:7: if(digits>=4)set_bkg_tile_xy(x++,y,(number/1000)%10+spaceInvadersFontCurrentStart+26);
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x04
@@ -103,7 +105,9 @@ _DrawNumber::
 	call	__moduint
 	add	sp, #4
 	ld	a, e
-	add	a, #0x5c
+	ld	hl, #_spaceInvadersFontCurrentStart
+	add	a, (hl)
+	add	a, #0x1a
 	ld	b, a
 	ldhl	sp,	#2
 	ld	d, (hl)
@@ -117,7 +121,7 @@ _DrawNumber::
 	call	_set_bkg_tile_xy
 	add	sp, #3
 00104$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:8: if(digits>=3)set_bkg_tile_xy(x++,y,(number/100)%10+SPACEINVADERSFONT_TILES_START+26);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:8: if(digits>=3)set_bkg_tile_xy(x++,y,(number/100)%10+spaceInvadersFontCurrentStart+26);
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x03
@@ -138,7 +142,9 @@ _DrawNumber::
 	call	__moduint
 	add	sp, #4
 	ld	a, e
-	add	a, #0x5c
+	ld	hl, #_spaceInvadersFontCurrentStart
+	add	a, (hl)
+	add	a, #0x1a
 	ld	b, a
 	ldhl	sp,	#2
 	ld	d, (hl)
@@ -152,7 +158,7 @@ _DrawNumber::
 	call	_set_bkg_tile_xy
 	add	sp, #3
 00106$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:9: if(digits>=2)set_bkg_tile_xy(x++,y,(number/10)%10+SPACEINVADERSFONT_TILES_START+26);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:9: if(digits>=2)set_bkg_tile_xy(x++,y,(number/10)%10+spaceInvadersFontCurrentStart+26);
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x02
@@ -173,7 +179,9 @@ _DrawNumber::
 	call	__moduint
 	add	sp, #4
 	ld	a, e
-	add	a, #0x5c
+	ld	hl, #_spaceInvadersFontCurrentStart
+	add	a, (hl)
+	add	a, #0x1a
 	ld	b, a
 	ldhl	sp,	#2
 	ld	d, (hl)
@@ -187,7 +195,7 @@ _DrawNumber::
 	call	_set_bkg_tile_xy
 	add	sp, #3
 00108$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:10: set_bkg_tile_xy(x,y,number%10+SPACEINVADERSFONT_TILES_START+26);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:10: set_bkg_tile_xy(x,y,number%10+spaceInvadersFontCurrentStart+26);
 	ld	de, #0x000a
 	push	de
 	ldhl	sp,	#6
@@ -198,7 +206,9 @@ _DrawNumber::
 	call	__moduint
 	add	sp, #4
 	ld	a, e
-	add	a, #0x5c
+	ld	hl, #_spaceInvadersFontCurrentStart
+	add	a, (hl)
+	add	a, #0x1a
 	push	af
 	inc	sp
 	ldhl	sp,	#4
@@ -216,15 +226,16 @@ _DrawNumber::
 ; ---------------------------------
 _DrawText::
 	dec	sp
+	dec	sp
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:17: while(text[i]!='\0'){
-	ldhl	sp,	#0
+	ldhl	sp,	#1
 	ld	(hl), #0x00
 00124$:
-	ldhl	sp,#5
+	ldhl	sp,#6
 	ld	a, (hl+)
 	ld	e, a
 	ld	d, (hl)
-	ldhl	sp,	#0
+	ldhl	sp,	#1
 	ld	l, (hl)
 	ld	h, #0x00
 	add	hl, de
@@ -234,12 +245,13 @@ _DrawText::
 	ld	e, a
 	or	a, a
 	jp	Z, 00127$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:19: if(text[i]>='A'&&text[i]<='Z')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+(text[i]-'A'));
-	ldhl	sp,	#3
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:19: if(text[i]>='A'&&text[i]<='Z')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+(text[i]-'A'));
+	ldhl	sp,	#4
 	ld	a, (hl)
-	ldhl	sp,	#0
+	ldhl	sp,	#1
 	add	a, (hl)
-	ld	d, a
+	dec	hl
+	ld	(hl), a
 	ld	a, e
 	sub	a, #0x41
 	jr	C, 00102$
@@ -247,21 +259,24 @@ _DrawText::
 	sub	a, e
 	jr	C, 00102$
 	ld	a, e
-	inc	a
-	push	de
+	add	a, #0xbf
+	ld	hl, #_spaceInvadersFontCurrentStart
+	ld	e, (hl)
+	add	a, e
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00102$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:20: if(text[i]>='a'&&text[i]<='z')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+(text[i]-'a'));
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:20: if(text[i]>='a'&&text[i]<='z')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+(text[i]-'a'));
 	ld	a, (bc)
 	ld	e, a
 	sub	a, #0x61
@@ -270,21 +285,24 @@ _DrawText::
 	sub	a, e
 	jr	C, 00105$
 	ld	a, e
-	add	a, #0xe1
-	push	de
+	add	a, #0x9f
+	ld	hl, #_spaceInvadersFontCurrentStart
+	ld	e, (hl)
+	add	a, e
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00105$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:21: if(text[i]>='0'&&text[i]<='9')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+26+(text[i]-'0'));
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:21: if(text[i]>='0'&&text[i]<='9')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+26+(text[i]-'0'));
 	ld	a, (bc)
 	ld	e, a
 	sub	a, #0x30
@@ -292,128 +310,138 @@ _DrawText::
 	ld	a, #0x39
 	sub	a, e
 	jr	C, 00108$
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x1a
+	ld	d, a
 	ld	a, e
-	add	a, #0x2c
-	push	de
+	add	a, #0xd0
+	add	a, d
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00108$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:22: if(text[i]=='.')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+36);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:22: if(text[i]=='.')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+36);
 	ld	a, (bc)
 	sub	a, #0x2e
 	jr	NZ, 00111$
-	push	de
-	ld	a, #0x66
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x24
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00111$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:23: if(text[i]=='-')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+37);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:23: if(text[i]=='-')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+37);
 	ld	a, (bc)
 	sub	a, #0x2d
 	jr	NZ, 00113$
-	push	de
-	ld	a, #0x67
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x25
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00113$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:24: if(text[i]=='=')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+38);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:24: if(text[i]=='=')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+38);
 	ld	a, (bc)
 	sub	a, #0x3d
 	jr	NZ, 00115$
-	push	de
-	ld	a, #0x68
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x26
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00115$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:25: if(text[i]=='*')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+39);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:25: if(text[i]=='*')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+39);
 	ld	a, (bc)
 	sub	a, #0x2a
 	jr	NZ, 00117$
-	push	de
-	ld	a, #0x69
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x27
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00117$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:26: if(text[i]=='?')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+40);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:26: if(text[i]=='?')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+40);
 	ld	a, (bc)
 	sub	a, #0x3f
 	jr	NZ, 00119$
-	push	de
-	ld	a, #0x6a
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x28
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00119$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:27: if(text[i]=='!')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+41);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:27: if(text[i]=='!')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+41);
 	ld	a, (bc)
 	sub	a, #0x21
 	jr	NZ, 00121$
-	push	de
-	ld	a, #0x6b
+	ld	a, (#_spaceInvadersFontCurrentStart)
+	add	a, #0x29
 	push	af
 	inc	sp
-	ldhl	sp,	#7
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-	pop	de
 00121$:
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:28: if(text[i]==' ')set_bkg_tile_xy(x+i,y,0);
 	ld	a, (bc)
@@ -422,21 +450,24 @@ _DrawText::
 	xor	a, a
 	push	af
 	inc	sp
-	ldhl	sp,	#5
+	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
-	push	de
+	ldhl	sp,	#2
+	ld	a, (hl)
+	push	af
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
 00123$:
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:30: i++;
-	ldhl	sp,	#0
+	ldhl	sp,	#1
 	inc	(hl)
 	jp	00124$
 00127$:
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:32: }
+	inc	sp
 	inc	sp
 	ret
 	.area _CODE

@@ -1,0 +1,40 @@
+XL3
+H 9 areas 7 global symbols
+M BulletC
+O -mgbz80
+S ___bank_BulletC Def000000
+S .__.ABS. Def000000
+A _CODE size 26 flags 0 addr 0
+S _BulletC_tiles Def000008
+S _BulletC_palettes Def000000
+S ___func_BulletC Def000000
+S _BulletC_metasprite0 Def000018
+S _BulletC_metasprites Def000024
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 00
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 FF 7F 00 00 0A 68 02 00
+R 00 00 00 00
+T 08 00 00
+R 00 00 00 00
+T 08 00 00 10 00 10 00 10 00 10 00 10 00 10 00 10
+R 00 00 00 00
+T 15 00 00 00 10 00
+R 00 00 00 00
+T 18 00 00
+R 00 00 00 00
+T 18 00 00 F8 FC 00 00 08 00 00 00 80 00 00 00
+R 00 00 00 00
+T 24 00 00
+R 00 00 00 00
+T 24 00 00 18 00
+R 00 00 00 00 00 03 00 00

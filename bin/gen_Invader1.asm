@@ -45,7 +45,7 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\Invader1.c:7: BANKREF(Invader1)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\Invader1.c:7: BANKREF(Invader1)
 ;	---------------------------------
 ; Function __func_Invader1
 ; ---------------------------------
@@ -58,8 +58,8 @@ ___func_Invader1::
 _Invader1_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x180a
-	.dw #0x0012
+	.dw #0x6c0a
+	.dw #0x001f
 _Invader1_tiles:
 	.db #0x18	; 24
 	.db #0x00	; 0

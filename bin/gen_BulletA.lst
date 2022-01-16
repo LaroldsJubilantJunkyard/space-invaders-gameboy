@@ -49,7 +49,7 @@
                                      49 ; code
                                      50 ;--------------------------------------------------------
                                      51 	.area _CODE
-                                     52 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\BulletA.c:7: BANKREF(BulletA)
+                                     52 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\BulletA.c:7: BANKREF(BulletA)
                                      53 ;	---------------------------------
                                      54 ; Function __func_BulletA
                                      55 ; ---------------------------------
@@ -62,8 +62,8 @@
       000000                         62 _BulletA_palettes:
       000000 FF 7F                   63 	.dw #0x7fff
       000002 00 00                   64 	.dw #0x0000
-      000004 0A 0C                   65 	.dw #0x0c0a
-      000006 07 00                   66 	.dw #0x0007
+      000004 0A 64                   65 	.dw #0x640a
+      000006 0C 00                   66 	.dw #0x000c
       000008                         67 _BulletA_tiles:
       000008 18                      68 	.db #0x18	; 24
       000009 00                      69 	.db #0x00	; 0

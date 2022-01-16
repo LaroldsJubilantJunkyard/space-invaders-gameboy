@@ -3,6 +3,7 @@
 #include "States/Gameplay/player.h"
 #include "States/Gameplay/invaders.h"
 #include "States/Gameplay/bullets.h"
+#include "Graphics/SpaceInvadersFont.h"
 #include "Graphics/Barricade.h"
 
 unsigned char helper[5]={0x00,0x00,0x00,0x00,0x00};
@@ -27,6 +28,7 @@ void UpdateScore(){
 void IncreaseScore(UINT8 amount){
 
     score+=amount;
+    if(score>highScore)highScore=score;
 
     UpdateScore();
 }
@@ -53,12 +55,6 @@ void DrawBarricade(UINT8 topLeftX, UINT8 topLeftY){
 }
 
 void SetupLevel(){
-    for(UINT8 i=2;i<40;i++){
-        move_sprite(i,160,160);
-        set_sprite_tile(i,0);
-    }
-
-    fill_bkg_rect(0,0,18,20,0);
 
     DrawBarricade(2,11);
     DrawBarricade(8,11);
@@ -70,6 +66,7 @@ void SetupGameplayScreen(){
     
 
     score=0;
+    level=1;
     paddle.lives=3;
    
     SetupLevel();  

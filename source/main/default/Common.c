@@ -1,6 +1,6 @@
 #include <gb/gb.h>
 
-UINT8 level=1,highScore=0,joypadCurrent,joypadPrevious,slideDir;
+UINT8 level=1,highScore=0,joypadCurrent,joypadPrevious,slideDir,spaceInvadersFontCurrentStart=0;
 
 
 UINT8 GetNextAvailableSprite(){
@@ -11,6 +11,18 @@ UINT8 GetNextAvailableSprite(){
         }
     }
     return 39;
+}
+
+void ClearAllSprites(){
+    
+    for(UINT8 i=0;i<40;i++){
+        set_sprite_tile(i,0);
+        move_sprite(i,0,0);
+    }
+}
+void ClearBackground(){
+
+    fill_bkg_rect(0,0,20,18,0);
 }
 
 

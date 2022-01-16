@@ -10,6 +10,7 @@
 ;--------------------------------------------------------
 	.globl _UpdateGameOverScreen
 	.globl _SetupGameOverScreen
+	.globl _DrawText
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -41,18 +42,36 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:4: void SetupGameOverScreen(){}
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:5: void SetupGameOverScreen(){
 ;	---------------------------------
 ; Function SetupGameOverScreen
 ; ---------------------------------
 _SetupGameOverScreen::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:7: DrawText(7,9,"GAME OVER");
+	ld	de, #___str_0
+	push	de
+	ld	hl, #0x907
+	push	hl
+	call	_DrawText
+	add	sp, #4
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:8: }
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:5: UINT8 UpdateGameOverScreen(){return 0;}
+___str_0:
+	.ascii "GAME OVER"
+	.db 0x00
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:9: UINT8 UpdateGameOverScreen(){
 ;	---------------------------------
 ; Function UpdateGameOverScreen
 ; ---------------------------------
 _UpdateGameOverScreen::
-	ld	e, #0x00
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:11: if(joypadCurrent & J_A)return STARTSCREEN;
+	ld	a, (#_joypadCurrent)
+	bit	4, a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:13: return GAMEOVERSCREEN;
+	ld	e, #0x01
+	ret	NZ
+	ld	e, #0x05
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:14: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

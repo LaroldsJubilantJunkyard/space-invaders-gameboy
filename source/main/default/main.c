@@ -14,7 +14,7 @@ void main(void){
     GameFirstLoad();
 
     UINT8 currentGameState = GAMEFIRSTLOAD;
-    UINT8 nextGameState = GAMEPLAYSCREEN;
+    UINT8 nextGameState = STARTSCREEN;
 
     while(1){
         
@@ -24,6 +24,9 @@ void main(void){
         if(nextGameState!=currentGameState){
 
             currentGameState=nextGameState;
+            
+            ClearBackground();
+            ClearAllSprites();
 
             if(currentGameState==STARTSCREEN)SetupStartScreen();
             else if(currentGameState==MENUSCREEN)SetupMenuScreen();

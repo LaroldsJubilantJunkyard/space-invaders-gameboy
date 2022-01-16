@@ -47,11 +47,11 @@
                                      47 ; Function DrawNumber
                                      48 ; ---------------------------------
       000000                         49 _DrawNumber::
-                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:6: if(digits>=5)set_bkg_tile_xy(x++,y,(number/10000)%10+SPACEINVADERSFONT_TILES_START+26);
+                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:6: if(digits>=5)set_bkg_tile_xy(x++,y,(number/10000)%10+spaceInvadersFontCurrentStart+26);
       000000 F8 06                   51 	ldhl	sp,	#6
       000002 7E                      52 	ld	a, (hl)
       000003 D6 05                   53 	sub	a, #0x05
-      000005 38 2C                   54 	jr	C, 00102$
+      000005 38 30                   54 	jr	C, 00102$
       000007 2B                      55 	dec	hl
       000008 2B                      56 	dec	hl
       000009 11 10 27                57 	ld	de, #0x2710
@@ -68,377 +68,408 @@
       00001B CDr00r00                68 	call	__moduint
       00001E E8 04                   69 	add	sp, #4
       000020 7B                      70 	ld	a, e
-      000021 C6 5C                   71 	add	a, #0x5c
-      000023 47                      72 	ld	b, a
-      000024 F8 02                   73 	ldhl	sp,	#2
-      000026 56                      74 	ld	d, (hl)
-      000027 7A                      75 	ld	a, d
-      000028 3C                      76 	inc	a
-      000029 22                      77 	ld	(hl+), a
-      00002A 4E                      78 	ld	c, (hl)
-      00002B C5                      79 	push	bc
-      00002C D5                      80 	push	de
-      00002D 33                      81 	inc	sp
-      00002E CDr00r00                82 	call	_set_bkg_tile_xy
-      000031 E8 03                   83 	add	sp, #3
-      000033                         84 00102$:
-                                     85 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:7: if(digits>=4)set_bkg_tile_xy(x++,y,(number/1000)%10+SPACEINVADERSFONT_TILES_START+26);
-      000033 F8 06                   86 	ldhl	sp,	#6
-      000035 7E                      87 	ld	a, (hl)
-      000036 D6 04                   88 	sub	a, #0x04
-      000038 38 2C                   89 	jr	C, 00104$
-      00003A 2B                      90 	dec	hl
-      00003B 2B                      91 	dec	hl
-      00003C 11 E8 03                92 	ld	de, #0x03e8
-      00003F D5                      93 	push	de
-      000040 2A                      94 	ld	a, (hl+)
-      000041 5F                      95 	ld	e, a
-      000042 56                      96 	ld	d, (hl)
-      000043 D5                      97 	push	de
-      000044 CDr00r00                98 	call	__divuint
-      000047 E8 04                   99 	add	sp, #4
-      000049 01 0A 00               100 	ld	bc, #0x000a
-      00004C C5                     101 	push	bc
-      00004D D5                     102 	push	de
-      00004E CDr00r00               103 	call	__moduint
-      000051 E8 04                  104 	add	sp, #4
-      000053 7B                     105 	ld	a, e
-      000054 C6 5C                  106 	add	a, #0x5c
-      000056 47                     107 	ld	b, a
-      000057 F8 02                  108 	ldhl	sp,	#2
-      000059 56                     109 	ld	d, (hl)
-      00005A 7A                     110 	ld	a, d
-      00005B 3C                     111 	inc	a
-      00005C 22                     112 	ld	(hl+), a
-      00005D 4E                     113 	ld	c, (hl)
-      00005E C5                     114 	push	bc
-      00005F D5                     115 	push	de
-      000060 33                     116 	inc	sp
-      000061 CDr00r00               117 	call	_set_bkg_tile_xy
-      000064 E8 03                  118 	add	sp, #3
-      000066                        119 00104$:
-                                    120 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:8: if(digits>=3)set_bkg_tile_xy(x++,y,(number/100)%10+SPACEINVADERSFONT_TILES_START+26);
-      000066 F8 06                  121 	ldhl	sp,	#6
-      000068 7E                     122 	ld	a, (hl)
-      000069 D6 03                  123 	sub	a, #0x03
-      00006B 38 2C                  124 	jr	C, 00106$
-      00006D 2B                     125 	dec	hl
-      00006E 2B                     126 	dec	hl
-      00006F 11 64 00               127 	ld	de, #0x0064
-      000072 D5                     128 	push	de
-      000073 2A                     129 	ld	a, (hl+)
-      000074 5F                     130 	ld	e, a
-      000075 56                     131 	ld	d, (hl)
-      000076 D5                     132 	push	de
-      000077 CDr00r00               133 	call	__divuint
-      00007A E8 04                  134 	add	sp, #4
-      00007C 01 0A 00               135 	ld	bc, #0x000a
-      00007F C5                     136 	push	bc
-      000080 D5                     137 	push	de
-      000081 CDr00r00               138 	call	__moduint
-      000084 E8 04                  139 	add	sp, #4
-      000086 7B                     140 	ld	a, e
-      000087 C6 5C                  141 	add	a, #0x5c
-      000089 47                     142 	ld	b, a
-      00008A F8 02                  143 	ldhl	sp,	#2
-      00008C 56                     144 	ld	d, (hl)
-      00008D 7A                     145 	ld	a, d
-      00008E 3C                     146 	inc	a
-      00008F 22                     147 	ld	(hl+), a
-      000090 4E                     148 	ld	c, (hl)
-      000091 C5                     149 	push	bc
-      000092 D5                     150 	push	de
-      000093 33                     151 	inc	sp
-      000094 CDr00r00               152 	call	_set_bkg_tile_xy
-      000097 E8 03                  153 	add	sp, #3
-      000099                        154 00106$:
-                                    155 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:9: if(digits>=2)set_bkg_tile_xy(x++,y,(number/10)%10+SPACEINVADERSFONT_TILES_START+26);
-      000099 F8 06                  156 	ldhl	sp,	#6
-      00009B 7E                     157 	ld	a, (hl)
-      00009C D6 02                  158 	sub	a, #0x02
-      00009E 38 2C                  159 	jr	C, 00108$
-      0000A0 2B                     160 	dec	hl
-      0000A1 2B                     161 	dec	hl
-      0000A2 11 0A 00               162 	ld	de, #0x000a
-      0000A5 D5                     163 	push	de
-      0000A6 2A                     164 	ld	a, (hl+)
-      0000A7 5F                     165 	ld	e, a
-      0000A8 56                     166 	ld	d, (hl)
-      0000A9 D5                     167 	push	de
-      0000AA CDr00r00               168 	call	__divuint
-      0000AD E8 04                  169 	add	sp, #4
-      0000AF 01 0A 00               170 	ld	bc, #0x000a
-      0000B2 C5                     171 	push	bc
-      0000B3 D5                     172 	push	de
-      0000B4 CDr00r00               173 	call	__moduint
-      0000B7 E8 04                  174 	add	sp, #4
-      0000B9 7B                     175 	ld	a, e
-      0000BA C6 5C                  176 	add	a, #0x5c
-      0000BC 47                     177 	ld	b, a
-      0000BD F8 02                  178 	ldhl	sp,	#2
-      0000BF 56                     179 	ld	d, (hl)
-      0000C0 7A                     180 	ld	a, d
-      0000C1 3C                     181 	inc	a
-      0000C2 22                     182 	ld	(hl+), a
-      0000C3 4E                     183 	ld	c, (hl)
-      0000C4 C5                     184 	push	bc
-      0000C5 D5                     185 	push	de
-      0000C6 33                     186 	inc	sp
-      0000C7 CDr00r00               187 	call	_set_bkg_tile_xy
-      0000CA E8 03                  188 	add	sp, #3
-      0000CC                        189 00108$:
-                                    190 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:10: set_bkg_tile_xy(x,y,number%10+SPACEINVADERSFONT_TILES_START+26);
-      0000CC 11 0A 00               191 	ld	de, #0x000a
-      0000CF D5                     192 	push	de
-      0000D0 F8 06                  193 	ldhl	sp,	#6
-      0000D2 2A                     194 	ld	a, (hl+)
-      0000D3 5F                     195 	ld	e, a
-      0000D4 56                     196 	ld	d, (hl)
-      0000D5 D5                     197 	push	de
-      0000D6 CDr00r00               198 	call	__moduint
-      0000D9 E8 04                  199 	add	sp, #4
-      0000DB 7B                     200 	ld	a, e
-      0000DC C6 5C                  201 	add	a, #0x5c
-      0000DE F5                     202 	push	af
-      0000DF 33                     203 	inc	sp
-      0000E0 F8 04                  204 	ldhl	sp,	#4
-      0000E2 3A                     205 	ld	a, (hl-)
-      0000E3 57                     206 	ld	d, a
-      0000E4 5E                     207 	ld	e, (hl)
-      0000E5 D5                     208 	push	de
-      0000E6 CDr00r00               209 	call	_set_bkg_tile_xy
-      0000E9 E8 03                  210 	add	sp, #3
-                                    211 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:11: }
-      0000EB C9                     212 	ret
-                                    213 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:13: void DrawText(UINT8 x, UINT8 y, unsigned char *text){
-                                    214 ;	---------------------------------
-                                    215 ; Function DrawText
-                                    216 ; ---------------------------------
-      0000EC                        217 _DrawText::
-      0000EC 3B                     218 	dec	sp
-                                    219 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:17: while(text[i]!='\0'){
-      0000ED F8 00                  220 	ldhl	sp,	#0
-      0000EF 36 00                  221 	ld	(hl), #0x00
-      0000F1                        222 00124$:
-      0000F1 F8 05                  223 	ldhl	sp,#5
-      0000F3 2A                     224 	ld	a, (hl+)
-      0000F4 5F                     225 	ld	e, a
-      0000F5 56                     226 	ld	d, (hl)
-      0000F6 F8 00                  227 	ldhl	sp,	#0
-      0000F8 6E                     228 	ld	l, (hl)
-      0000F9 26 00                  229 	ld	h, #0x00
-      0000FB 19                     230 	add	hl, de
-      0000FC 4D                     231 	ld	c, l
-      0000FD 44                     232 	ld	b, h
-      0000FE 0A                     233 	ld	a, (bc)
-      0000FF 5F                     234 	ld	e, a
-      000100 B7                     235 	or	a, a
-      000101 CAr07r02               236 	jp	Z, 00127$
-                                    237 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:19: if(text[i]>='A'&&text[i]<='Z')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+(text[i]-'A'));
-      000104 F8 03                  238 	ldhl	sp,	#3
-      000106 7E                     239 	ld	a, (hl)
-      000107 F8 00                  240 	ldhl	sp,	#0
-      000109 86                     241 	add	a, (hl)
-      00010A 57                     242 	ld	d, a
-      00010B 7B                     243 	ld	a, e
-      00010C D6 41                  244 	sub	a, #0x41
-      00010E 38 17                  245 	jr	C, 00102$
-      000110 3E 5A                  246 	ld	a, #0x5a
-      000112 93                     247 	sub	a, e
-      000113 38 12                  248 	jr	C, 00102$
-      000115 7B                     249 	ld	a, e
-      000116 3C                     250 	inc	a
-      000117 D5                     251 	push	de
-      000118 F5                     252 	push	af
-      000119 33                     253 	inc	sp
-      00011A F8 07                  254 	ldhl	sp,	#7
-      00011C 7E                     255 	ld	a, (hl)
-      00011D F5                     256 	push	af
-      00011E 33                     257 	inc	sp
-      00011F D5                     258 	push	de
-      000120 33                     259 	inc	sp
-      000121 CDr00r00               260 	call	_set_bkg_tile_xy
-      000124 E8 03                  261 	add	sp, #3
-      000126 D1                     262 	pop	de
-      000127                        263 00102$:
-                                    264 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:20: if(text[i]>='a'&&text[i]<='z')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+(text[i]-'a'));
-      000127 0A                     265 	ld	a, (bc)
-      000128 5F                     266 	ld	e, a
-      000129 D6 61                  267 	sub	a, #0x61
-      00012B 38 18                  268 	jr	C, 00105$
-      00012D 3E 7A                  269 	ld	a, #0x7a
-      00012F 93                     270 	sub	a, e
-      000130 38 13                  271 	jr	C, 00105$
-      000132 7B                     272 	ld	a, e
-      000133 C6 E1                  273 	add	a, #0xe1
-      000135 D5                     274 	push	de
-      000136 F5                     275 	push	af
-      000137 33                     276 	inc	sp
-      000138 F8 07                  277 	ldhl	sp,	#7
-      00013A 7E                     278 	ld	a, (hl)
-      00013B F5                     279 	push	af
-      00013C 33                     280 	inc	sp
-      00013D D5                     281 	push	de
-      00013E 33                     282 	inc	sp
-      00013F CDr00r00               283 	call	_set_bkg_tile_xy
-      000142 E8 03                  284 	add	sp, #3
-      000144 D1                     285 	pop	de
-      000145                        286 00105$:
-                                    287 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:21: if(text[i]>='0'&&text[i]<='9')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+26+(text[i]-'0'));
-      000145 0A                     288 	ld	a, (bc)
-      000146 5F                     289 	ld	e, a
-      000147 D6 30                  290 	sub	a, #0x30
-      000149 38 18                  291 	jr	C, 00108$
-      00014B 3E 39                  292 	ld	a, #0x39
-      00014D 93                     293 	sub	a, e
-      00014E 38 13                  294 	jr	C, 00108$
-      000150 7B                     295 	ld	a, e
-      000151 C6 2C                  296 	add	a, #0x2c
-      000153 D5                     297 	push	de
-      000154 F5                     298 	push	af
-      000155 33                     299 	inc	sp
-      000156 F8 07                  300 	ldhl	sp,	#7
-      000158 7E                     301 	ld	a, (hl)
-      000159 F5                     302 	push	af
-      00015A 33                     303 	inc	sp
-      00015B D5                     304 	push	de
-      00015C 33                     305 	inc	sp
-      00015D CDr00r00               306 	call	_set_bkg_tile_xy
-      000160 E8 03                  307 	add	sp, #3
-      000162 D1                     308 	pop	de
-      000163                        309 00108$:
-                                    310 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:22: if(text[i]=='.')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+36);
-      000163 0A                     311 	ld	a, (bc)
-      000164 D6 2E                  312 	sub	a, #0x2e
-      000166 20 12                  313 	jr	NZ, 00111$
-      000168 D5                     314 	push	de
-      000169 3E 66                  315 	ld	a, #0x66
-      00016B F5                     316 	push	af
-      00016C 33                     317 	inc	sp
-      00016D F8 07                  318 	ldhl	sp,	#7
-      00016F 7E                     319 	ld	a, (hl)
-      000170 F5                     320 	push	af
-      000171 33                     321 	inc	sp
-      000172 D5                     322 	push	de
-      000173 33                     323 	inc	sp
-      000174 CDr00r00               324 	call	_set_bkg_tile_xy
-      000177 E8 03                  325 	add	sp, #3
-      000179 D1                     326 	pop	de
-      00017A                        327 00111$:
-                                    328 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:23: if(text[i]=='-')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+37);
-      00017A 0A                     329 	ld	a, (bc)
-      00017B D6 2D                  330 	sub	a, #0x2d
-      00017D 20 12                  331 	jr	NZ, 00113$
-      00017F D5                     332 	push	de
-      000180 3E 67                  333 	ld	a, #0x67
-      000182 F5                     334 	push	af
-      000183 33                     335 	inc	sp
-      000184 F8 07                  336 	ldhl	sp,	#7
-      000186 7E                     337 	ld	a, (hl)
-      000187 F5                     338 	push	af
-      000188 33                     339 	inc	sp
-      000189 D5                     340 	push	de
-      00018A 33                     341 	inc	sp
-      00018B CDr00r00               342 	call	_set_bkg_tile_xy
-      00018E E8 03                  343 	add	sp, #3
-      000190 D1                     344 	pop	de
-      000191                        345 00113$:
-                                    346 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:24: if(text[i]=='=')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+38);
-      000191 0A                     347 	ld	a, (bc)
-      000192 D6 3D                  348 	sub	a, #0x3d
-      000194 20 12                  349 	jr	NZ, 00115$
-      000196 D5                     350 	push	de
-      000197 3E 68                  351 	ld	a, #0x68
-      000199 F5                     352 	push	af
-      00019A 33                     353 	inc	sp
-      00019B F8 07                  354 	ldhl	sp,	#7
-      00019D 7E                     355 	ld	a, (hl)
-      00019E F5                     356 	push	af
-      00019F 33                     357 	inc	sp
-      0001A0 D5                     358 	push	de
-      0001A1 33                     359 	inc	sp
-      0001A2 CDr00r00               360 	call	_set_bkg_tile_xy
-      0001A5 E8 03                  361 	add	sp, #3
-      0001A7 D1                     362 	pop	de
-      0001A8                        363 00115$:
-                                    364 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:25: if(text[i]=='*')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+39);
-      0001A8 0A                     365 	ld	a, (bc)
-      0001A9 D6 2A                  366 	sub	a, #0x2a
-      0001AB 20 12                  367 	jr	NZ, 00117$
-      0001AD D5                     368 	push	de
-      0001AE 3E 69                  369 	ld	a, #0x69
-      0001B0 F5                     370 	push	af
-      0001B1 33                     371 	inc	sp
-      0001B2 F8 07                  372 	ldhl	sp,	#7
-      0001B4 7E                     373 	ld	a, (hl)
-      0001B5 F5                     374 	push	af
-      0001B6 33                     375 	inc	sp
-      0001B7 D5                     376 	push	de
-      0001B8 33                     377 	inc	sp
-      0001B9 CDr00r00               378 	call	_set_bkg_tile_xy
-      0001BC E8 03                  379 	add	sp, #3
-      0001BE D1                     380 	pop	de
-      0001BF                        381 00117$:
-                                    382 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:26: if(text[i]=='?')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+40);
-      0001BF 0A                     383 	ld	a, (bc)
-      0001C0 D6 3F                  384 	sub	a, #0x3f
-      0001C2 20 12                  385 	jr	NZ, 00119$
-      0001C4 D5                     386 	push	de
-      0001C5 3E 6A                  387 	ld	a, #0x6a
-      0001C7 F5                     388 	push	af
-      0001C8 33                     389 	inc	sp
-      0001C9 F8 07                  390 	ldhl	sp,	#7
-      0001CB 7E                     391 	ld	a, (hl)
-      0001CC F5                     392 	push	af
-      0001CD 33                     393 	inc	sp
-      0001CE D5                     394 	push	de
-      0001CF 33                     395 	inc	sp
-      0001D0 CDr00r00               396 	call	_set_bkg_tile_xy
-      0001D3 E8 03                  397 	add	sp, #3
-      0001D5 D1                     398 	pop	de
-      0001D6                        399 00119$:
-                                    400 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:27: if(text[i]=='!')set_bkg_tile_xy(x+i,y,SPACEINVADERSFONT_TILES_START+41);
-      0001D6 0A                     401 	ld	a, (bc)
-      0001D7 D6 21                  402 	sub	a, #0x21
-      0001D9 20 12                  403 	jr	NZ, 00121$
-      0001DB D5                     404 	push	de
-      0001DC 3E 6B                  405 	ld	a, #0x6b
-      0001DE F5                     406 	push	af
-      0001DF 33                     407 	inc	sp
-      0001E0 F8 07                  408 	ldhl	sp,	#7
-      0001E2 7E                     409 	ld	a, (hl)
-      0001E3 F5                     410 	push	af
-      0001E4 33                     411 	inc	sp
-      0001E5 D5                     412 	push	de
-      0001E6 33                     413 	inc	sp
-      0001E7 CDr00r00               414 	call	_set_bkg_tile_xy
-      0001EA E8 03                  415 	add	sp, #3
-      0001EC D1                     416 	pop	de
-      0001ED                        417 00121$:
-                                    418 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:28: if(text[i]==' ')set_bkg_tile_xy(x+i,y,0);
-      0001ED 0A                     419 	ld	a, (bc)
-      0001EE D6 20                  420 	sub	a, #0x20
-      0001F0 20 0F                  421 	jr	NZ, 00123$
-      0001F2 AF                     422 	xor	a, a
-      0001F3 F5                     423 	push	af
-      0001F4 33                     424 	inc	sp
-      0001F5 F8 05                  425 	ldhl	sp,	#5
-      0001F7 7E                     426 	ld	a, (hl)
-      0001F8 F5                     427 	push	af
-      0001F9 33                     428 	inc	sp
-      0001FA D5                     429 	push	de
-      0001FB 33                     430 	inc	sp
-      0001FC CDr00r00               431 	call	_set_bkg_tile_xy
-      0001FF E8 03                  432 	add	sp, #3
-      000201                        433 00123$:
-                                    434 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:30: i++;
-      000201 F8 00                  435 	ldhl	sp,	#0
-      000203 34                     436 	inc	(hl)
-      000204 C3rF1r00               437 	jp	00124$
-      000207                        438 00127$:
-                                    439 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:32: }
-      000207 33                     440 	inc	sp
-      000208 C9                     441 	ret
-                                    442 	.area _CODE
-                                    443 	.area _INITIALIZER
-                                    444 	.area _CABS (ABS)
+      000021 21r00r00                71 	ld	hl, #_spaceInvadersFontCurrentStart
+      000024 86                      72 	add	a, (hl)
+      000025 C6 1A                   73 	add	a, #0x1a
+      000027 47                      74 	ld	b, a
+      000028 F8 02                   75 	ldhl	sp,	#2
+      00002A 56                      76 	ld	d, (hl)
+      00002B 7A                      77 	ld	a, d
+      00002C 3C                      78 	inc	a
+      00002D 22                      79 	ld	(hl+), a
+      00002E 4E                      80 	ld	c, (hl)
+      00002F C5                      81 	push	bc
+      000030 D5                      82 	push	de
+      000031 33                      83 	inc	sp
+      000032 CDr00r00                84 	call	_set_bkg_tile_xy
+      000035 E8 03                   85 	add	sp, #3
+      000037                         86 00102$:
+                                     87 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:7: if(digits>=4)set_bkg_tile_xy(x++,y,(number/1000)%10+spaceInvadersFontCurrentStart+26);
+      000037 F8 06                   88 	ldhl	sp,	#6
+      000039 7E                      89 	ld	a, (hl)
+      00003A D6 04                   90 	sub	a, #0x04
+      00003C 38 30                   91 	jr	C, 00104$
+      00003E 2B                      92 	dec	hl
+      00003F 2B                      93 	dec	hl
+      000040 11 E8 03                94 	ld	de, #0x03e8
+      000043 D5                      95 	push	de
+      000044 2A                      96 	ld	a, (hl+)
+      000045 5F                      97 	ld	e, a
+      000046 56                      98 	ld	d, (hl)
+      000047 D5                      99 	push	de
+      000048 CDr00r00               100 	call	__divuint
+      00004B E8 04                  101 	add	sp, #4
+      00004D 01 0A 00               102 	ld	bc, #0x000a
+      000050 C5                     103 	push	bc
+      000051 D5                     104 	push	de
+      000052 CDr00r00               105 	call	__moduint
+      000055 E8 04                  106 	add	sp, #4
+      000057 7B                     107 	ld	a, e
+      000058 21r00r00               108 	ld	hl, #_spaceInvadersFontCurrentStart
+      00005B 86                     109 	add	a, (hl)
+      00005C C6 1A                  110 	add	a, #0x1a
+      00005E 47                     111 	ld	b, a
+      00005F F8 02                  112 	ldhl	sp,	#2
+      000061 56                     113 	ld	d, (hl)
+      000062 7A                     114 	ld	a, d
+      000063 3C                     115 	inc	a
+      000064 22                     116 	ld	(hl+), a
+      000065 4E                     117 	ld	c, (hl)
+      000066 C5                     118 	push	bc
+      000067 D5                     119 	push	de
+      000068 33                     120 	inc	sp
+      000069 CDr00r00               121 	call	_set_bkg_tile_xy
+      00006C E8 03                  122 	add	sp, #3
+      00006E                        123 00104$:
+                                    124 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:8: if(digits>=3)set_bkg_tile_xy(x++,y,(number/100)%10+spaceInvadersFontCurrentStart+26);
+      00006E F8 06                  125 	ldhl	sp,	#6
+      000070 7E                     126 	ld	a, (hl)
+      000071 D6 03                  127 	sub	a, #0x03
+      000073 38 30                  128 	jr	C, 00106$
+      000075 2B                     129 	dec	hl
+      000076 2B                     130 	dec	hl
+      000077 11 64 00               131 	ld	de, #0x0064
+      00007A D5                     132 	push	de
+      00007B 2A                     133 	ld	a, (hl+)
+      00007C 5F                     134 	ld	e, a
+      00007D 56                     135 	ld	d, (hl)
+      00007E D5                     136 	push	de
+      00007F CDr00r00               137 	call	__divuint
+      000082 E8 04                  138 	add	sp, #4
+      000084 01 0A 00               139 	ld	bc, #0x000a
+      000087 C5                     140 	push	bc
+      000088 D5                     141 	push	de
+      000089 CDr00r00               142 	call	__moduint
+      00008C E8 04                  143 	add	sp, #4
+      00008E 7B                     144 	ld	a, e
+      00008F 21r00r00               145 	ld	hl, #_spaceInvadersFontCurrentStart
+      000092 86                     146 	add	a, (hl)
+      000093 C6 1A                  147 	add	a, #0x1a
+      000095 47                     148 	ld	b, a
+      000096 F8 02                  149 	ldhl	sp,	#2
+      000098 56                     150 	ld	d, (hl)
+      000099 7A                     151 	ld	a, d
+      00009A 3C                     152 	inc	a
+      00009B 22                     153 	ld	(hl+), a
+      00009C 4E                     154 	ld	c, (hl)
+      00009D C5                     155 	push	bc
+      00009E D5                     156 	push	de
+      00009F 33                     157 	inc	sp
+      0000A0 CDr00r00               158 	call	_set_bkg_tile_xy
+      0000A3 E8 03                  159 	add	sp, #3
+      0000A5                        160 00106$:
+                                    161 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:9: if(digits>=2)set_bkg_tile_xy(x++,y,(number/10)%10+spaceInvadersFontCurrentStart+26);
+      0000A5 F8 06                  162 	ldhl	sp,	#6
+      0000A7 7E                     163 	ld	a, (hl)
+      0000A8 D6 02                  164 	sub	a, #0x02
+      0000AA 38 30                  165 	jr	C, 00108$
+      0000AC 2B                     166 	dec	hl
+      0000AD 2B                     167 	dec	hl
+      0000AE 11 0A 00               168 	ld	de, #0x000a
+      0000B1 D5                     169 	push	de
+      0000B2 2A                     170 	ld	a, (hl+)
+      0000B3 5F                     171 	ld	e, a
+      0000B4 56                     172 	ld	d, (hl)
+      0000B5 D5                     173 	push	de
+      0000B6 CDr00r00               174 	call	__divuint
+      0000B9 E8 04                  175 	add	sp, #4
+      0000BB 01 0A 00               176 	ld	bc, #0x000a
+      0000BE C5                     177 	push	bc
+      0000BF D5                     178 	push	de
+      0000C0 CDr00r00               179 	call	__moduint
+      0000C3 E8 04                  180 	add	sp, #4
+      0000C5 7B                     181 	ld	a, e
+      0000C6 21r00r00               182 	ld	hl, #_spaceInvadersFontCurrentStart
+      0000C9 86                     183 	add	a, (hl)
+      0000CA C6 1A                  184 	add	a, #0x1a
+      0000CC 47                     185 	ld	b, a
+      0000CD F8 02                  186 	ldhl	sp,	#2
+      0000CF 56                     187 	ld	d, (hl)
+      0000D0 7A                     188 	ld	a, d
+      0000D1 3C                     189 	inc	a
+      0000D2 22                     190 	ld	(hl+), a
+      0000D3 4E                     191 	ld	c, (hl)
+      0000D4 C5                     192 	push	bc
+      0000D5 D5                     193 	push	de
+      0000D6 33                     194 	inc	sp
+      0000D7 CDr00r00               195 	call	_set_bkg_tile_xy
+      0000DA E8 03                  196 	add	sp, #3
+      0000DC                        197 00108$:
+                                    198 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:10: set_bkg_tile_xy(x,y,number%10+spaceInvadersFontCurrentStart+26);
+      0000DC 11 0A 00               199 	ld	de, #0x000a
+      0000DF D5                     200 	push	de
+      0000E0 F8 06                  201 	ldhl	sp,	#6
+      0000E2 2A                     202 	ld	a, (hl+)
+      0000E3 5F                     203 	ld	e, a
+      0000E4 56                     204 	ld	d, (hl)
+      0000E5 D5                     205 	push	de
+      0000E6 CDr00r00               206 	call	__moduint
+      0000E9 E8 04                  207 	add	sp, #4
+      0000EB 7B                     208 	ld	a, e
+      0000EC 21r00r00               209 	ld	hl, #_spaceInvadersFontCurrentStart
+      0000EF 86                     210 	add	a, (hl)
+      0000F0 C6 1A                  211 	add	a, #0x1a
+      0000F2 F5                     212 	push	af
+      0000F3 33                     213 	inc	sp
+      0000F4 F8 04                  214 	ldhl	sp,	#4
+      0000F6 3A                     215 	ld	a, (hl-)
+      0000F7 57                     216 	ld	d, a
+      0000F8 5E                     217 	ld	e, (hl)
+      0000F9 D5                     218 	push	de
+      0000FA CDr00r00               219 	call	_set_bkg_tile_xy
+      0000FD E8 03                  220 	add	sp, #3
+                                    221 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:11: }
+      0000FF C9                     222 	ret
+                                    223 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:13: void DrawText(UINT8 x, UINT8 y, unsigned char *text){
+                                    224 ;	---------------------------------
+                                    225 ; Function DrawText
+                                    226 ; ---------------------------------
+      000100                        227 _DrawText::
+      000100 3B                     228 	dec	sp
+      000101 3B                     229 	dec	sp
+                                    230 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:17: while(text[i]!='\0'){
+      000102 F8 01                  231 	ldhl	sp,	#1
+      000104 36 00                  232 	ld	(hl), #0x00
+      000106                        233 00124$:
+      000106 F8 06                  234 	ldhl	sp,#6
+      000108 2A                     235 	ld	a, (hl+)
+      000109 5F                     236 	ld	e, a
+      00010A 56                     237 	ld	d, (hl)
+      00010B F8 01                  238 	ldhl	sp,	#1
+      00010D 6E                     239 	ld	l, (hl)
+      00010E 26 00                  240 	ld	h, #0x00
+      000110 19                     241 	add	hl, de
+      000111 4D                     242 	ld	c, l
+      000112 44                     243 	ld	b, h
+      000113 0A                     244 	ld	a, (bc)
+      000114 5F                     245 	ld	e, a
+      000115 B7                     246 	or	a, a
+      000116 CAr4Dr02               247 	jp	Z, 00127$
+                                    248 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:19: if(text[i]>='A'&&text[i]<='Z')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+(text[i]-'A'));
+      000119 F8 04                  249 	ldhl	sp,	#4
+      00011B 7E                     250 	ld	a, (hl)
+      00011C F8 01                  251 	ldhl	sp,	#1
+      00011E 86                     252 	add	a, (hl)
+      00011F 2B                     253 	dec	hl
+      000120 77                     254 	ld	(hl), a
+      000121 7B                     255 	ld	a, e
+      000122 D6 41                  256 	sub	a, #0x41
+      000124 38 1E                  257 	jr	C, 00102$
+      000126 3E 5A                  258 	ld	a, #0x5a
+      000128 93                     259 	sub	a, e
+      000129 38 19                  260 	jr	C, 00102$
+      00012B 7B                     261 	ld	a, e
+      00012C C6 BF                  262 	add	a, #0xbf
+      00012E 21r00r00               263 	ld	hl, #_spaceInvadersFontCurrentStart
+      000131 5E                     264 	ld	e, (hl)
+      000132 83                     265 	add	a, e
+      000133 F5                     266 	push	af
+      000134 33                     267 	inc	sp
+      000135 F8 06                  268 	ldhl	sp,	#6
+      000137 7E                     269 	ld	a, (hl)
+      000138 F5                     270 	push	af
+      000139 33                     271 	inc	sp
+      00013A F8 02                  272 	ldhl	sp,	#2
+      00013C 7E                     273 	ld	a, (hl)
+      00013D F5                     274 	push	af
+      00013E 33                     275 	inc	sp
+      00013F CDr00r00               276 	call	_set_bkg_tile_xy
+      000142 E8 03                  277 	add	sp, #3
+      000144                        278 00102$:
+                                    279 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:20: if(text[i]>='a'&&text[i]<='z')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+(text[i]-'a'));
+      000144 0A                     280 	ld	a, (bc)
+      000145 5F                     281 	ld	e, a
+      000146 D6 61                  282 	sub	a, #0x61
+      000148 38 1E                  283 	jr	C, 00105$
+      00014A 3E 7A                  284 	ld	a, #0x7a
+      00014C 93                     285 	sub	a, e
+      00014D 38 19                  286 	jr	C, 00105$
+      00014F 7B                     287 	ld	a, e
+      000150 C6 9F                  288 	add	a, #0x9f
+      000152 21r00r00               289 	ld	hl, #_spaceInvadersFontCurrentStart
+      000155 5E                     290 	ld	e, (hl)
+      000156 83                     291 	add	a, e
+      000157 F5                     292 	push	af
+      000158 33                     293 	inc	sp
+      000159 F8 06                  294 	ldhl	sp,	#6
+      00015B 7E                     295 	ld	a, (hl)
+      00015C F5                     296 	push	af
+      00015D 33                     297 	inc	sp
+      00015E F8 02                  298 	ldhl	sp,	#2
+      000160 7E                     299 	ld	a, (hl)
+      000161 F5                     300 	push	af
+      000162 33                     301 	inc	sp
+      000163 CDr00r00               302 	call	_set_bkg_tile_xy
+      000166 E8 03                  303 	add	sp, #3
+      000168                        304 00105$:
+                                    305 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:21: if(text[i]>='0'&&text[i]<='9')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+26+(text[i]-'0'));
+      000168 0A                     306 	ld	a, (bc)
+      000169 5F                     307 	ld	e, a
+      00016A D6 30                  308 	sub	a, #0x30
+      00016C 38 20                  309 	jr	C, 00108$
+      00016E 3E 39                  310 	ld	a, #0x39
+      000170 93                     311 	sub	a, e
+      000171 38 1B                  312 	jr	C, 00108$
+      000173 FAr00r00               313 	ld	a, (#_spaceInvadersFontCurrentStart)
+      000176 C6 1A                  314 	add	a, #0x1a
+      000178 57                     315 	ld	d, a
+      000179 7B                     316 	ld	a, e
+      00017A C6 D0                  317 	add	a, #0xd0
+      00017C 82                     318 	add	a, d
+      00017D F5                     319 	push	af
+      00017E 33                     320 	inc	sp
+      00017F F8 06                  321 	ldhl	sp,	#6
+      000181 7E                     322 	ld	a, (hl)
+      000182 F5                     323 	push	af
+      000183 33                     324 	inc	sp
+      000184 F8 02                  325 	ldhl	sp,	#2
+      000186 7E                     326 	ld	a, (hl)
+      000187 F5                     327 	push	af
+      000188 33                     328 	inc	sp
+      000189 CDr00r00               329 	call	_set_bkg_tile_xy
+      00018C E8 03                  330 	add	sp, #3
+      00018E                        331 00108$:
+                                    332 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:22: if(text[i]=='.')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+36);
+      00018E 0A                     333 	ld	a, (bc)
+      00018F D6 2E                  334 	sub	a, #0x2e
+      000191 20 16                  335 	jr	NZ, 00111$
+      000193 FAr00r00               336 	ld	a, (#_spaceInvadersFontCurrentStart)
+      000196 C6 24                  337 	add	a, #0x24
+      000198 F5                     338 	push	af
+      000199 33                     339 	inc	sp
+      00019A F8 06                  340 	ldhl	sp,	#6
+      00019C 7E                     341 	ld	a, (hl)
+      00019D F5                     342 	push	af
+      00019E 33                     343 	inc	sp
+      00019F F8 02                  344 	ldhl	sp,	#2
+      0001A1 7E                     345 	ld	a, (hl)
+      0001A2 F5                     346 	push	af
+      0001A3 33                     347 	inc	sp
+      0001A4 CDr00r00               348 	call	_set_bkg_tile_xy
+      0001A7 E8 03                  349 	add	sp, #3
+      0001A9                        350 00111$:
+                                    351 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:23: if(text[i]=='-')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+37);
+      0001A9 0A                     352 	ld	a, (bc)
+      0001AA D6 2D                  353 	sub	a, #0x2d
+      0001AC 20 16                  354 	jr	NZ, 00113$
+      0001AE FAr00r00               355 	ld	a, (#_spaceInvadersFontCurrentStart)
+      0001B1 C6 25                  356 	add	a, #0x25
+      0001B3 F5                     357 	push	af
+      0001B4 33                     358 	inc	sp
+      0001B5 F8 06                  359 	ldhl	sp,	#6
+      0001B7 7E                     360 	ld	a, (hl)
+      0001B8 F5                     361 	push	af
+      0001B9 33                     362 	inc	sp
+      0001BA F8 02                  363 	ldhl	sp,	#2
+      0001BC 7E                     364 	ld	a, (hl)
+      0001BD F5                     365 	push	af
+      0001BE 33                     366 	inc	sp
+      0001BF CDr00r00               367 	call	_set_bkg_tile_xy
+      0001C2 E8 03                  368 	add	sp, #3
+      0001C4                        369 00113$:
+                                    370 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:24: if(text[i]=='=')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+38);
+      0001C4 0A                     371 	ld	a, (bc)
+      0001C5 D6 3D                  372 	sub	a, #0x3d
+      0001C7 20 16                  373 	jr	NZ, 00115$
+      0001C9 FAr00r00               374 	ld	a, (#_spaceInvadersFontCurrentStart)
+      0001CC C6 26                  375 	add	a, #0x26
+      0001CE F5                     376 	push	af
+      0001CF 33                     377 	inc	sp
+      0001D0 F8 06                  378 	ldhl	sp,	#6
+      0001D2 7E                     379 	ld	a, (hl)
+      0001D3 F5                     380 	push	af
+      0001D4 33                     381 	inc	sp
+      0001D5 F8 02                  382 	ldhl	sp,	#2
+      0001D7 7E                     383 	ld	a, (hl)
+      0001D8 F5                     384 	push	af
+      0001D9 33                     385 	inc	sp
+      0001DA CDr00r00               386 	call	_set_bkg_tile_xy
+      0001DD E8 03                  387 	add	sp, #3
+      0001DF                        388 00115$:
+                                    389 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:25: if(text[i]=='*')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+39);
+      0001DF 0A                     390 	ld	a, (bc)
+      0001E0 D6 2A                  391 	sub	a, #0x2a
+      0001E2 20 16                  392 	jr	NZ, 00117$
+      0001E4 FAr00r00               393 	ld	a, (#_spaceInvadersFontCurrentStart)
+      0001E7 C6 27                  394 	add	a, #0x27
+      0001E9 F5                     395 	push	af
+      0001EA 33                     396 	inc	sp
+      0001EB F8 06                  397 	ldhl	sp,	#6
+      0001ED 7E                     398 	ld	a, (hl)
+      0001EE F5                     399 	push	af
+      0001EF 33                     400 	inc	sp
+      0001F0 F8 02                  401 	ldhl	sp,	#2
+      0001F2 7E                     402 	ld	a, (hl)
+      0001F3 F5                     403 	push	af
+      0001F4 33                     404 	inc	sp
+      0001F5 CDr00r00               405 	call	_set_bkg_tile_xy
+      0001F8 E8 03                  406 	add	sp, #3
+      0001FA                        407 00117$:
+                                    408 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:26: if(text[i]=='?')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+40);
+      0001FA 0A                     409 	ld	a, (bc)
+      0001FB D6 3F                  410 	sub	a, #0x3f
+      0001FD 20 16                  411 	jr	NZ, 00119$
+      0001FF FAr00r00               412 	ld	a, (#_spaceInvadersFontCurrentStart)
+      000202 C6 28                  413 	add	a, #0x28
+      000204 F5                     414 	push	af
+      000205 33                     415 	inc	sp
+      000206 F8 06                  416 	ldhl	sp,	#6
+      000208 7E                     417 	ld	a, (hl)
+      000209 F5                     418 	push	af
+      00020A 33                     419 	inc	sp
+      00020B F8 02                  420 	ldhl	sp,	#2
+      00020D 7E                     421 	ld	a, (hl)
+      00020E F5                     422 	push	af
+      00020F 33                     423 	inc	sp
+      000210 CDr00r00               424 	call	_set_bkg_tile_xy
+      000213 E8 03                  425 	add	sp, #3
+      000215                        426 00119$:
+                                    427 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:27: if(text[i]=='!')set_bkg_tile_xy(x+i,y,spaceInvadersFontCurrentStart+41);
+      000215 0A                     428 	ld	a, (bc)
+      000216 D6 21                  429 	sub	a, #0x21
+      000218 20 16                  430 	jr	NZ, 00121$
+      00021A FAr00r00               431 	ld	a, (#_spaceInvadersFontCurrentStart)
+      00021D C6 29                  432 	add	a, #0x29
+      00021F F5                     433 	push	af
+      000220 33                     434 	inc	sp
+      000221 F8 06                  435 	ldhl	sp,	#6
+      000223 7E                     436 	ld	a, (hl)
+      000224 F5                     437 	push	af
+      000225 33                     438 	inc	sp
+      000226 F8 02                  439 	ldhl	sp,	#2
+      000228 7E                     440 	ld	a, (hl)
+      000229 F5                     441 	push	af
+      00022A 33                     442 	inc	sp
+      00022B CDr00r00               443 	call	_set_bkg_tile_xy
+      00022E E8 03                  444 	add	sp, #3
+      000230                        445 00121$:
+                                    446 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:28: if(text[i]==' ')set_bkg_tile_xy(x+i,y,0);
+      000230 0A                     447 	ld	a, (bc)
+      000231 D6 20                  448 	sub	a, #0x20
+      000233 20 12                  449 	jr	NZ, 00123$
+      000235 AF                     450 	xor	a, a
+      000236 F5                     451 	push	af
+      000237 33                     452 	inc	sp
+      000238 F8 06                  453 	ldhl	sp,	#6
+      00023A 7E                     454 	ld	a, (hl)
+      00023B F5                     455 	push	af
+      00023C 33                     456 	inc	sp
+      00023D F8 02                  457 	ldhl	sp,	#2
+      00023F 7E                     458 	ld	a, (hl)
+      000240 F5                     459 	push	af
+      000241 33                     460 	inc	sp
+      000242 CDr00r00               461 	call	_set_bkg_tile_xy
+      000245 E8 03                  462 	add	sp, #3
+      000247                        463 00123$:
+                                    464 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:30: i++;
+      000247 F8 01                  465 	ldhl	sp,	#1
+      000249 34                     466 	inc	(hl)
+      00024A C3r06r01               467 	jp	00124$
+      00024D                        468 00127$:
+                                    469 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Hud.c:32: }
+      00024D 33                     470 	inc	sp
+      00024E 33                     471 	inc	sp
+      00024F C9                     472 	ret
+                                    473 	.area _CODE
+                                    474 	.area _INITIALIZER
+                                    475 	.area _CABS (ABS)

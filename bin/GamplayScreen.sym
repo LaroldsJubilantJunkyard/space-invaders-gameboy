@@ -7,17 +7,17 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
-  0 _DrawBarricade                                                 000076 GR
+  0 _DrawBarricade                                                 00008E GR
     _DrawNumber                                                    ****** GX
     _DrawText                                                      ****** GX
   0 _IncreaseScore                                                 000065 GR
     _SetupBullets                                                  ****** GX
-  0 _SetupGameplayScreen                                           0001AB GR
+  0 _SetupGameplayScreen                                           000191 GR
     _SetupInvaders                                                 ****** GX
-  0 _SetupLevel                                                    000160 GR
+  0 _SetupLevel                                                    000178 GR
     _SetupPlayer                                                   ****** GX
     _UpdateBullets                                                 ****** GX
-  0 _UpdateGameplayScreen                                          0001C5 GR
+  0 _UpdateGameplayScreen                                          0001B0 GR
     _UpdateInvaders                                                ****** GX
     _UpdatePlayer                                                  ****** GX
   0 _UpdateScore                                                   000000 GR
@@ -25,21 +25,21 @@ Symbol Table
   0 ___str_1                                                       000063 R
   7 __xinit__helper                                                000000 R
     _delay                                                         ****** GX
-    _fill_bkg_rect                                                 ****** GX
   2 _helper                                                        000000 GR
+    _highScore                                                     ****** GX
     _invadersRemaining                                             ****** GX
+    _level                                                         ****** GX
     _paddle                                                        ****** GX
   1 _score                                                         000000 GR
     _set_bkg_tile_xy                                               ****** GX
     _shadow_OAM                                                    ****** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size    217   flags    0
+   0 _CODE                                      size    202   flags    0
    1 _DATA                                      size      2   flags    0
    2 _INITIALIZED                               size      5   flags    0
    3 _DABS                                      size      0   flags    8

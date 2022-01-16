@@ -45,7 +45,7 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\SpaceInvadersFont.c:7: BANKREF(SpaceInvadersFont)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\SpaceInvadersFont.c:7: BANKREF(SpaceInvadersFont)
 ;	---------------------------------
 ; Function __func_SpaceInvadersFont
 ; ---------------------------------
@@ -58,8 +58,8 @@ ___func_SpaceInvadersFont::
 _SpaceInvadersFont_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x300a
-	.dw #0x0019
+	.dw #0x700a
+	.dw #0x0001
 _SpaceInvadersFont_tiles:
 	.db #0x10	; 16
 	.db #0x00	; 0

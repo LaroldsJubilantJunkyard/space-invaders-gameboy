@@ -45,7 +45,7 @@
                                      45 ; code
                                      46 ;--------------------------------------------------------
                                      47 	.area _CODE
-                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\Alien.c:7: BANKREF(Alien)
+                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\Alien.c:7: BANKREF(Alien)
                                      49 ;	---------------------------------
                                      50 ; Function __func_Alien
                                      51 ; ---------------------------------
@@ -58,8 +58,8 @@
       000000                         58 _Alien_palettes:
       000000 FF 7F                   59 	.dw #0x7fff
       000002 00 00                   60 	.dw #0x0000
-      000004 0A 0C                   61 	.dw #0x0c0a
-      000006 05 00                   62 	.dw #0x0005
+      000004 0A 10                   61 	.dw #0x100a
+      000006 07 00                   62 	.dw #0x0007
       000008                         63 _Alien_tiles:
       000008 01                      64 	.db #0x01	; 1
       000009 00                      65 	.db #0x00	; 0

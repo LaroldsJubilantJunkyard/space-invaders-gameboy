@@ -48,7 +48,7 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\BulletB.c:7: BANKREF(BulletB)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\BulletB.c:7: BANKREF(BulletB)
 ;	---------------------------------
 ; Function __func_BulletB
 ; ---------------------------------
@@ -61,8 +61,8 @@ ___func_BulletB::
 _BulletB_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x3c0a
-	.dw #0x0005
+	.dw #0x680a
+	.dw #0x0017
 _BulletB_tiles:
 	.db #0x02	; 2
 	.db #0x00	; 0

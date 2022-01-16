@@ -82,7 +82,7 @@
       000002 F8 00                   82 	ldhl	sp,	#0
       000004 4D                      83 	ld	c, l
       000005 44                      84 	ld	b, h
-      000006 36 12                   85 	ld	(hl), #0x12
+      000006 36 03                   85 	ld	(hl), #0x03
       000008 69                      86 	ld	l, c
                                      87 ;	spillPairReg hl
                                      88 ;	spillPairReg hl
@@ -90,7 +90,7 @@
                                      90 ;	spillPairReg hl
                                      91 ;	spillPairReg hl
       00000A 23                      92 	inc	hl
-      00000B 36 22                   93 	ld	(hl), #0x22
+      00000B 36 13                   93 	ld	(hl), #0x13
       00000D 69                      94 	ld	l, c
                                      95 ;	spillPairReg hl
                                      96 ;	spillPairReg hl
@@ -99,7 +99,7 @@
                                      99 ;	spillPairReg hl
       00000F 23                     100 	inc	hl
       000010 23                     101 	inc	hl
-      000011 36 32                  102 	ld	(hl), #0x32
+      000011 36 23                  102 	ld	(hl), #0x23
                                     103 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:19: for(UINT8 i=0;i<40;i++){
       000013 F8 03                  104 	ldhl	sp,	#3
       000015 79                     105 	ld	a, c

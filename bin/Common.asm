@@ -9,7 +9,11 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _RandomNumber
+	.globl _ClearBackground
+	.globl _ClearAllSprites
 	.globl _GetNextAvailableSprite
+	.globl _fill_bkg_rect
+	.globl _spaceInvadersFontCurrentStart
 	.globl _highScore
 	.globl _level
 	.globl _slideDir
@@ -35,6 +39,8 @@ _slideDir::
 _level::
 	.ds 1
 _highScore::
+	.ds 1
+_spaceInvadersFontCurrentStart::
 	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
@@ -94,12 +100,69 @@ _GetNextAvailableSprite::
 	ld	e, #0x27
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:14: }
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:17: UINT8 RandomNumber(UINT8 min, UINT8 max){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:16: void ClearAllSprites(){
+;	---------------------------------
+; Function ClearAllSprites
+; ---------------------------------
+_ClearAllSprites::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(UINT8 i=0;i<40;i++){
+	ld	c, #0x00
+00105$:
+	ld	a, c
+	sub	a, #0x28
+	ret	NC
+;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+	ld	l, c
+;	spillPairReg hl
+;	spillPairReg hl
+	ld	h, #0x00
+;	spillPairReg hl
+;	spillPairReg hl
+	add	hl, hl
+	add	hl, hl
+	ld	e, l
+	ld	d, h
+	ld	hl,#_shadow_OAM + 1
+	add	hl,de
+	inc	hl
+	ld	(hl), #0x00
+;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	hl, #_shadow_OAM
+	add	hl, de
+;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+	xor	a, a
+	ld	(hl+), a
+	ld	(hl), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(UINT8 i=0;i<40;i++){
+	inc	c
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:22: }
+	jr	00105$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:23: void ClearBackground(){
+;	---------------------------------
+; Function ClearBackground
+; ---------------------------------
+_ClearBackground::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:25: fill_bkg_rect(0,0,20,18,0);
+	xor	a, a
+	ld	h, a
+	ld	l, #0x12
+	push	hl
+	ld	a, #0x14
+	push	af
+	inc	sp
+	xor	a, a
+	rrca
+	push	af
+	call	_fill_bkg_rect
+	add	sp, #5
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:26: }
+	ret
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:29: UINT8 RandomNumber(UINT8 min, UINT8 max){
 ;	---------------------------------
 ; Function RandomNumber
 ; ---------------------------------
 _RandomNumber::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:23: UINT8 v = (*(ptr_div_reg))+shadow_OAM[0].x+shadow_OAM[1].x+shadow_OAM[2].x+shadow_OAM[3].x+shadow_OAM[4].x;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:35: UINT8 v = (*(ptr_div_reg))+shadow_OAM[0].x+shadow_OAM[1].x+shadow_OAM[2].x+shadow_OAM[3].x+shadow_OAM[4].x;
 	ld	hl, #0xff04
 	ld	c, (hl)
 	ld	a, (#(_shadow_OAM + 1) + 0)
@@ -117,7 +180,7 @@ _RandomNumber::
 	ld	a, (#(_shadow_OAM + 17) + 0)
 	add	a, c
 	ld	c, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:25: return min+(v % (max-min));    // get value at memory address
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:37: return min+(v % (max-min));    // get value at memory address
 	ldhl	sp,	#3
 	ld	a, (hl-)
 	ld	b, #0x00
@@ -137,12 +200,14 @@ _RandomNumber::
 	ld	a, (hl)
 	add	a, e
 	ld	e, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:26: }
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:38: }
 	ret
 	.area _CODE
 	.area _INITIALIZER
 __xinit__level:
 	.db #0x01	; 1
 __xinit__highScore:
+	.db #0x00	; 0
+__xinit__spaceInvadersFontCurrentStart:
 	.db #0x00	; 0
 	.area _CABS (ABS)

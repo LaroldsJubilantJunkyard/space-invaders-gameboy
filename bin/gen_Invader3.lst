@@ -45,7 +45,7 @@
                                      45 ; code
                                      46 ;--------------------------------------------------------
                                      47 	.area _CODE
-                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\Invader3.c:7: BANKREF(Invader3)
+                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\Invader3.c:7: BANKREF(Invader3)
                                      49 ;	---------------------------------
                                      50 ; Function __func_Invader3
                                      51 ; ---------------------------------
@@ -58,8 +58,8 @@
       000000                         58 _Invader3_palettes:
       000000 FF 7F                   59 	.dw #0x7fff
       000002 00 00                   60 	.dw #0x0000
-      000004 0A 64                   61 	.dw #0x640a
-      000006 0F 00                   62 	.dw #0x000f
+      000004 0A 68                   61 	.dw #0x680a
+      000006 15 00                   62 	.dw #0x0015
       000008                         63 _Invader3_tiles:
       000008 18                      64 	.db #0x18	; 24
       000009 00                      65 	.db #0x00	; 0

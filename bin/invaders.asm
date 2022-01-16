@@ -82,7 +82,7 @@ _SetupInvaders::
 	ldhl	sp,	#0
 	ld	c, l
 	ld	b, h
-	ld	(hl), #0x12
+	ld	(hl), #0x03
 	ld	l, c
 ;	spillPairReg hl
 ;	spillPairReg hl
@@ -90,7 +90,7 @@ _SetupInvaders::
 ;	spillPairReg hl
 ;	spillPairReg hl
 	inc	hl
-	ld	(hl), #0x22
+	ld	(hl), #0x13
 	ld	l, c
 ;	spillPairReg hl
 ;	spillPairReg hl
@@ -99,7 +99,7 @@ _SetupInvaders::
 ;	spillPairReg hl
 	inc	hl
 	inc	hl
-	ld	(hl), #0x32
+	ld	(hl), #0x23
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\invaders.c:19: for(UINT8 i=0;i<40;i++){
 	ldhl	sp,	#3
 	ld	a, c

@@ -10,6 +10,9 @@
 ;--------------------------------------------------------
 	.globl _UpdateNextLevelScreen
 	.globl _SetupNextLevelScreen
+	.globl _DrawNumber
+	.globl _DrawText
+	.globl _delay
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -41,18 +44,58 @@
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:4: void SetupNextLevelScreen(){}
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:5: void SetupNextLevelScreen(){
 ;	---------------------------------
 ; Function SetupNextLevelScreen
 ; ---------------------------------
 _SetupNextLevelScreen::
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:7: DrawText(9,8,"ROUND");
+	ld	de, #___str_0
+	push	de
+	ld	hl, #0x809
+	push	hl
+	call	_DrawText
+	add	sp, #4
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:8: DrawNumber(11,9,level,2);
+	ld	hl, #_level
+	ld	c, (hl)
+	ld	b, #0x00
+	ld	a, #0x02
+	push	af
+	inc	sp
+	push	bc
+	ld	hl, #0x90b
+	push	hl
+	call	_DrawNumber
+	add	sp, #5
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:9: DrawText(9,11,"READY!");
+	ld	de, #___str_1
+	push	de
+	ld	hl, #0xb09
+	push	hl
+	call	_DrawText
+	add	sp, #4
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:10: }
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:5: UINT8 UpdateNextLevelScreen(){return 0;}
+___str_0:
+	.ascii "ROUND"
+	.db 0x00
+___str_1:
+	.ascii "READY!"
+	.db 0x00
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:12: UINT8 UpdateNextLevelScreen(){
 ;	---------------------------------
 ; Function UpdateNextLevelScreen
 ; ---------------------------------
 _UpdateNextLevelScreen::
-	ld	e, #0x00
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:14: delay(2000);
+	ld	de, #0x07d0
+	push	de
+	call	_delay
+	pop	hl
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:16: return GAMEPLAYSCREEN;
+	ld	e, #0x03
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:17: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

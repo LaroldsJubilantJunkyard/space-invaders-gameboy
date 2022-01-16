@@ -10,50 +10,143 @@
                                      10 ;--------------------------------------------------------
                                      11 	.globl _UpdateMenuScreen
                                      12 	.globl _SetupMenuScreen
-                                     13 ;--------------------------------------------------------
-                                     14 ; special function registers
+                                     13 	.globl _set_sprite_data
+                                     14 	.globl _set_bkg_data
                                      15 ;--------------------------------------------------------
-                                     16 ;--------------------------------------------------------
-                                     17 ; ram data
+                                     16 ; special function registers
+                                     17 ;--------------------------------------------------------
                                      18 ;--------------------------------------------------------
-                                     19 	.area _DATA
+                                     19 ; ram data
                                      20 ;--------------------------------------------------------
-                                     21 ; ram data
+                                     21 	.area _DATA
                                      22 ;--------------------------------------------------------
-                                     23 	.area _INITIALIZED
+                                     23 ; ram data
                                      24 ;--------------------------------------------------------
-                                     25 ; absolute external ram data
+                                     25 	.area _INITIALIZED
                                      26 ;--------------------------------------------------------
-                                     27 	.area _DABS (ABS)
+                                     27 ; absolute external ram data
                                      28 ;--------------------------------------------------------
-                                     29 ; global & static initialisations
+                                     29 	.area _DABS (ABS)
                                      30 ;--------------------------------------------------------
-                                     31 	.area _HOME
-                                     32 	.area _GSINIT
-                                     33 	.area _GSFINAL
+                                     31 ; global & static initialisations
+                                     32 ;--------------------------------------------------------
+                                     33 	.area _HOME
                                      34 	.area _GSINIT
-                                     35 ;--------------------------------------------------------
-                                     36 ; Home
+                                     35 	.area _GSFINAL
+                                     36 	.area _GSINIT
                                      37 ;--------------------------------------------------------
-                                     38 	.area _HOME
-                                     39 	.area _HOME
-                                     40 ;--------------------------------------------------------
-                                     41 ; code
+                                     38 ; Home
+                                     39 ;--------------------------------------------------------
+                                     40 	.area _HOME
+                                     41 	.area _HOME
                                      42 ;--------------------------------------------------------
-                                     43 	.area _CODE
-                                     44 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:4: void SetupMenuScreen(){}
-                                     45 ;	---------------------------------
-                                     46 ; Function SetupMenuScreen
-                                     47 ; ---------------------------------
-      000000                         48 _SetupMenuScreen::
-      000000 C9                      49 	ret
-                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:5: UINT8 UpdateMenuScreen(){return 0;}
-                                     51 ;	---------------------------------
-                                     52 ; Function UpdateMenuScreen
-                                     53 ; ---------------------------------
-      000001                         54 _UpdateMenuScreen::
-      000001 1E 00                   55 	ld	e, #0x00
-      000003 C9                      56 	ret
-                                     57 	.area _CODE
-                                     58 	.area _INITIALIZER
-                                     59 	.area _CABS (ABS)
+                                     43 ; code
+                                     44 ;--------------------------------------------------------
+                                     45 	.area _CODE
+                                     46 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:14: void SetupMenuScreen(){
+                                     47 ;	---------------------------------
+                                     48 ; Function SetupMenuScreen
+                                     49 ; ---------------------------------
+      000000                         50 _SetupMenuScreen::
+                                     51 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:17: spaceInvadersFontCurrentStart=SPACEINVADERSFONT_TILES_START;
+      000000 21r00r00                52 	ld	hl, #_spaceInvadersFontCurrentStart
+      000003 36 33                   53 	ld	(hl), #0x33
+                                     54 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:18: set_sprite_data(PLAYER_SPRITE_START,Player_TILE_COUNT,Player_tiles);
+      000005 01r00r00                55 	ld	bc, #_Player_tiles+0
+      000008 C5                      56 	push	bc
+      000009 21 01 02                57 	ld	hl, #0x201
+      00000C E5                      58 	push	hl
+      00000D CDr00r00                59 	call	_set_sprite_data
+      000010 E8 04                   60 	add	sp, #4
+                                     61 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:19: set_sprite_data(BULLETA_SPRITE_START,BulletA_TILE_COUNT,BulletA_tiles);
+      000012 11r00r00                62 	ld	de, #_BulletA_tiles
+      000015 D5                      63 	push	de
+      000016 21 03 03                64 	ld	hl, #0x303
+      000019 E5                      65 	push	hl
+      00001A CDr00r00                66 	call	_set_sprite_data
+      00001D E8 04                   67 	add	sp, #4
+                                     68 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:20: set_sprite_data(BULLETB_SPRITE_START,BulletB_TILE_COUNT,BulletB_tiles);
+      00001F 11r00r00                69 	ld	de, #_BulletB_tiles
+      000022 D5                      70 	push	de
+      000023 21 06 03                71 	ld	hl, #0x306
+      000026 E5                      72 	push	hl
+      000027 CDr00r00                73 	call	_set_sprite_data
+      00002A E8 04                   74 	add	sp, #4
+                                     75 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:21: set_sprite_data(ALIEN_SPRITE_START,Alien_TILE_COUNT,Player_tiles);
+      00002C C5                      76 	push	bc
+      00002D 21 0A 02                77 	ld	hl, #0x20a
+      000030 E5                      78 	push	hl
+      000031 CDr00r00                79 	call	_set_sprite_data
+      000034 E8 04                   80 	add	sp, #4
+                                     81 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:23: set_bkg_data(PLAYER_SPRITE_START,Player_TILE_COUNT,Player_tiles);
+      000036 C5                      82 	push	bc
+      000037 21 01 02                83 	ld	hl, #0x201
+      00003A E5                      84 	push	hl
+      00003B CDr00r00                85 	call	_set_bkg_data
+      00003E E8 04                   86 	add	sp, #4
+                                     87 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:24: set_bkg_data(ALIEN_SPRITE_START,Alien_TILE_COUNT,Player_tiles);
+      000040 C5                      88 	push	bc
+      000041 21 0A 02                89 	ld	hl, #0x20a
+      000044 E5                      90 	push	hl
+      000045 CDr00r00                91 	call	_set_bkg_data
+      000048 E8 04                   92 	add	sp, #4
+                                     93 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:25: set_bkg_data(INVADER1_TILES_START,Invader1_TILE_COUNT,Invader1_tiles);
+      00004A 11r00r00                94 	ld	de, #_Invader1_tiles
+      00004D D5                      95 	push	de
+      00004E 21 03 10                96 	ld	hl, #0x1003
+      000051 E5                      97 	push	hl
+      000052 CDr00r00                98 	call	_set_bkg_data
+      000055 E8 04                   99 	add	sp, #4
+                                    100 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:26: set_bkg_data(INVADER2_TILES_START,Invader2_TILE_COUNT,Invader2_tiles);
+      000057 11r00r00               101 	ld	de, #_Invader2_tiles
+      00005A D5                     102 	push	de
+      00005B 21 13 10               103 	ld	hl, #0x1013
+      00005E E5                     104 	push	hl
+      00005F CDr00r00               105 	call	_set_bkg_data
+      000062 E8 04                  106 	add	sp, #4
+                                    107 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:27: set_bkg_data(INVADER3_TILES_START,Invader3_TILE_COUNT,Invader3_tiles);
+      000064 11r00r00               108 	ld	de, #_Invader3_tiles
+      000067 D5                     109 	push	de
+      000068 21 23 10               110 	ld	hl, #0x1023
+      00006B E5                     111 	push	hl
+      00006C CDr00r00               112 	call	_set_bkg_data
+      00006F E8 04                  113 	add	sp, #4
+                                    114 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:28: set_bkg_data(SPACEINVADERSFONT_TILES_START,SpaceInvadersFont_TILE_COUNT,SpaceInvadersFont_tiles);
+      000071 11r00r00               115 	ld	de, #_SpaceInvadersFont_tiles
+      000074 D5                     116 	push	de
+      000075 21 33 2B               117 	ld	hl, #0x2b33
+      000078 E5                     118 	push	hl
+      000079 CDr00r00               119 	call	_set_bkg_data
+      00007C E8 04                  120 	add	sp, #4
+                                    121 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:29: set_bkg_data(BARRICADE_TILES_START,Barricade_TILE_COUNT,Barricade_tiles);
+      00007E 11r00r00               122 	ld	de, #_Barricade_tiles
+      000081 D5                     123 	push	de
+      000082 21 5E 0F               124 	ld	hl, #0xf5e
+      000085 E5                     125 	push	hl
+      000086 CDr00r00               126 	call	_set_bkg_data
+      000089 E8 04                  127 	add	sp, #4
+                                    128 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:31: }
+      00008B C9                     129 	ret
+                                    130 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:32: UINT8 UpdateMenuScreen(){
+                                    131 ;	---------------------------------
+                                    132 ; Function UpdateMenuScreen
+                                    133 ; ---------------------------------
+      00008C                        134 _UpdateMenuScreen::
+                                    135 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:34: if(joypadCurrent & J_A){
+      00008C FAr00r00               136 	ld	a, (#_joypadCurrent)
+      00008F CB 67                  137 	bit	4, a
+      000091 28 08                  138 	jr	Z, 00102$
+                                    139 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:36: level=1;
+      000093 21r00r00               140 	ld	hl, #_level
+      000096 36 01                  141 	ld	(hl), #0x01
+                                    142 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:38: return NEXTLEVELSCREEN;
+      000098 1E 04                  143 	ld	e, #0x04
+      00009A C9                     144 	ret
+      00009B                        145 00102$:
+                                    146 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:41: return MENUSCREEN;
+      00009B 1E 02                  147 	ld	e, #0x02
+                                    148 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:43: }
+      00009D C9                     149 	ret
+                                    150 	.area _CODE
+                                    151 	.area _INITIALIZER
+                                    152 	.area _CABS (ABS)

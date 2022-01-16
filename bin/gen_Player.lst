@@ -45,7 +45,7 @@
                                      45 ; code
                                      46 ;--------------------------------------------------------
                                      47 	.area _CODE
-                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\graphics\Player.c:7: BANKREF(Player)
+                                     48 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\Player.c:7: BANKREF(Player)
                                      49 ;	---------------------------------
                                      50 ; Function __func_Player
                                      51 ; ---------------------------------
@@ -58,8 +58,8 @@
       000000                         58 _Player_palettes:
       000000 FF 7F                   59 	.dw #0x7fff
       000002 00 00                   60 	.dw #0x0000
-      000004 0A 1C                   61 	.dw #0x1c0a
-      000006 1F 00                   62 	.dw #0x001f
+      000004 0A 78                   61 	.dw #0x780a
+      000006 04 00                   62 	.dw #0x0004
       000008                         63 _Player_tiles:
       000008 00                      64 	.db #0x00	; 0
       000009 00                      65 	.db #0x00	; 0

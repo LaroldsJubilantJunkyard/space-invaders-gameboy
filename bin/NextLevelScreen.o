@@ -1,11 +1,15 @@
 XL3
-H 9 areas 3 global symbols
+H 9 areas 7 global symbols
 M NextLevelScreen
 O -mgbz80
+S _DrawText Ref000000
+S _DrawNumber Ref000000
 S .__.ABS. Def000000
-A _CODE size 4 flags 0 addr 0
+S _delay Ref000000
+S _level Ref000000
+A _CODE size 47 flags 0 addr 0
 S _SetupNextLevelScreen Def000000
-S _UpdateNextLevelScreen Def000001
+S _UpdateNextLevelScreen Def00003C
 A _DATA size 0 flags 0 addr 0
 A _INITIALIZED size 0 flags 0 addr 0
 A _DABS size 0 flags 8 addr 0
@@ -16,9 +20,23 @@ A _INITIALIZER size 0 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 T 00 00 00
 R 00 00 00 00
-T 00 00 00 C9
+T 00 00 00 11 2F 00 D5 21 09 08 E5 CD 00 00 E8 04
+R 00 00 00 00 00 04 00 00 02 0C 00 00
+T 0D 00 00 21 00 00 4E 06 00 3E 02 F5 33 C5 21
+R 00 00 00 00 02 04 04 00
+T 19 00 00 0B 09 E5 CD 00 00 E8 05 11 35 00 D5 21
+R 00 00 00 00 02 07 01 00 00 0C 00 00
+T 26 00 00 09 0B E5 CD 00 00 E8 04 C9
+R 00 00 00 00 02 07 00 00
+T 2F 00 00
 R 00 00 00 00
-T 01 00 00
+T 2F 00 00 52 4F 55 4E 44 00
 R 00 00 00 00
-T 01 00 00 1E 00 C9
+T 35 00 00
 R 00 00 00 00
+T 35 00 00 52 45 41 44 59 21 00
+R 00 00 00 00
+T 3C 00 00
+R 00 00 00 00
+T 3C 00 00 11 D0 07 D5 CD 00 00 E1 1E 03 C9
+R 00 00 00 00 02 08 03 00

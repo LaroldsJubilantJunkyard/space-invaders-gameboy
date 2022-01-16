@@ -7,15 +7,29 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
+    _Barricade_tiles                                               ****** GX
+    _BulletA_tiles                                                 ****** GX
+    _BulletB_tiles                                                 ****** GX
+    _Invader1_tiles                                                ****** GX
+    _Invader2_tiles                                                ****** GX
+    _Invader3_tiles                                                ****** GX
+    _Player_tiles                                                  ****** GX
   0 _SetupMenuScreen                                               000000 GR
-  0 _UpdateMenuScreen                                              000001 GR
+    _SpaceInvadersFont_tiles                                       ****** GX
+  0 _UpdateMenuScreen                                              00008C GR
+    _joypadCurrent                                                 ****** GX
+    _level                                                         ****** GX
+    _set_bkg_data                                                  ****** GX
+    _set_sprite_data                                               ****** GX
+    _spaceInvadersFontCurrentStart                                 ****** GX
+
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size      4   flags    0
+   0 _CODE                                      size     9E   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

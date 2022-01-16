@@ -10,50 +10,70 @@
                                      10 ;--------------------------------------------------------
                                      11 	.globl _UpdateGameOverScreen
                                      12 	.globl _SetupGameOverScreen
-                                     13 ;--------------------------------------------------------
-                                     14 ; special function registers
-                                     15 ;--------------------------------------------------------
+                                     13 	.globl _DrawText
+                                     14 ;--------------------------------------------------------
+                                     15 ; special function registers
                                      16 ;--------------------------------------------------------
-                                     17 ; ram data
-                                     18 ;--------------------------------------------------------
-                                     19 	.area _DATA
-                                     20 ;--------------------------------------------------------
-                                     21 ; ram data
-                                     22 ;--------------------------------------------------------
-                                     23 	.area _INITIALIZED
-                                     24 ;--------------------------------------------------------
-                                     25 ; absolute external ram data
-                                     26 ;--------------------------------------------------------
-                                     27 	.area _DABS (ABS)
-                                     28 ;--------------------------------------------------------
-                                     29 ; global & static initialisations
-                                     30 ;--------------------------------------------------------
-                                     31 	.area _HOME
-                                     32 	.area _GSINIT
-                                     33 	.area _GSFINAL
-                                     34 	.area _GSINIT
-                                     35 ;--------------------------------------------------------
-                                     36 ; Home
-                                     37 ;--------------------------------------------------------
-                                     38 	.area _HOME
+                                     17 ;--------------------------------------------------------
+                                     18 ; ram data
+                                     19 ;--------------------------------------------------------
+                                     20 	.area _DATA
+                                     21 ;--------------------------------------------------------
+                                     22 ; ram data
+                                     23 ;--------------------------------------------------------
+                                     24 	.area _INITIALIZED
+                                     25 ;--------------------------------------------------------
+                                     26 ; absolute external ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _DABS (ABS)
+                                     29 ;--------------------------------------------------------
+                                     30 ; global & static initialisations
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _HOME
+                                     33 	.area _GSINIT
+                                     34 	.area _GSFINAL
+                                     35 	.area _GSINIT
+                                     36 ;--------------------------------------------------------
+                                     37 ; Home
+                                     38 ;--------------------------------------------------------
                                      39 	.area _HOME
-                                     40 ;--------------------------------------------------------
-                                     41 ; code
-                                     42 ;--------------------------------------------------------
-                                     43 	.area _CODE
-                                     44 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:4: void SetupGameOverScreen(){}
-                                     45 ;	---------------------------------
-                                     46 ; Function SetupGameOverScreen
-                                     47 ; ---------------------------------
-      000000                         48 _SetupGameOverScreen::
-      000000 C9                      49 	ret
-                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:5: UINT8 UpdateGameOverScreen(){return 0;}
-                                     51 ;	---------------------------------
-                                     52 ; Function UpdateGameOverScreen
-                                     53 ; ---------------------------------
-      000001                         54 _UpdateGameOverScreen::
-      000001 1E 00                   55 	ld	e, #0x00
-      000003 C9                      56 	ret
-                                     57 	.area _CODE
-                                     58 	.area _INITIALIZER
-                                     59 	.area _CABS (ABS)
+                                     40 	.area _HOME
+                                     41 ;--------------------------------------------------------
+                                     42 ; code
+                                     43 ;--------------------------------------------------------
+                                     44 	.area _CODE
+                                     45 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:5: void SetupGameOverScreen(){
+                                     46 ;	---------------------------------
+                                     47 ; Function SetupGameOverScreen
+                                     48 ; ---------------------------------
+      000000                         49 _SetupGameOverScreen::
+                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:7: DrawText(7,9,"GAME OVER");
+      000000 11r0Er00                51 	ld	de, #___str_0
+      000003 D5                      52 	push	de
+      000004 21 07 09                53 	ld	hl, #0x907
+      000007 E5                      54 	push	hl
+      000008 CDr00r00                55 	call	_DrawText
+      00000B E8 04                   56 	add	sp, #4
+                                     57 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:8: }
+      00000D C9                      58 	ret
+      00000E                         59 ___str_0:
+      00000E 47 41 4D 45 20 4F 56    60 	.ascii "GAME OVER"
+             45 52
+      000017 00                      61 	.db 0x00
+                                     62 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:9: UINT8 UpdateGameOverScreen(){
+                                     63 ;	---------------------------------
+                                     64 ; Function UpdateGameOverScreen
+                                     65 ; ---------------------------------
+      000018                         66 _UpdateGameOverScreen::
+                                     67 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:11: if(joypadCurrent & J_A)return STARTSCREEN;
+      000018 FAr00r00                68 	ld	a, (#_joypadCurrent)
+      00001B CB 67                   69 	bit	4, a
+                                     70 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:13: return GAMEOVERSCREEN;
+      00001D 1E 01                   71 	ld	e, #0x01
+      00001F C0                      72 	ret	NZ
+      000020 1E 05                   73 	ld	e, #0x05
+                                     74 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:14: }
+      000022 C9                      75 	ret
+                                     76 	.area _CODE
+                                     77 	.area _INITIALIZER
+                                     78 	.area _CABS (ABS)

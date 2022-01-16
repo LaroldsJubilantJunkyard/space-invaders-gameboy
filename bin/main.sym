@@ -7,6 +7,8 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
+    _ClearAllSprites                                               ****** GX
+    _ClearBackground                                               ****** GX
     _GameFirstLoad                                                 ****** GX
     _SetupGameOverScreen                                           ****** GX
     _SetupGameplayScreen                                           ****** GX
@@ -30,7 +32,7 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     95   flags    0
+   0 _CODE                                      size     9D   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

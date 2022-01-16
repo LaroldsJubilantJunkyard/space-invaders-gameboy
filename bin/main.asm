@@ -20,6 +20,8 @@
 	.globl _UpdateStartScreen
 	.globl _SetupStartScreen
 	.globl _GameFirstLoad
+	.globl _ClearBackground
+	.globl _ClearAllSprites
 	.globl _wait_vbl_done
 	.globl _joypad
 ;--------------------------------------------------------
@@ -61,8 +63,8 @@ _main::
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:14: GameFirstLoad();
 	call	_GameFirstLoad
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:16: UINT8 currentGameState = GAMEFIRSTLOAD;
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:17: UINT8 nextGameState = GAMEPLAYSCREEN;
-	ld	bc, #0x300
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:17: UINT8 nextGameState = STARTSCREEN;
+	ld	bc, #0x100
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:19: while(1){
 00132$:
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:21: joypadPrevious=joypadCurrent;
@@ -78,7 +80,12 @@ _main::
 	jr	Z, 00116$
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:26: currentGameState=nextGameState;
 	ld	c, b
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:28: if(currentGameState==STARTSCREEN)SetupStartScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:28: ClearBackground();
+	push	bc
+	call	_ClearBackground
+	call	_ClearAllSprites
+	pop	bc
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:31: if(currentGameState==STARTSCREEN)SetupStartScreen();
 	ld	a, b
 	dec	a
 	jr	NZ, 00113$
@@ -87,7 +94,7 @@ _main::
 	pop	bc
 	jr	00116$
 00113$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:29: else if(currentGameState==MENUSCREEN)SetupMenuScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:32: else if(currentGameState==MENUSCREEN)SetupMenuScreen();
 	ld	a, b
 	sub	a, #0x02
 	jr	NZ, 00110$
@@ -96,7 +103,7 @@ _main::
 	pop	bc
 	jr	00116$
 00110$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:30: else if(currentGameState==GAMEPLAYSCREEN)SetupGameplayScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:33: else if(currentGameState==GAMEPLAYSCREEN)SetupGameplayScreen();
 	ld	a, b
 	sub	a, #0x03
 	jr	NZ, 00107$
@@ -105,7 +112,7 @@ _main::
 	pop	bc
 	jr	00116$
 00107$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:31: else if(currentGameState==GAMEOVERSCREEN)SetupGameOverScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:34: else if(currentGameState==GAMEOVERSCREEN)SetupGameOverScreen();
 	ld	a, b
 	sub	a, #0x05
 	jr	NZ, 00104$
@@ -114,7 +121,7 @@ _main::
 	pop	bc
 	jr	00116$
 00104$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:32: else if(currentGameState==NEXTLEVELSCREEN)SetupNextLevelScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:35: else if(currentGameState==NEXTLEVELSCREEN)SetupNextLevelScreen();
 	ld	a, b
 	sub	a, #0x04
 	jr	NZ, 00116$
@@ -122,7 +129,7 @@ _main::
 	call	_SetupNextLevelScreen
 	pop	bc
 00116$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:36: if(currentGameState==STARTSCREEN)nextGameState=UpdateStartScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:39: if(currentGameState==STARTSCREEN)nextGameState=UpdateStartScreen();
 	ld	a, c
 	dec	a
 	jr	NZ, 00129$
@@ -132,7 +139,7 @@ _main::
 	ld	b, e
 	jr	00130$
 00129$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:37: else if(currentGameState==MENUSCREEN)nextGameState=UpdateMenuScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:40: else if(currentGameState==MENUSCREEN)nextGameState=UpdateMenuScreen();
 	ld	a, c
 	sub	a, #0x02
 	jr	NZ, 00126$
@@ -142,7 +149,7 @@ _main::
 	ld	b, e
 	jr	00130$
 00126$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:38: else if(currentGameState==GAMEPLAYSCREEN)nextGameState=UpdateGameplayScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:41: else if(currentGameState==GAMEPLAYSCREEN)nextGameState=UpdateGameplayScreen();
 	ld	a, c
 	sub	a, #0x03
 	jr	NZ, 00123$
@@ -152,7 +159,7 @@ _main::
 	ld	b, e
 	jr	00130$
 00123$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:39: else if(currentGameState==GAMEOVERSCREEN)nextGameState=UpdateGameOverScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:42: else if(currentGameState==GAMEOVERSCREEN)nextGameState=UpdateGameOverScreen();
 	ld	a, c
 	sub	a, #0x05
 	jr	NZ, 00120$
@@ -162,7 +169,7 @@ _main::
 	ld	b, e
 	jr	00130$
 00120$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:40: else if(currentGameState==NEXTLEVELSCREEN)nextGameState=UpdateNextLevelScreen();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:43: else if(currentGameState==NEXTLEVELSCREEN)nextGameState=UpdateNextLevelScreen();
 	ld	a, c
 	sub	a, #0x04
 	jr	NZ, 00130$
@@ -171,9 +178,9 @@ _main::
 	pop	bc
 	ld	b, e
 00130$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:43: wait_vbl_done();
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:46: wait_vbl_done();
 	call	_wait_vbl_done
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:47: }
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:50: }
 	jp	00132$
 	.area _CODE
 	.area _INITIALIZER
