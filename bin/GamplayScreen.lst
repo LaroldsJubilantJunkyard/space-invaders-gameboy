@@ -422,53 +422,30 @@
       0001C1 CDr00r00               422 	call	_UpdatePlayer
                                     423 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:88: UpdateAlien();
       0001C4 CDr00r00               424 	call	_UpdateAlien
-                                    425 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:90: if (paddle.dead==1&&invadersRemaining>0){
-      0001C7 01r02r00               426 	ld	bc, #_paddle + 2
-      0001CA 0A                     427 	ld	a, (bc)
-      0001CB 3D                     428 	dec	a
-      0001CC 20 1E                  429 	jr	NZ, 00106$
-      0001CE FAr00r00               430 	ld	a, (#_invadersRemaining)
-      0001D1 B7                     431 	or	a, a
-      0001D2 28 18                  432 	jr	Z, 00106$
-                                    433 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:93: if(paddle.lives==0){
-      0001D4 11r03r00               434 	ld	de, #_paddle + 3
-      0001D7 1A                     435 	ld	a, (de)
-      0001D8 B7                     436 	or	a, a
-      0001D9 20 03                  437 	jr	NZ, 00102$
-                                    438 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:94: return GAMEOVERSCREEN;
-      0001DB 1E 05                  439 	ld	e, #0x05
-      0001DD C9                     440 	ret
-      0001DE                        441 00102$:
-                                    442 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:97: paddle.lives--;
-      0001DE 3D                     443 	dec	a
-      0001DF 12                     444 	ld	(de), a
-                                    445 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:98: paddle.dead=0;
-      0001E0 AF                     446 	xor	a, a
-      0001E1 02                     447 	ld	(bc), a
-                                    448 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:99: paddle.damageTimer=15;
-      0001E2 21r04r00               449 	ld	hl, #(_paddle + 4)
-      0001E5 36 0F                  450 	ld	(hl), #0x0f
-                                    451 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:101: UpdateScore();
-      0001E7 CDr00r00               452 	call	_UpdateScore
-      0001EA 18 07                  453 	jr	00107$
-      0001EC                        454 00106$:
-                                    455 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:103: }else if(invadersRemaining==0){
-      0001EC FAr00r00               456 	ld	a, (#_invadersRemaining)
-      0001EF B7                     457 	or	a, a
-                                    458 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:104: return NEXTLEVELSCREEN;
-                                    459 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:107: return GAMEPLAYSCREEN;
-      0001F0 1E 04                  460 	ld	e, #0x04
-      0001F2 C8                     461 	ret	Z
-      0001F3                        462 00107$:
-      0001F3 1E 03                  463 	ld	e, #0x03
-                                    464 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:108: }
-      0001F5 C9                     465 	ret
-                                    466 	.area _CODE
-                                    467 	.area _INITIALIZER
-      000000                        468 __xinit__helper:
-      000000 00                     469 	.db #0x00	; 0
-      000001 00                     470 	.db #0x00	; 0
-      000002 00                     471 	.db #0x00	; 0
-      000003 00                     472 	.db #0x00	; 0
-      000004 00                     473 	.db #0x00	; 0
-                                    474 	.area _CABS (ABS)
+                                    425 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:90: if (paddle.dead==1){
+      0001C7 FAr02r00               426 	ld	a, (#(_paddle + 2) + 0)
+      0001CA 3D                     427 	dec	a
+      0001CB 20 03                  428 	jr	NZ, 00104$
+                                    429 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:92: return GAMEOVERSCREEN;
+      0001CD 1E 05                  430 	ld	e, #0x05
+      0001CF C9                     431 	ret
+      0001D0                        432 00104$:
+                                    433 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:94: }else if(invadersRemaining==0){
+      0001D0 FAr00r00               434 	ld	a, (#_invadersRemaining)
+      0001D3 B7                     435 	or	a, a
+                                    436 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:95: return NEXTLEVELSCREEN;
+                                    437 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:98: return GAMEPLAYSCREEN;
+      0001D4 1E 04                  438 	ld	e, #0x04
+      0001D6 C8                     439 	ret	Z
+      0001D7 1E 03                  440 	ld	e, #0x03
+                                    441 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:99: }
+      0001D9 C9                     442 	ret
+                                    443 	.area _CODE
+                                    444 	.area _INITIALIZER
+      000000                        445 __xinit__helper:
+      000000 00                     446 	.db #0x00	; 0
+      000001 00                     447 	.db #0x00	; 0
+      000002 00                     448 	.db #0x00	; 0
+      000003 00                     449 	.db #0x00	; 0
+      000004 00                     450 	.db #0x00	; 0
+                                    451 	.area _CABS (ABS)

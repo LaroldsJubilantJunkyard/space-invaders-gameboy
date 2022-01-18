@@ -9,8 +9,9 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _InvaderCheckBulletCollision
-	.globl _UpdateInvaderTiles
 	.globl _IncreaseScore
+	.globl _DamagePlayer
+	.globl _UpdateInvaderTiles
 	.globl _get_bkg_tile_xy
 	.globl _set_bkg_tile_xy
 	.globl _SetupBullets
@@ -52,7 +53,7 @@
 ; Function SetupBullets
 ; ---------------------------------
 _SetupBullets::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:17: for(INT8 i=2;i<8;i++)shadow_OAM[i].tile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:17: for(int8_t i=2;i<8;i++)shadow_OAM[i].tile=0;
 	ld	c, #0x02
 00103$:
 	ld	a, c
@@ -81,7 +82,7 @@ _SetupBullets::
 ; Function GetAvailableBulletSprite
 ; ---------------------------------
 _GetAvailableBulletSprite::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(INT8 i=3;i<8;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(int8_t i=3;i<8;i++){
 	ld	bc, #0x303
 00105$:
 	ld	a, b
@@ -108,7 +109,7 @@ _GetAvailableBulletSprite::
 	ld	e, c
 	ret
 00106$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(INT8 i=3;i<8;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(int8_t i=3;i<8;i++){
 	inc	b
 	ld	c, b
 	jr	00105$
@@ -117,13 +118,13 @@ _GetAvailableBulletSprite::
 	ld	e, #0x00
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:33: }
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:39: uint8_t InvaderCheckBulletCollision(uint8_t i){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:38: uint8_t InvaderCheckBulletCollision(uint8_t i){
 ;	---------------------------------
 ; Function InvaderCheckBulletCollision
 ; ---------------------------------
 _InvaderCheckBulletCollision::
 	add	sp, #-4
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:41: if(PlayerBulletSprite.tile!=0&&invaders[i].active){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:40: if(PlayerBulletSprite.tile!=0&&invaders[i].active){
 	ld	a, (#(_shadow_OAM + 10) + 0)
 	or	a, a
 	jp	Z, 00109$
@@ -146,8 +147,8 @@ _InvaderCheckBulletCollision::
 	inc	bc
 	ld	a, (bc)
 	or	a, a
-	jr	Z, 00109$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:43: INT8 xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
+	jp	Z, 00109$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:42: int8_t xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
 	ld	a, (#(_shadow_OAM + 9) + 0)
 	add	a, #0xfc
 	ldhl	sp,	#2
@@ -173,7 +174,7 @@ _InvaderCheckBulletCollision::
 	ld	e, a
 	ld	a, (hl)
 	sub	a, e
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:44: INT8 yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:43: int8_t yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
 	ld	(hl+), a
 	pop	de
 	push	de
@@ -188,7 +189,7 @@ _InvaderCheckBulletCollision::
 	ld	(hl), a
 	ld	a, (#(_shadow_OAM + 8) + 0)
 	add	a, (hl)
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:47: if(xd<0)xd=-xd;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:46: if(xd<0)xd=-xd;
 	ld	(hl-), a
 	bit	7, (hl)
 	jr	Z, 00102$
@@ -196,7 +197,7 @@ _InvaderCheckBulletCollision::
 	sub	a, (hl)
 	ld	(hl), a
 00102$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:48: if(yd<0)yd=-yd;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:47: if(yd<0)yd=-yd;
 	ldhl	sp,	#3
 	bit	7, (hl)
 	jr	Z, 00104$
@@ -204,7 +205,7 @@ _InvaderCheckBulletCollision::
 	sub	a, (hl)
 	ld	(hl), a
 00104$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:50: if(xd<5&&yd<8){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:49: if(xd<5&&yd<8){
 	ldhl	sp,	#2
 	ld	a, (hl)
 	xor	a, #0x80
@@ -215,7 +216,7 @@ _InvaderCheckBulletCollision::
 	xor	a, #0x80
 	sub	a, #0x88
 	jr	NC, 00109$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:52: IncreaseScore(10);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:51: IncreaseScore(10);
 	push	bc
 	ld	a, #0x0a
 	push	af
@@ -223,39 +224,54 @@ _InvaderCheckBulletCollision::
 	call	_IncreaseScore
 	inc	sp
 	pop	bc
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:54: invadersRemaining--;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:53: invadersRemaining--;
 	ld	hl, #_invadersRemaining
 	dec	(hl)
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:57: invaders[i].active=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:56: invaders[i].active=0;
 	xor	a, a
 	ld	(bc), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:60: PlayerBulletSprite.tile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:59: PlayerBulletSprite.tile=0;
 	ld	hl, #(_shadow_OAM + 10)
 	ld	(hl), #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:63: UpdateInvaderTiles(i);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:62: UpdateInvaderTiles(i);
 	ldhl	sp,	#6
 	ld	a, (hl)
 	push	af
 	inc	sp
 	call	_UpdateInvaderTiles
 	inc	sp
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:65: return 1;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:64: NR10_REG=0x7D;
+	ld	a, #0x7d
+	ldh	(_NR10_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:65: NR11_REG=0xC2;
+	ld	a, #0xc2
+	ldh	(_NR11_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:66: NR12_REG=0x37;
+	ld	a, #0x37
+	ldh	(_NR12_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:67: NR13_REG=0x2E;
+	ld	a, #0x2e
+	ldh	(_NR13_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:68: NR14_REG=0x87;
+	ld	a, #0x87
+	ldh	(_NR14_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:70: return 1;
 	ld	e, #0x01
 	jr	00111$
 00109$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:70: return 0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:75: return 0;
 	ld	e, #0x00
 00111$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:71: }
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:76: }
 	add	sp, #4
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:73: void UpdateBullets(){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:78: void UpdateBullets(){
 ;	---------------------------------
 ; Function UpdateBullets
 ; ---------------------------------
 _UpdateBullets::
 	add	sp, #-8
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:78: for(uint8_t i=2;i<8;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:83: for(uint8_t i=2;i<8;i++){
 	ldhl	sp,	#7
 	ld	(hl), #0x02
 00147$:
@@ -263,7 +279,7 @@ _UpdateBullets::
 	ld	a, (hl)
 	sub	a, #0x08
 	jp	NC, 00148$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:82: if(shadow_OAM[i].tile!=0){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:87: if(shadow_OAM[i].tile!=0){
 	ld	a, (hl)
 	ld	c, #0x00
 	add	a, a
@@ -288,7 +304,7 @@ _UpdateBullets::
 	ld	a, (hl)
 	or	a, a
 	jp	Z, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:84: shadow_OAM[i].tile++;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:89: shadow_OAM[i].tile++;
 	ld	de, #_shadow_OAM
 	ldhl	sp,	#1
 	ld	a,	(hl+)
@@ -326,7 +342,7 @@ _UpdateBullets::
 	ld	l, (hl)
 	ld	h, a
 	ld	(hl), c
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:88: if(shadow_OAM[i].tile==ALIEN_SPRITE_START)shadow_OAM[i].tile=BULLETC_SPRITE_START;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:93: if(shadow_OAM[i].tile==ALIEN_SPRITE_START)shadow_OAM[i].tile=BULLETC_SPRITE_START;
 	ld	de, #_shadow_OAM
 	ldhl	sp,	#1
 	ld	a,	(hl+)
@@ -358,7 +374,7 @@ _UpdateBullets::
 	ld	e, a
 	ld	d, (hl)
 	ld	a, (de)
-	sub	a, #0x0a
+	sub	a, #0x10
 	jr	NZ, 00102$
 	ld	de, #_shadow_OAM
 	ldhl	sp,	#1
@@ -379,10 +395,10 @@ _UpdateBullets::
 	ld	b, (hl)
 	inc	bc
 	inc	bc
-	ld	a, #0x09
+	ld	a, #0x0f
 	ld	(bc), a
 00102$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:89: if(shadow_OAM[i].tile==BULLETC_SPRITE_START)shadow_OAM[i].tile=BULLETB_SPRITE_START;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:94: if(shadow_OAM[i].tile==BULLETC_SPRITE_START)shadow_OAM[i].tile=BULLETB_SPRITE_START;
 	ldhl	sp,	#7
 	ld	a, (hl-)
 	dec	hl
@@ -422,7 +438,7 @@ _UpdateBullets::
 	inc	bc
 	inc	bc
 	ld	a, (bc)
-	sub	a, #0x09
+	sub	a, #0x0f
 	jr	NZ, 00106$
 	ld	de, #_shadow_OAM
 	pop	hl
@@ -441,11 +457,11 @@ _UpdateBullets::
 	ld	b, (hl)
 	inc	bc
 	inc	bc
-	ld	a, #0x08
+	ld	a, #0x0b
 	ld	(bc), a
 	jr	00107$
 00106$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:90: else if(shadow_OAM[i].tile==BULLETB_SPRITE_START)shadow_OAM[i].tile=BULLETA_SPRITE_START;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:95: else if(shadow_OAM[i].tile==BULLETB_SPRITE_START)shadow_OAM[i].tile=BULLETA_SPRITE_START;
 	pop	de
 	push	de
 	ld	hl,#_shadow_OAM + 1
@@ -454,7 +470,7 @@ _UpdateBullets::
 	ld	c, l
 	ld	b, h
 	ld	a, (bc)
-	sub	a, #0x08
+	sub	a, #0x0b
 	jr	NZ, 00107$
 	ld	bc, #_shadow_OAM+0
 	pop	hl
@@ -464,7 +480,7 @@ _UpdateBullets::
 	inc	hl
 	ld	(hl), #0x03
 00107$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:94: if(i==2)shadow_OAM[i].y-=2;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:99: if(i==2)shadow_OAM[i].y-=2;
 	ldhl	sp,	#7
 	ld	a, (hl)
 	sub	a, #0x02
@@ -487,7 +503,7 @@ _UpdateBullets::
 	ld	(bc), a
 	jr	00110$
 00109$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:95: else shadow_OAM[i].y+=2;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:100: else shadow_OAM[i].y+=2;
 	ld	bc, #_shadow_OAM+0
 	pop	hl
 	push	hl
@@ -504,7 +520,7 @@ _UpdateBullets::
 	add	a, #0x02
 	ld	(bc), a
 00110$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:98: if(shadow_OAM[i].y>176||shadow_OAM[i].y>250)shadow_OAM[i].tile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:103: if(shadow_OAM[i].y>176||shadow_OAM[i].y>250)shadow_OAM[i].tile=0;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -540,7 +556,7 @@ _UpdateBullets::
 	ld	(bc), a
 	jp	00141$
 00136$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:103: uint8_t currentColumn = (shadow_OAM[i].x-4)/8;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:108: uint8_t currentColumn = (shadow_OAM[i].x-4)/8;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -593,7 +609,7 @@ _UpdateBullets::
 	rr	c
 	ldhl	sp,	#2
 	ld	(hl), c
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:104: uint8_t currentRow = (shadow_OAM[i].y-12)/8;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:109: uint8_t currentRow = (shadow_OAM[i].y-12)/8;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -641,7 +657,7 @@ _UpdateBullets::
 	rr	c
 	ldhl	sp,	#3
 	ld	(hl), c
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:105: uint8_t currentTile=get_bkg_tile_xy(currentColumn,currentRow);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:110: uint8_t currentTile=get_bkg_tile_xy(currentColumn,currentRow);
 	ld	a, (hl-)
 	ld	d, a
 	ld	e, (hl)
@@ -650,19 +666,19 @@ _UpdateBullets::
 	pop	hl
 	ldhl	sp,	#6
 	ld	(hl), e
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:110: if(currentTile>=BARRICADE_TILES_START&&currentTile<=BARRICADE_LAST_TILE){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:113: if(currentTile>=BARRICADE_TILES_START&&currentTile<=BARRICADE_LAST_TILE){
 	ld	a, (hl)
 	sub	a, #0x60
 	jr	C, 00120$
 	ld	a, #0x6e
 	sub	a, (hl)
 	jr	C, 00120$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:113: uint8_t newTile=currentTile+1;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:116: uint8_t newTile=currentTile+1;
 	ld	a, (hl-)
 	dec	hl
 	inc	a
 	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:119: if(newTile%3==0)newTile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:122: if(newTile%3==0)newTile=0;
 	ld	a, (hl+)
 	ld	(hl+), a
 	ld	de, #0x0003
@@ -686,7 +702,7 @@ _UpdateBullets::
 	dec	hl
 	ld	(hl), #0x00
 00112$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:120: set_bkg_tile_xy(currentColumn,currentRow,newTile);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:123: set_bkg_tile_xy(currentColumn,currentRow,newTile);
 	ldhl	sp,	#4
 	ld	a, (hl-)
 	ld	d, a
@@ -698,7 +714,7 @@ _UpdateBullets::
 	inc	sp
 	call	_set_bkg_tile_xy
 	add	sp, #3
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:123: shadow_OAM[i].tile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:126: shadow_OAM[i].tile=0;
 	ld	bc, #_shadow_OAM+0
 	pop	hl
 	push	hl
@@ -709,9 +725,21 @@ _UpdateBullets::
 	ld	b, h
 	xor	a, a
 	ld	(bc), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:127: NR41_REG = 0x30;
+	ld	a, #0x30
+	ldh	(_NR41_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:128: NR42_REG = 0x61;
+	ld	a, #0x61
+	ldh	(_NR42_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:129: NR43_REG = 0x80;
+	ld	a, #0x80
+	ldh	(_NR43_REG + 0), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:130: NR44_REG = 0xC0;
+	ld	a, #0xc0
+	ldh	(_NR44_REG + 0), a
 	jr	00121$
 00120$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:124: }else if(currentTile>=INVADER1_TILES_START&&currentTile<=INVADER3_TILES_START+Invader3_TILE_COUNT){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:132: }else if(currentTile>=INVADER1_TILES_START&&currentTile<=INVADER3_TILES_START+Invader3_TILE_COUNT){
 	ldhl	sp,	#6
 	ld	a, (hl)
 	sub	a, #0x05
@@ -719,13 +747,13 @@ _UpdateBullets::
 	ld	a, #0x35
 	sub	a, (hl)
 	jr	C, 00121$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:127: for(uint8_t j=0;j<40;j++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:134: for(uint8_t j=0;j<40;j++){
 	ld	b, #0x00
 00144$:
 	ld	a, b
 	sub	a, #0x28
 	jr	NC, 00121$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:129: if(InvaderCheckBulletCollision(j)){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:136: if(InvaderCheckBulletCollision(j)){
 	push	bc
 	push	bc
 	inc	sp
@@ -735,16 +763,16 @@ _UpdateBullets::
 	pop	bc
 	or	a, a
 	jr	NZ, 00121$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:127: for(uint8_t j=0;j<40;j++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:134: for(uint8_t j=0;j<40;j++){
 	inc	b
 	jr	00144$
 00121$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:140: if(i>2){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:143: if(i>2){
 	ld	a, #0x02
 	ldhl	sp,	#7
 	sub	a, (hl)
 	jp	NC, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:141: if(shadow_OAM[i].x-4<paddle.x-8)continue;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:144: if(shadow_OAM[i].x-4<paddle.x-8)continue;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -800,7 +828,7 @@ _UpdateBullets::
 	scf
 00285$:
 	jp	C, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:142: if(shadow_OAM[i].x-4>paddle.x+8)continue;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:145: if(shadow_OAM[i].x-4>paddle.x+8)continue;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -843,7 +871,7 @@ _UpdateBullets::
 	scf
 00288$:
 	jp	C, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:143: if(shadow_OAM[i].y-12<paddle.y-4)continue;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:146: if(shadow_OAM[i].y-12<paddle.y-4)continue;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -898,7 +926,7 @@ _UpdateBullets::
 	scf
 00290$:
 	jr	C, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:144: if(shadow_OAM[i].y-12>paddle.y+4)continue;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:147: if(shadow_OAM[i].y-12>paddle.y+4)continue;
 	ld	de, #_shadow_OAM
 	pop	hl
 	push	hl
@@ -938,11 +966,11 @@ _UpdateBullets::
 	scf
 00292$:
 	jr	C, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:145: if(paddle.damageTimer>0)continue;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:148: if(paddle.damageTimer>0)continue;
 	ld	a, (#(_paddle + 4) + 0)
 	or	a, a
 	jr	NZ, 00141$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:146: shadow_OAM[i].tile=0;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:149: shadow_OAM[i].tile=0;
 	pop	de
 	push	de
 	ld	hl, #_shadow_OAM
@@ -972,16 +1000,19 @@ _UpdateBullets::
 	ld	h, (hl)
 	ld	l, a
 	ld	(hl), #0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:147: paddle.dead=1;
-	ld	hl, #(_paddle + 2)
-	ld	(hl), #0x01
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:151: DamagePlayer(1);
+	ld	a, #0x01
+	push	af
+	inc	sp
+	call	_DamagePlayer
+	inc	sp
 00141$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:78: for(uint8_t i=2;i<8;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:83: for(uint8_t i=2;i<8;i++){
 	ldhl	sp,	#7
 	inc	(hl)
 	jp	00147$
 00148$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:154: }
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:158: }
 	add	sp, #8
 	ret
 	.area _CODE

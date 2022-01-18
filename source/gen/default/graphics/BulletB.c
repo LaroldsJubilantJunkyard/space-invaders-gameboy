@@ -7,11 +7,14 @@
 BANKREF(BulletB)
 
 const palette_color_t BulletB_palettes[4] = {
-	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 65), RGB8(2, 2, 0)
+	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 36), RGB8(57, 2, 0)
 };
 
-const uint8_t BulletB_tiles[16] = {
-	0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00,0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00
+const uint8_t BulletB_tiles[64] = {
+	0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00,0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00,
+	0x18,0x00,0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00,0x06,0x00,0x18,0x00,0x60,0x00,
+	0x60,0x00,0x18,0x00,0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00,0x06,0x00,0x18,0x00,
+	0x18,0x00,0x60,0x00,0x18,0x00,0x06,0x00,0x18,0x00,0x60,0x00,0x18,0x00,0x06,0x00
 };
 
 const metasprite_t BulletB_metasprite0[] = {
@@ -19,15 +22,15 @@ const metasprite_t BulletB_metasprite0[] = {
 };
 
 const metasprite_t BulletB_metasprite1[] = {
-	METASPR_ITEM(-4, -4, 0, 96), METASPR_TERM
+	METASPR_ITEM(-4, -4, 1, 0), METASPR_TERM
 };
 
 const metasprite_t BulletB_metasprite2[] = {
-	METASPR_ITEM(-4, -4, 0, 32), METASPR_TERM
+	METASPR_ITEM(-4, -4, 2, 0), METASPR_TERM
 };
 
 const metasprite_t BulletB_metasprite3[] = {
-	METASPR_ITEM(-4, -4, 0, 64), METASPR_TERM
+	METASPR_ITEM(-4, -4, 3, 0), METASPR_TERM
 };
 
 const metasprite_t BulletB_metasprite4[] = {
@@ -35,15 +38,15 @@ const metasprite_t BulletB_metasprite4[] = {
 };
 
 const metasprite_t BulletB_metasprite5[] = {
-	METASPR_ITEM(-4, -4, 0, 96), METASPR_TERM
+	METASPR_ITEM(-4, -4, 1, 0), METASPR_TERM
 };
 
 const metasprite_t BulletB_metasprite6[] = {
-	METASPR_ITEM(-4, -4, 0, 32), METASPR_TERM
+	METASPR_ITEM(-4, -4, 2, 0), METASPR_TERM
 };
 
 const metasprite_t BulletB_metasprite7[] = {
-	METASPR_ITEM(-4, -4, 0, 64), METASPR_TERM
+	METASPR_ITEM(-4, -4, 3, 0), METASPR_TERM
 };
 
 const metasprite_t* const BulletB_metasprites[8] = {

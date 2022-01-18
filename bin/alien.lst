@@ -121,9 +121,9 @@
       00004F 30 1D                  121 	jr	NC, 00104$
                                     122 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
       000051 21r22r00               123 	ld	hl, #(_shadow_OAM + 34)
-      000054 36 0A                  124 	ld	(hl), #0x0a
+      000054 36 10                  124 	ld	(hl), #0x10
       000056 21r26r00               125 	ld	hl, #(_shadow_OAM + 38)
-      000059 36 0B                  126 	ld	(hl), #0x0b
+      000059 36 11                  126 	ld	(hl), #0x11
                                     127 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
       00005B 21r20r00               128 	ld	hl, #(_shadow_OAM + 32)
                                     129 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
@@ -172,7 +172,7 @@
       000090 FAr0Ar00               172 	ld	a, (#(_shadow_OAM + 10) + 0)
       000093 B7                     173 	or	a, a
       000094 28 75                  174 	jr	Z, 00114$
-                                    175 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:55: INT8 xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
+                                    175 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:55: int8_t xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
       000096 21r09r00               176 	ld	hl, #(_shadow_OAM + 9)
       000099 4E                     177 	ld	c, (hl)
       00009A FAr25r00               178 	ld	a, (#(_shadow_OAM + 37) + 0)
@@ -181,7 +181,7 @@
       0000A0 79                     181 	ld	a, c
       0000A1 90                     182 	sub	a, b
       0000A2 4F                     183 	ld	c, a
-                                    184 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:56: INT8 yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
+                                    184 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:56: int8_t yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
       0000A3 FAr08r00               185 	ld	a, (#(_shadow_OAM + 8) + 0)
       0000A6 F8 00                  186 	ldhl	sp,	#0
       0000A8 77                     187 	ld	(hl), a

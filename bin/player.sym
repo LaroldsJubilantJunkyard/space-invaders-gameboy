@@ -7,8 +7,19 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
+  0 _DamagePlayer                                                  000024 GR
+    _NR10_REG                                                      ****** GX
+    _NR11_REG                                                      ****** GX
+    _NR12_REG                                                      ****** GX
+    _NR13_REG                                                      ****** GX
+    _NR14_REG                                                      ****** GX
+    _NR41_REG                                                      ****** GX
+    _NR42_REG                                                      ****** GX
+    _NR43_REG                                                      ****** GX
+    _NR44_REG                                                      ****** GX
   0 _SetupPlayer                                                   000000 GR
-  0 _UpdatePlayer                                                  000024 GR
+  0 _UpdatePlayer                                                  00005A GR
+    _UpdateScore                                                   ****** GX
     __divsint                                                      ****** GX
     __modsint                                                      ****** GX
     _joypad                                                        ****** GX
@@ -17,13 +28,12 @@ Symbol Table
   1 _paddle                                                        000000 GR
     _shadow_OAM                                                    ****** GX
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size    104   flags    0
+   0 _CODE                                      size    14E   flags    0
    1 _DATA                                      size      5   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

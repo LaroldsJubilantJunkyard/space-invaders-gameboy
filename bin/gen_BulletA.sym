@@ -7,15 +7,15 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
-  0 _BulletA_metasprite0                                           000058 GR
-  0 _BulletA_metasprite1                                           000060 GR
-  0 _BulletA_metasprite2                                           000068 GR
-  0 _BulletA_metasprite3                                           000070 GR
-  0 _BulletA_metasprite4                                           000078 GR
-  0 _BulletA_metasprite5                                           000080 GR
-  0 _BulletA_metasprite6                                           000088 GR
-  0 _BulletA_metasprite7                                           000090 GR
-  0 _BulletA_metasprites                                           000098 GR
+  0 _BulletA_metasprite0                                           000088 GR
+  0 _BulletA_metasprite1                                           000090 GR
+  0 _BulletA_metasprite2                                           000098 GR
+  0 _BulletA_metasprite3                                           0000A0 GR
+  0 _BulletA_metasprite4                                           0000A8 GR
+  0 _BulletA_metasprite5                                           0000B0 GR
+  0 _BulletA_metasprite6                                           0000B8 GR
+  0 _BulletA_metasprite7                                           0000C0 GR
+  0 _BulletA_metasprites                                           0000C8 GR
   0 _BulletA_palettes                                              000000 GR
   0 _BulletA_tiles                                                 000008 GR
     ___bank_BulletA                                             =  000000 G
@@ -27,7 +27,7 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     A8   flags    0
+   0 _CODE                                      size     D8   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

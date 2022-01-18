@@ -7,7 +7,7 @@
 BANKREF(BulletC)
 
 const palette_color_t BulletC_palettes[4] = {
-	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 120), RGB8(222, 1, 0)
+	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 134), RGB8(193, 1, 0)
 };
 
 const uint8_t BulletC_tiles[16] = {

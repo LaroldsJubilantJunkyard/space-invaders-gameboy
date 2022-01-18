@@ -58,8 +58,8 @@ ___func_Player::
 _Player_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x780a
-	.dw #0x001e
+	.dw #0x300a
+	.dw #0x0005
 _Player_tiles:
 	.db #0x00	; 0
 	.db #0x00	; 0

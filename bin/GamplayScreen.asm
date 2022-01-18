@@ -422,46 +422,23 @@ _UpdateGameplayScreen::
 	call	_UpdatePlayer
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:88: UpdateAlien();
 	call	_UpdateAlien
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:90: if (paddle.dead==1&&invadersRemaining>0){
-	ld	bc, #_paddle + 2
-	ld	a, (bc)
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:90: if (paddle.dead==1){
+	ld	a, (#(_paddle + 2) + 0)
 	dec	a
-	jr	NZ, 00106$
-	ld	a, (#_invadersRemaining)
-	or	a, a
-	jr	Z, 00106$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:93: if(paddle.lives==0){
-	ld	de, #_paddle + 3
-	ld	a, (de)
-	or	a, a
-	jr	NZ, 00102$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:94: return GAMEOVERSCREEN;
+	jr	NZ, 00104$
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:92: return GAMEOVERSCREEN;
 	ld	e, #0x05
 	ret
-00102$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:97: paddle.lives--;
-	dec	a
-	ld	(de), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:98: paddle.dead=0;
-	xor	a, a
-	ld	(bc), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:99: paddle.damageTimer=15;
-	ld	hl, #(_paddle + 4)
-	ld	(hl), #0x0f
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:101: UpdateScore();
-	call	_UpdateScore
-	jr	00107$
-00106$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:103: }else if(invadersRemaining==0){
+00104$:
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:94: }else if(invadersRemaining==0){
 	ld	a, (#_invadersRemaining)
 	or	a, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:104: return NEXTLEVELSCREEN;
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:107: return GAMEPLAYSCREEN;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:95: return NEXTLEVELSCREEN;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:98: return GAMEPLAYSCREEN;
 	ld	e, #0x04
 	ret	Z
-00107$:
 	ld	e, #0x03
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:108: }
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GamplayScreen.c:99: }
 	ret
 	.area _CODE
 	.area _INITIALIZER

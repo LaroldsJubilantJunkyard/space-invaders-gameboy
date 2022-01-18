@@ -58,8 +58,8 @@ ___func_SpaceInvadersFont::
 _SpaceInvadersFont_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x200a
-	.dw #0x0006
+	.dw #0x080a
+	.dw #0x001a
 _SpaceInvadersFont_tiles:
 	.db #0x10	; 16
 	.db #0x00	; 0

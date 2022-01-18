@@ -11,6 +11,10 @@ Symbol Table
   0 _InvaderCheckPlayerCollision                                   000143 GR
   0 _InvaderTryFireBullet                                          0003CA GR
   0 _InvadersShouldMove                                            000463 GR
+    _NR21_REG                                                      ****** GX
+    _NR22_REG                                                      ****** GX
+    _NR23_REG                                                      ****** GX
+    _NR24_REG                                                      ****** GX
     _RandomNumber                                                  ****** GX
   0 _SetupInvaders                                                 000000 GR
   0 _ShiftAllInvadersDown                                          000423 GR
@@ -41,7 +45,7 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size    58B   flags    0
+   0 _CODE                                      size    5D4   flags    0
    1 _DATA                                      size     CC   flags    0
    2 _INITIALIZED                               size      2   flags    0
    3 _DABS                                      size      0   flags    8

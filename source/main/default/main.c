@@ -8,8 +8,51 @@
 #include "States/NextLevelScreen.h"
 #include "States/GameOverScreen.h"
 
+void FadeIn(){
+            
+    // Since we are only using black and white, fading is easy
+    // Fade from 255,255,255 to 0,0,0 
+    // 0,0,0 being black, and 255,255,255 being white
+    for(int16_t fade=255;fade>=0;fade-=15){
+
+        const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(fade, fade, fade),RGB8(fade, fade, fade),RGB8(fade, fade, fade)    };
+
+        // Update color palettes
+        set_sprite_palette(0,1,blackAndWhite);
+        set_bkg_palette(0,1,blackAndWhite);
+        
+        wait_vbl_done();
+    }
+
+}
+
+
+void FadeOut(){
+            
+    // Since we are only using black and white, fading is easy
+    // Fade from 0,0,0 to 255,255,255
+    // 0,0,0 being black, and 255,255,255 being white
+    for(uint16_t fade=0;fade<255;fade+=15){
+
+        const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(fade, fade, fade),RGB8(fade, fade, fade),RGB8(fade, fade, fade)    };
+
+        // Update color palettes
+        set_sprite_palette(0,1,blackAndWhite);
+        set_bkg_palette(0,1,blackAndWhite);
+        
+        wait_vbl_done();
+    }
+
+}
 
 void main(void){
+
+    // This enables Sound
+    // these registers must be in this specific order!
+    NR52_REG = 0x80; // is 1000 0000 in binary and turns on sound
+    NR50_REG = 0x77; // sets the volume for both left and right channel just set to max 0x77
+    NR51_REG = 0xFF; // is 1111 1111 in binary, select which chanels we want to use in this case all of them. One bit for the L one bit for the R of all four channels
+
 
     GameFirstLoad();
 
@@ -22,8 +65,9 @@ void main(void){
         joypadCurrent=joypad();
 
         if(nextGameState!=currentGameState){
-
             currentGameState=nextGameState;
+
+            FadeOut();
             
             ClearBackground();
             ClearAllSprites();
@@ -33,6 +77,8 @@ void main(void){
             else if(currentGameState==GAMEPLAYSCREEN)SetupGameplayScreen();
             else if(currentGameState==GAMEOVERSCREEN)SetupGameOverScreen();
             else if(currentGameState==NEXTLEVELSCREEN)SetupNextLevelScreen();
+
+            FadeIn();
         }
 
         

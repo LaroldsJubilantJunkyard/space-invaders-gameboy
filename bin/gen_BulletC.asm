@@ -59,8 +59,8 @@ ___func_BulletC::
 _BulletC_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x3c0a
-	.dw #0x001b
+	.dw #0x400a
+	.dw #0x0018
 _BulletC_tiles:
 	.db #0x10	; 16
 	.db #0x00	; 0

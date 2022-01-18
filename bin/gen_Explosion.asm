@@ -62,8 +62,8 @@ ___func_Explosion::
 _Explosion_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x600a
-	.dw #0x0015
+	.dw #0x140a
+	.dw #0x000e
 _Explosion_tiles:
 	.db #0x00	; 0
 	.db #0x00	; 0

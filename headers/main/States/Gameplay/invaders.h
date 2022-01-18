@@ -11,6 +11,7 @@ extern Invader invaders[];
 
 void SetupInvaders();
 void UpdateInvaders();
+void UpdateInvaderTiles(uint8_t i);
 uint8_t GetInvaderForNode(uint8_t column, uint8_t row);
 
 #endif

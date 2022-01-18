@@ -7,7 +7,7 @@
 BANKREF(SpaceInvadersFont)
 
 const palette_color_t SpaceInvadersFont_palettes[4] = {
-	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 65), RGB8(52, 1, 0)
+	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 19), RGB8(211, 1, 0)
 };
 
 const uint8_t SpaceInvadersFont_tiles[688] = {

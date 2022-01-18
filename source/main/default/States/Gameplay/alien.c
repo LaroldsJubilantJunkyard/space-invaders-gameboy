@@ -52,8 +52,8 @@ void UpdateAlien(){
             
 
             // Get differences
-            INT8 xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
-            INT8 yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
+            int8_t xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
+            int8_t yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
 
             if(xd<0)xd=-xd;
             if(yd<0)yd=-yd;

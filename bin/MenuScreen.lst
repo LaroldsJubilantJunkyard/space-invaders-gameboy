@@ -63,35 +63,35 @@
                                      63 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:21: set_sprite_data(BULLETA_SPRITE_START,BulletA_TILE_COUNT,BulletA_tiles);
       000012 11r00r00                64 	ld	de, #_BulletA_tiles
       000015 D5                      65 	push	de
-      000016 21 03 05                66 	ld	hl, #0x503
+      000016 21 03 08                66 	ld	hl, #0x803
       000019 E5                      67 	push	hl
       00001A CDr00r00                68 	call	_set_sprite_data
       00001D E8 04                   69 	add	sp, #4
                                      70 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:22: set_sprite_data(BULLETB_SPRITE_START,BulletB_TILE_COUNT,BulletB_tiles);
       00001F 11r00r00                71 	ld	de, #_BulletB_tiles
       000022 D5                      72 	push	de
-      000023 21 08 01                73 	ld	hl, #0x108
+      000023 21 0B 04                73 	ld	hl, #0x40b
       000026 E5                      74 	push	hl
       000027 CDr00r00                75 	call	_set_sprite_data
       00002A E8 04                   76 	add	sp, #4
                                      77 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:23: set_sprite_data(BULLETC_SPRITE_START,BulletC_TILE_COUNT,BulletC_tiles);
       00002C 11r00r00                78 	ld	de, #_BulletC_tiles
       00002F D5                      79 	push	de
-      000030 21 09 01                80 	ld	hl, #0x109
+      000030 21 0F 01                80 	ld	hl, #0x10f
       000033 E5                      81 	push	hl
       000034 CDr00r00                82 	call	_set_sprite_data
       000037 E8 04                   83 	add	sp, #4
                                      84 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:24: set_sprite_data(ALIEN_SPRITE_START,Alien_TILE_COUNT,Alien_tiles);
       000039 11r00r00                85 	ld	de, #_Alien_tiles
       00003C D5                      86 	push	de
-      00003D 21 0A 02                87 	ld	hl, #0x20a
+      00003D 21 10 02                87 	ld	hl, #0x210
       000040 E5                      88 	push	hl
       000041 CDr00r00                89 	call	_set_sprite_data
       000044 E8 04                   90 	add	sp, #4
                                      91 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:25: set_sprite_data(EXPLOSION_SPRITE_START,Explosion_TILE_COUNT,Explosion_tiles);
       000046 11r00r00                92 	ld	de, #_Explosion_tiles
       000049 D5                      93 	push	de
-      00004A 21 0C 04                94 	ld	hl, #0x40c
+      00004A 21 12 04                94 	ld	hl, #0x412
       00004D E5                      95 	push	hl
       00004E CDr00r00                96 	call	_set_sprite_data
       000051 E8 04                   97 	add	sp, #4

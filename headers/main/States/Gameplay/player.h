@@ -11,6 +11,7 @@ typedef struct Paddle{
 
 extern Paddle paddle;
 
+void DamagePlayer(uint8_t amount);
 void UpdatePlayer();
 void SetupPlayer();
 

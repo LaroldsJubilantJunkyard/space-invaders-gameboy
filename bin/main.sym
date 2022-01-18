@@ -10,6 +10,9 @@ Symbol Table
     _ClearAllSprites                                               ****** GX
     _ClearBackground                                               ****** GX
     _GameFirstLoad                                                 ****** GX
+    _NR50_REG                                                      ****** GX
+    _NR51_REG                                                      ****** GX
+    _NR52_REG                                                      ****** GX
     _SetupGameOverScreen                                           ****** GX
     _SetupGameplayScreen                                           ****** GX
     _SetupMenuScreen                                               ****** GX
@@ -24,15 +27,16 @@ Symbol Table
     _joypadCurrent                                                 ****** GX
     _joypadPrevious                                                ****** GX
   0 _main                                                          000000 GR
+    _set_bkg_palette                                               ****** GX
+    _set_sprite_palette                                            ****** GX
     _wait_vbl_done                                                 ****** GX
-
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     9D   flags    0
+   0 _CODE                                      size    1FC   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

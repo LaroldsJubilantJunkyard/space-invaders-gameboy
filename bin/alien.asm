@@ -121,9 +121,9 @@ _UpdateAlien::
 	jr	NC, 00104$
 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 34)
-	ld	(hl), #0x0a
+	ld	(hl), #0x10
 	ld	hl, #(_shadow_OAM + 38)
-	ld	(hl), #0x0b
+	ld	(hl), #0x11
 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 32)
 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
@@ -172,7 +172,7 @@ _UpdateAlien::
 	ld	a, (#(_shadow_OAM + 10) + 0)
 	or	a, a
 	jr	Z, 00114$
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:55: INT8 xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:55: int8_t xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
 	ld	hl, #(_shadow_OAM + 9)
 	ld	c, (hl)
 	ld	a, (#(_shadow_OAM + 37) + 0)
@@ -181,7 +181,7 @@ _UpdateAlien::
 	ld	a, c
 	sub	a, b
 	ld	c, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:56: INT8 yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:56: int8_t yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
 	ld	a, (#(_shadow_OAM + 8) + 0)
 	ldhl	sp,	#0
 	ld	(hl), a

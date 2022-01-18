@@ -31,9 +31,9 @@ Area                       Addr        Size        Decimal Bytes (Attributes)
      0000000B  l__INITIA |    0000000B  l__INITIA |    0000000C  l__GSINIT
      00000030  l__HEADER |    0000004E  l__HEADER |    00000082  l__HEADER
      000000F3  l__DATA   |    00000200  s__CODE   |    0000033B  l__HOME  
-     00002000  _rROMB0   |    00002630  l__CODE   |    00002830  s__HOME  
-     00002B6B  s__BASE   |    00002B6B  s__CODE_0 |    00002B6B  s__INITIA
-     00002B6B  s__LIT    |    00002B76  s__GSINIT |    00002B82  s__GSFINA
+     00002000  _rROMB0   |    0000288E  l__CODE   |    00002A8E  s__HOME  
+     00002DC9  s__BASE   |    00002DC9  s__CODE_0 |    00002DC9  s__INITIA
+     00002DC9  s__LIT    |    00002DD4  s__GSINIT |    00002DE0  s__GSFINA
      00003000  _rROMB1   |    00004000  _rRAMB    |    00008000  __VRAM   
      00008000  __VRAM800 |    00008800  __VRAM880 |    00009000  __VRAM900
      00009800  __SCRN0   |    00009C00  __SCRN1   |    0000A000  __SRAM   
@@ -75,54 +75,54 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_CODE                  00000200    00002630 =        9776. bytes (REL,CON)
+_CODE                  00000200    0000288E =       10382. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00000200  _SetupPla |    00000224  _UpdatePl |    00000304  _SetupInv
-     0000043E  _tiles    |    00000447  _InvaderC |    000004B9  _UpdateIn
-     0000063D  _SlideInv |    000006CE  _InvaderT |    00000727  _ShiftAll
-     00000767  _Invaders |    000007AD  _UpdateIn |    0000088F  _SetupBul
-     000008A9  _GetAvail |    000008CD  _InvaderC |    0000096A  _UpdateBu
-     00000CFE  _SetupAli |    00000D1F  _UpdateAl |    00000E3B  _SetupSta
-     00000EB4  _UpdateSt |    00000FA0  _SetupNex |    00000FDC  _UpdateNe
-     00000FE7  _SetupMen |    00001184  _UpdateMe |    0000119D  _UpdateSc
-     00001202  _Increase |    00001233  _DrawBarr |    0000131D  _SetupLev
-     00001336  _SetupGam |    00001358  _UpdateGa |    00001393  _SetupGam
-     000013AC  _UpdateGa |    000013B7  _GameFirs |    00001405  _main    
-     000014A2  _DrawNumb |    000015A5  _DrawText |    000016E3  _GetNextA
-     00001700  _ClearAll |    0000171E  _ClearBac |    00001730  _RandomNu
-     00001767  _SpaceInv |    00001767  ___func_S |    0000176F  _SpaceInv
-     00001CDF  _SpaceInv |    00001D36  _SpaceInv |    00001DA2  _SpaceInv
-     00001DA2  ___func_S |    00001DAA  _SpaceInv |    0000205A  _SpaceInv
-     00002085  _SpaceInv |    000020B9  _Player_p |    000020B9  ___func_P
-     000020C1  _Player_t |    000020E1  _Player_m |    000020ED  _Player_m
-     000020EF  _Invader3 |    000020EF  ___func_I |    000020F7  _Invader3
-     000021F7  _Invader3 |    00002207  _Invader3 |    00002218  _Invader2
-     00002218  ___func_I |    00002220  _Invader2 |    00002320  _Invader2
-     00002330  _Invader2 |    00002341  _Invader1 |    00002341  ___func_I
-     00002349  _Invader1 |    00002449  _Invader1 |    00002459  _Invader1
-     0000246A  _Explosio |    0000246A  ___func_E |    00002472  _Explosio
-     000024B2  _Explosio |    000024B6  _Explosio |    000024BE  _Explosio
-     000024C6  _Explosio |    000024CE  _Explosio |    000024D6  _Explosio
-     000024E0  _BulletC_ |    000024E0  ___func_B |    000024E8  _BulletC_
-     000024F8  _BulletC_ |    00002500  _BulletC_ |    00002508  _BulletC_
-     0000250C  _BulletB_ |    0000250C  ___func_B |    00002514  _BulletB_
-     00002524  _BulletB_ |    0000252C  _BulletB_ |    00002534  _BulletB_
-     0000253C  _BulletB_ |    00002544  _BulletB_ |    0000254C  _BulletB_
-     00002554  _BulletB_ |    0000255C  _BulletB_ |    00002564  _BulletB_
-     00002574  _BulletA_ |    00002574  ___func_B |    0000257C  _BulletA_
-     000025CC  _BulletA_ |    000025D4  _BulletA_ |    000025DC  _BulletA_
-     000025E4  _BulletA_ |    000025EC  _BulletA_ |    000025F4  _BulletA_
-     000025FC  _BulletA_ |    00002604  _BulletA_ |    0000260C  _BulletA_
-     0000261C  _Barricad |    0000261C  ___func_B |    00002624  _Barricad
-     00002714  _Barricad |    00002723  _Barricad |    00002732  _Alien_pa
-     00002732  ___func_A |    0000273A  _Alien_ti |    0000275A  _Alien_me
-     00002766  _Alien_me |    00002768  _set_spri |    0000276D  _set_bkg_
-     00002770  .set_pale |    0000278F  _set_spri |    00002794  _set_bkg_
-     00002797  .set_pale |    000027B3  _get_vram |    000027C0  _get_win_
-     000027C8  _get_bkg_ |    000027EF  _set_vram |    000027FE  _set_win_
-     00002806  _set_bkg_
+     00000200  _SetupPla |    00000224  _DamagePl |    0000025A  _UpdatePl
+     0000034E  _SetupInv |    00000488  _tiles    |    00000491  _InvaderC
+     00000503  _UpdateIn |    00000687  _SlideInv |    00000718  _InvaderT
+     00000771  _ShiftAll |    000007B1  _Invaders |    000007F7  _UpdateIn
+     00000922  _SetupBul |    0000093C  _GetAvail |    00000960  _InvaderC
+     00000A12  _UpdateBu |    00000DB9  _SetupAli |    00000DDA  _UpdateAl
+     00000EF6  _SetupSta |    00000F6F  _UpdateSt |    0000105B  _SetupNex
+     00001097  _UpdateNe |    000010A2  _SetupMen |    0000123F  _UpdateMe
+     00001258  _UpdateSc |    000012BD  _Increase |    000012EE  _DrawBarr
+     000013D8  _SetupLev |    000013F1  _SetupGam |    00001413  _UpdateGa
+     00001432  _SetupGam |    0000144B  _UpdateGa |    00001456  _GameFirs
+     000014A4  _main     |    000016A0  _DrawNumb |    000017A3  _DrawText
+     000018E1  _GetNextA |    000018FE  _ClearAll |    0000191C  _ClearBac
+     0000192E  _RandomNu |    00001965  _SpaceInv |    00001965  ___func_S
+     0000196D  _SpaceInv |    00001EDD  _SpaceInv |    00001F34  _SpaceInv
+     00001FA0  _SpaceInv |    00001FA0  ___func_S |    00001FA8  _SpaceInv
+     00002258  _SpaceInv |    00002283  _SpaceInv |    000022B7  _Player_p
+     000022B7  ___func_P |    000022BF  _Player_t |    000022DF  _Player_m
+     000022EB  _Player_m |    000022ED  _Invader3 |    000022ED  ___func_I
+     000022F5  _Invader3 |    000023F5  _Invader3 |    00002405  _Invader3
+     00002416  _Invader2 |    00002416  ___func_I |    0000241E  _Invader2
+     0000251E  _Invader2 |    0000252E  _Invader2 |    0000253F  _Invader1
+     0000253F  ___func_I |    00002547  _Invader1 |    00002647  _Invader1
+     00002657  _Invader1 |    00002668  _Explosio |    00002668  ___func_E
+     00002670  _Explosio |    000026B0  _Explosio |    000026B4  _Explosio
+     000026BC  _Explosio |    000026C4  _Explosio |    000026CC  _Explosio
+     000026D4  _Explosio |    000026DE  _BulletC_ |    000026DE  ___func_B
+     000026E6  _BulletC_ |    000026F6  _BulletC_ |    000026FE  _BulletC_
+     00002706  _BulletC_ |    0000270A  _BulletB_ |    0000270A  ___func_B
+     00002712  _BulletB_ |    00002752  _BulletB_ |    0000275A  _BulletB_
+     00002762  _BulletB_ |    0000276A  _BulletB_ |    00002772  _BulletB_
+     0000277A  _BulletB_ |    00002782  _BulletB_ |    0000278A  _BulletB_
+     00002792  _BulletB_ |    000027A2  _BulletA_ |    000027A2  ___func_B
+     000027AA  _BulletA_ |    0000282A  _BulletA_ |    00002832  _BulletA_
+     0000283A  _BulletA_ |    00002842  _BulletA_ |    0000284A  _BulletA_
+     00002852  _BulletA_ |    0000285A  _BulletA_ |    00002862  _BulletA_
+     0000286A  _BulletA_ |    0000287A  _Barricad |    0000287A  ___func_B
+     00002882  _Barricad |    00002972  _Barricad |    00002981  _Barricad
+     00002990  _Alien_pa |    00002990  ___func_A |    00002998  _Alien_ti
+     000029B8  _Alien_me |    000029C4  _Alien_me |    000029C6  _set_spri
+     000029CB  _set_bkg_ |    000029CE  .set_pale |    000029ED  _set_spri
+     000029F2  _set_bkg_ |    000029F5  .set_pale |    00002A11  _get_vram
+     00002A1E  _get_win_ |    00002A26  _get_bkg_ |    00002A4D  _set_vram
+     00002A5C  _set_win_ |    00002A64  _set_bkg_
 ASxxxx Linker V03.00 + NoICE + sdld,  page 4.
 Hexadecimal  [32-Bits]
 
@@ -297,33 +297,33 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_HOME                  00002830    0000033B =         827. bytes (REL,CON)
+_HOME                  00002A8E    0000033B =         827. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00002830  .memset_s |    00002839  .memcpy_s |    00002856  .remove_V
-     00002859  .remove_i |    00002876  .add_VBL  |    00002879  .add_int 
-     00002884  .wait_vbl |    00002884  _wait_vbl |    00002894  .display_
-     00002894  _display_ |    000028AC  _remove_V |    000028B7  _add_VBL 
-     000028C2  __divsuch |    000028CF  __modsuch |    000028D9  __divusch
-     000028EB  __modusch |    000028FB  __divscha |    00002907  __modscha
-     00002911  __divsint |    00002922  __modsint |    00002931  __divucha
-     0000293D  __moducha |    00002947  __divuint |    00002958  __moduint
-     00002967  .div8     |    00002967  .mod8     |    0000296F  .div16   
-     0000296F  .mod16    |    000029A5  .divu8    |    000029A5  .modu8   
-     000029A8  .divu16   |    000029A8  .modu16   |    000029E9  _set_tile
-     000029EE  _set_bkg_ |    000029EE  _set_win_ |    000029F6  _set_spri
-     00002A26  _fill_bkg |    00002A38  .padup    |    00002A38  _waitpadu
-     00002A48  .jpad     |    00002A48  _joypad   |    00002A70  _waitpad 
-     00002A73  .wait_pad |    00002A7A  _delay    |    00002A7F  .delay   
-     00002AAB  _set_bkg_ |    00002ABF  .fill_rec |    00002AC8  .fill_rec
-     00002B15  .set_xy_w |    00002B1E  .set_xy_b |    00002B2D  .set_xy_t
+     00002A8E  .memset_s |    00002A97  .memcpy_s |    00002AB4  .remove_V
+     00002AB7  .remove_i |    00002AD4  .add_VBL  |    00002AD7  .add_int 
+     00002AE2  .wait_vbl |    00002AE2  _wait_vbl |    00002AF2  .display_
+     00002AF2  _display_ |    00002B0A  _remove_V |    00002B15  _add_VBL 
+     00002B20  __divsuch |    00002B2D  __modsuch |    00002B37  __divusch
+     00002B49  __modusch |    00002B59  __divscha |    00002B65  __modscha
+     00002B6F  __divsint |    00002B80  __modsint |    00002B8F  __divucha
+     00002B9B  __moducha |    00002BA5  __divuint |    00002BB6  __moduint
+     00002BC5  .div8     |    00002BC5  .mod8     |    00002BCD  .div16   
+     00002BCD  .mod16    |    00002C03  .divu8    |    00002C03  .modu8   
+     00002C06  .divu16   |    00002C06  .modu16   |    00002C47  _set_tile
+     00002C4C  _set_bkg_ |    00002C4C  _set_win_ |    00002C54  _set_spri
+     00002C84  _fill_bkg |    00002C96  .padup    |    00002C96  _waitpadu
+     00002CA6  .jpad     |    00002CA6  _joypad   |    00002CCE  _waitpad 
+     00002CD1  .wait_pad |    00002CD8  _delay    |    00002CDD  .delay   
+     00002D09  _set_bkg_ |    00002D1D  .fill_rec |    00002D26  .fill_rec
+     00002D73  .set_xy_w |    00002D7C  .set_xy_b |    00002D8B  .set_xy_t
 ASxxxx Linker V03.00 + NoICE + sdld,  page 23.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_INITIALIZER           00002B6B    0000000B =          11. bytes (REL,CON)
+_INITIALIZER           00002DC9    0000000B =          11. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
@@ -332,17 +332,17 @@ Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSINIT                00002B76    0000000C =          12. bytes (REL,CON)
+_GSINIT                00002DD4    0000000C =          12. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    
-     00002B76  gsinit   
+     00002DD4  gsinit   
 ASxxxx Linker V03.00 + NoICE + sdld,  page 25.
 Hexadecimal  [32-Bits]
 
 Area                       Addr        Size        Decimal Bytes (Attributes)
 --------------------       ----        ----        ------- ----- ------------
-_GSFINAL               00002B82    00000001 =           1. bytes (REL,CON)
+_GSFINAL               00002DE0    00000001 =           1. bytes (REL,CON)
 
         Value  Global            Value  Global            Value  Global    
         -----  ------            -----  ------            -----  ------    

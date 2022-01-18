@@ -58,8 +58,8 @@ ___func_SpaceInvadersTitle::
 _SpaceInvadersTitle_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x580a
-	.dw #0x001f
+	.dw #0x240a
+	.dw #0x0004
 _SpaceInvadersTitle_tiles:
 	.db #0x00	; 0
 	.db #0x00	; 0

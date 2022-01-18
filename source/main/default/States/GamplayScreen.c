@@ -87,18 +87,9 @@ uint8_t UpdateGameplayScreen(){
     UpdatePlayer();
     UpdateAlien();
 
-    if (paddle.dead==1&&invadersRemaining>0){
-
-
-        if(paddle.lives==0){
-            return GAMEOVERSCREEN;
-        }
+    if (paddle.dead==1){
         
-        paddle.lives--;
-        paddle.dead=0;
-        paddle.damageTimer=15;
-
-        UpdateScore();
+        return GAMEOVERSCREEN;
 
     }else if(invadersRemaining==0){
         return NEXTLEVELSCREEN;

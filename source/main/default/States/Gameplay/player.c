@@ -18,6 +18,21 @@ void SetupPlayer(){
     paddle.damageTimer=0;
 }
 
+void DamagePlayer(uint8_t amount){
+    if(amount>paddle.lives)paddle.lives=0;
+    else paddle.lives-=amount;
+    paddle.damageTimer=15;
+
+    // If we are dead
+    paddle.dead=paddle.lives==0;
+    NR41_REG=0x2A;
+    NR42_REG=0xA7;
+    NR43_REG=0x57;
+    NR44_REG=0xC0;
+    
+    UpdateScore();
+}
+
 void UpdatePlayer(){
 
     if(joypad() & J_LEFT)paddle.x-=2;
@@ -34,6 +49,12 @@ void UpdatePlayer(){
             shadow_OAM[2].x=paddle.x+4;
             shadow_OAM[2].y=paddle.y+12;
             shadow_OAM[2].tile=BULLETC_SPRITE_START;
+
+            NR10_REG=0x1D;
+            NR11_REG=0x4F;
+            NR12_REG=0x56;
+            NR13_REG=0xF6;
+            NR14_REG=0x86;
         }
     }
 

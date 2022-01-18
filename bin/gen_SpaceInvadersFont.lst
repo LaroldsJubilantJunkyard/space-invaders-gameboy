@@ -58,8 +58,8 @@
       000000                         58 _SpaceInvadersFont_palettes:
       000000 FF 7F                   59 	.dw #0x7fff
       000002 00 00                   60 	.dw #0x0000
-      000004 0A 20                   61 	.dw #0x200a
-      000006 06 00                   62 	.dw #0x0006
+      000004 0A 08                   61 	.dw #0x080a
+      000006 1A 00                   62 	.dw #0x001a
       000008                         63 _SpaceInvadersFont_tiles:
       000008 10                      64 	.db #0x10	; 16
       000009 00                      65 	.db #0x00	; 0

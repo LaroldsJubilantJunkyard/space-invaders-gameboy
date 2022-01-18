@@ -14,14 +14,14 @@ void SetupBullets(){
     // Set all of our bullet sprites to tile 0
     // Tile 0 in our code will mean they are not in use
     // NOTE: tile 0 is intentionally a blank tile
-    for(INT8 i=2;i<8;i++)shadow_OAM[i].tile=0;
+    for(int8_t i=2;i<8;i++)shadow_OAM[i].tile=0;
 }
 
 
 uint8_t GetAvailableBulletSprite(){
 
     // Check the sprites we have assigned for enemy bullets
-    for(INT8 i=3;i<8;i++){
+    for(int8_t i=3;i<8;i++){
 
         // Return this sprite if it is set to tile 0
         if(shadow_OAM[i].tile==0)return i;
@@ -34,14 +34,13 @@ uint8_t GetAvailableBulletSprite(){
 
 
 
-void UpdateInvaderTiles(uint8_t i);
 
 uint8_t InvaderCheckBulletCollision(uint8_t i){
 
     if(PlayerBulletSprite.tile!=0&&invaders[i].active){
 
-        INT8 xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
-        INT8 yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
+        int8_t xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
+        int8_t yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
 
         // Get the absolute value
         if(xd<0)xd=-xd;
@@ -61,6 +60,12 @@ uint8_t InvaderCheckBulletCollision(uint8_t i){
 
             // Update the tiles for this invader
             UpdateInvaderTiles(i);
+
+            NR10_REG=0x7D;
+            NR11_REG=0xC2;
+            NR12_REG=0x37;
+            NR13_REG=0x2E;
+            NR14_REG=0x87;
 
             return 1;
 
@@ -119,6 +124,10 @@ void UpdateBullets(){
 
                     // Reset the bullet sprite
                     shadow_OAM[i].tile=0;
+                    NR41_REG = 0x30;
+                    NR42_REG = 0x61;
+                    NR43_REG = 0x80;
+                    NR44_REG = 0xC0;
 
                 }else if(currentTile>=INVADER1_TILES_START&&currentTile<=INVADER3_TILES_START+Invader3_TILE_COUNT){
 
@@ -138,7 +147,8 @@ void UpdateBullets(){
                     if(shadow_OAM[i].y-12>paddle.y+4)continue;
                     if(paddle.damageTimer>0)continue;
                     shadow_OAM[i].tile=0;
-                    paddle.dead=1;
+
+                    DamagePlayer(1);
                 }
             }
 

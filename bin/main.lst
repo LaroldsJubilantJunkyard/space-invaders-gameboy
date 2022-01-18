@@ -22,166 +22,444 @@
                                      22 	.globl _GameFirstLoad
                                      23 	.globl _ClearBackground
                                      24 	.globl _ClearAllSprites
-                                     25 	.globl _wait_vbl_done
-                                     26 	.globl _joypad
-                                     27 ;--------------------------------------------------------
-                                     28 ; special function registers
+                                     25 	.globl _set_sprite_palette
+                                     26 	.globl _set_bkg_palette
+                                     27 	.globl _wait_vbl_done
+                                     28 	.globl _joypad
                                      29 ;--------------------------------------------------------
-                                     30 ;--------------------------------------------------------
-                                     31 ; ram data
+                                     30 ; special function registers
+                                     31 ;--------------------------------------------------------
                                      32 ;--------------------------------------------------------
-                                     33 	.area _DATA
+                                     33 ; ram data
                                      34 ;--------------------------------------------------------
-                                     35 ; ram data
+                                     35 	.area _DATA
                                      36 ;--------------------------------------------------------
-                                     37 	.area _INITIALIZED
+                                     37 ; ram data
                                      38 ;--------------------------------------------------------
-                                     39 ; absolute external ram data
+                                     39 	.area _INITIALIZED
                                      40 ;--------------------------------------------------------
-                                     41 	.area _DABS (ABS)
+                                     41 ; absolute external ram data
                                      42 ;--------------------------------------------------------
-                                     43 ; global & static initialisations
+                                     43 	.area _DABS (ABS)
                                      44 ;--------------------------------------------------------
-                                     45 	.area _HOME
-                                     46 	.area _GSINIT
-                                     47 	.area _GSFINAL
+                                     45 ; global & static initialisations
+                                     46 ;--------------------------------------------------------
+                                     47 	.area _HOME
                                      48 	.area _GSINIT
-                                     49 ;--------------------------------------------------------
-                                     50 ; Home
+                                     49 	.area _GSFINAL
+                                     50 	.area _GSINIT
                                      51 ;--------------------------------------------------------
-                                     52 	.area _HOME
-                                     53 	.area _HOME
-                                     54 ;--------------------------------------------------------
-                                     55 ; code
+                                     52 ; Home
+                                     53 ;--------------------------------------------------------
+                                     54 	.area _HOME
+                                     55 	.area _HOME
                                      56 ;--------------------------------------------------------
-                                     57 	.area _CODE
-                                     58 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:12: void main(void){
-                                     59 ;	---------------------------------
-                                     60 ; Function main
-                                     61 ; ---------------------------------
-      000000                         62 _main::
-                                     63 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:14: GameFirstLoad();
-      000000 CDr00r00                64 	call	_GameFirstLoad
-                                     65 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:16: uint8_t currentGameState = GAMEFIRSTLOAD;
-                                     66 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:17: uint8_t nextGameState = STARTSCREEN;
-      000003 01 00 01                67 	ld	bc, #0x100
-                                     68 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:19: while(1){
-      000006                         69 00132$:
-                                     70 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:21: joypadPrevious=joypadCurrent;
-      000006 FAr00r00                71 	ld	a, (#_joypadCurrent)
-      000009 EAr00r00                72 	ld	(#_joypadPrevious),a
-                                     73 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:22: joypadCurrent=joypad();
-      00000C CDr00r00                74 	call	_joypad
-      00000F 21r00r00                75 	ld	hl, #_joypadCurrent
-      000012 73                      76 	ld	(hl), e
-                                     77 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:24: if(nextGameState!=currentGameState){
-      000013 79                      78 	ld	a, c
-      000014 90                      79 	sub	a, b
-      000015 28 42                   80 	jr	Z, 00116$
-                                     81 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:26: currentGameState=nextGameState;
-      000017 48                      82 	ld	c, b
-                                     83 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:28: ClearBackground();
-      000018 C5                      84 	push	bc
-      000019 CDr00r00                85 	call	_ClearBackground
-      00001C CDr00r00                86 	call	_ClearAllSprites
-      00001F C1                      87 	pop	bc
-                                     88 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:31: if(currentGameState==STARTSCREEN)SetupStartScreen();
-      000020 78                      89 	ld	a, b
-      000021 3D                      90 	dec	a
-      000022 20 07                   91 	jr	NZ, 00113$
-      000024 C5                      92 	push	bc
-      000025 CDr00r00                93 	call	_SetupStartScreen
-      000028 C1                      94 	pop	bc
-      000029 18 2E                   95 	jr	00116$
-      00002B                         96 00113$:
-                                     97 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:32: else if(currentGameState==MENUSCREEN)SetupMenuScreen();
-      00002B 78                      98 	ld	a, b
-      00002C D6 02                   99 	sub	a, #0x02
-      00002E 20 07                  100 	jr	NZ, 00110$
-      000030 C5                     101 	push	bc
-      000031 CDr00r00               102 	call	_SetupMenuScreen
-      000034 C1                     103 	pop	bc
-      000035 18 22                  104 	jr	00116$
-      000037                        105 00110$:
-                                    106 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:33: else if(currentGameState==GAMEPLAYSCREEN)SetupGameplayScreen();
-      000037 78                     107 	ld	a, b
-      000038 D6 03                  108 	sub	a, #0x03
-      00003A 20 07                  109 	jr	NZ, 00107$
-      00003C C5                     110 	push	bc
-      00003D CDr00r00               111 	call	_SetupGameplayScreen
-      000040 C1                     112 	pop	bc
-      000041 18 16                  113 	jr	00116$
-      000043                        114 00107$:
-                                    115 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:34: else if(currentGameState==GAMEOVERSCREEN)SetupGameOverScreen();
-      000043 78                     116 	ld	a, b
-      000044 D6 05                  117 	sub	a, #0x05
-      000046 20 07                  118 	jr	NZ, 00104$
-      000048 C5                     119 	push	bc
-      000049 CDr00r00               120 	call	_SetupGameOverScreen
-      00004C C1                     121 	pop	bc
-      00004D 18 0A                  122 	jr	00116$
-      00004F                        123 00104$:
-                                    124 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:35: else if(currentGameState==NEXTLEVELSCREEN)SetupNextLevelScreen();
-      00004F 78                     125 	ld	a, b
-      000050 D6 04                  126 	sub	a, #0x04
-      000052 20 05                  127 	jr	NZ, 00116$
-      000054 C5                     128 	push	bc
-      000055 CDr00r00               129 	call	_SetupNextLevelScreen
-      000058 C1                     130 	pop	bc
-      000059                        131 00116$:
-                                    132 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:39: if(currentGameState==STARTSCREEN)nextGameState=UpdateStartScreen();
-      000059 79                     133 	ld	a, c
-      00005A 3D                     134 	dec	a
-      00005B 20 08                  135 	jr	NZ, 00129$
-      00005D C5                     136 	push	bc
-      00005E CDr00r00               137 	call	_UpdateStartScreen
-      000061 C1                     138 	pop	bc
-      000062 43                     139 	ld	b, e
-      000063 18 32                  140 	jr	00130$
-      000065                        141 00129$:
-                                    142 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:40: else if(currentGameState==MENUSCREEN)nextGameState=UpdateMenuScreen();
-      000065 79                     143 	ld	a, c
-      000066 D6 02                  144 	sub	a, #0x02
-      000068 20 08                  145 	jr	NZ, 00126$
-      00006A C5                     146 	push	bc
-      00006B CDr00r00               147 	call	_UpdateMenuScreen
-      00006E C1                     148 	pop	bc
-      00006F 43                     149 	ld	b, e
-      000070 18 25                  150 	jr	00130$
-      000072                        151 00126$:
-                                    152 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:41: else if(currentGameState==GAMEPLAYSCREEN)nextGameState=UpdateGameplayScreen();
-      000072 79                     153 	ld	a, c
-      000073 D6 03                  154 	sub	a, #0x03
-      000075 20 08                  155 	jr	NZ, 00123$
-      000077 C5                     156 	push	bc
-      000078 CDr00r00               157 	call	_UpdateGameplayScreen
-      00007B C1                     158 	pop	bc
-      00007C 43                     159 	ld	b, e
-      00007D 18 18                  160 	jr	00130$
-      00007F                        161 00123$:
-                                    162 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:42: else if(currentGameState==GAMEOVERSCREEN)nextGameState=UpdateGameOverScreen();
-      00007F 79                     163 	ld	a, c
-      000080 D6 05                  164 	sub	a, #0x05
-      000082 20 08                  165 	jr	NZ, 00120$
-      000084 C5                     166 	push	bc
-      000085 CDr00r00               167 	call	_UpdateGameOverScreen
-      000088 C1                     168 	pop	bc
-      000089 43                     169 	ld	b, e
-      00008A 18 0B                  170 	jr	00130$
-      00008C                        171 00120$:
-                                    172 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:43: else if(currentGameState==NEXTLEVELSCREEN)nextGameState=UpdateNextLevelScreen();
-      00008C 79                     173 	ld	a, c
-      00008D D6 04                  174 	sub	a, #0x04
-      00008F 20 06                  175 	jr	NZ, 00130$
-      000091 C5                     176 	push	bc
-      000092 CDr00r00               177 	call	_UpdateNextLevelScreen
-      000095 C1                     178 	pop	bc
-      000096 43                     179 	ld	b, e
-      000097                        180 00130$:
-                                    181 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:46: wait_vbl_done();
-      000097 CDr00r00               182 	call	_wait_vbl_done
-                                    183 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:50: }
-      00009A C3r06r00               184 	jp	00132$
-                                    185 	.area _CODE
-                                    186 	.area _INITIALIZER
-                                    187 	.area _CABS (ABS)
+                                     57 ; code
+                                     58 ;--------------------------------------------------------
+                                     59 	.area _CODE
+                                     60 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:12: void main(void){
+                                     61 ;	---------------------------------
+                                     62 ; Function main
+                                     63 ; ---------------------------------
+      000000                         64 _main::
+      000000 E8 F2                   65 	add	sp, #-14
+                                     66 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:16: NR52_REG = 0x80; // is 1000 0000 in binary and turns on sound
+      000002 3E 80                   67 	ld	a, #0x80
+      000004 E0r00                   68 	ldh	(_NR52_REG + 0), a
+                                     69 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:17: NR50_REG = 0x77; // sets the volume for both left and right channel just set to max 0x77
+      000006 3E 77                   70 	ld	a, #0x77
+      000008 E0r00                   71 	ldh	(_NR50_REG + 0), a
+                                     72 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:18: NR51_REG = 0xFF; // is 1111 1111 in binary, select which chanels we want to use in this case all of them. One bit for the L one bit for the R of all four channels
+      00000A 3E FF                   73 	ld	a, #0xff
+      00000C E0r00                   74 	ldh	(_NR51_REG + 0), a
+                                     75 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:21: GameFirstLoad();
+      00000E CDr00r00                76 	call	_GameFirstLoad
+                                     77 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:23: uint8_t currentGameState = GAMEFIRSTLOAD;
+      000011 F8 08                   78 	ldhl	sp,	#8
+                                     79 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:24: uint8_t nextGameState = STARTSCREEN;
+      000013 AF                      80 	xor	a, a
+      000014 22                      81 	ld	(hl+), a
+      000015 36 01                   82 	ld	(hl), #0x01
+                                     83 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:26: while(1){
+      000017                         84 00134$:
+                                     85 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:28: joypadPrevious=joypadCurrent;
+      000017 FAr00r00                86 	ld	a, (#_joypadCurrent)
+      00001A EAr00r00                87 	ld	(#_joypadPrevious),a
+                                     88 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:29: joypadCurrent=joypad();
+      00001D CDr00r00                89 	call	_joypad
+      000020 21r00r00                90 	ld	hl, #_joypadCurrent
+      000023 73                      91 	ld	(hl), e
+                                     92 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:31: if(nextGameState!=currentGameState){
+      000024 F8 08                   93 	ldhl	sp,	#8
+      000026 2A                      94 	ld	a, (hl+)
+      000027 96                      95 	sub	a, (hl)
+      000028 CArABr01                96 	jp	Z,00118$
+                                     97 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:35: for(uint16_t fade=0;fade<255;fade+=15){
+      00002B 01 00 00                98 	ld	bc, #0x0000
+      00002E                         99 00137$:
+      00002E F8 0A                  100 	ldhl	sp,	#10
+      000030 79                     101 	ld	a, c
+      000031 22                     102 	ld	(hl+), a
+      000032 78                     103 	ld	a, b
+      000033 32                     104 	ld	(hl-), a
+      000034 2A                     105 	ld	a, (hl+)
+      000035 D6 FF                  106 	sub	a, #0xff
+      000037 7E                     107 	ld	a, (hl)
+      000038 DE 00                  108 	sbc	a, #0x00
+      00003A D2rCAr00               109 	jp	NC, 00101$
+                                    110 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:37: const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(fade, fade, fade),RGB8(fade, fade, fade),RGB8(fade, fade, fade)    };
+      00003D F8 00                  111 	ldhl	sp,	#0
+      00003F 7D                     112 	ld	a, l
+      000040 54                     113 	ld	d, h
+      000041 F8 0C                  114 	ldhl	sp,	#12
+      000043 22                     115 	ld	(hl+), a
+      000044 7A                     116 	ld	a, d
+      000045 32                     117 	ld	(hl-), a
+      000046 2A                     118 	ld	a,	(hl+)
+      000047 66                     119 	ld	h, (hl)
+      000048 6F                     120 	ld	l, a
+      000049 3E FF                  121 	ld	a, #0xff
+      00004B 22                     122 	ld	(hl+), a
+      00004C 36 7F                  123 	ld	(hl), #0x7f
+      00004E F8 0C                  124 	ldhl	sp,	#12
+      000050 2A                     125 	ld	a, (hl+)
+      000051 5F                     126 	ld	e, a
+      000052 56                     127 	ld	d, (hl)
+      000053 13                     128 	inc	de
+      000054 13                     129 	inc	de
+      000055 CB 38                  130 	srl	b
+      000057 CB 19                  131 	rr	c
+      000059 CB 38                  132 	srl	b
+      00005B CB 19                  133 	rr	c
+      00005D CB 38                  134 	srl	b
+      00005F CB 19                  135 	rr	c
+      000061 69                     136 	ld	l, c
+      000062 60                     137 	ld	h, b
+      000063 29                     138 	add	hl, hl
+      000064 29                     139 	add	hl, hl
+      000065 29                     140 	add	hl, hl
+      000066 29                     141 	add	hl, hl
+      000067 29                     142 	add	hl, hl
+      000068 7D                     143 	ld	a, l
+      000069 B1                     144 	or	a, c
+      00006A 6F                     145 	ld	l, a
+                                    146 ;	spillPairReg hl
+                                    147 ;	spillPairReg hl
+      00006B 7C                     148 	ld	a, h
+      00006C B0                     149 	or	a, b
+      00006D 67                     150 	ld	h, a
+                                    151 ;	spillPairReg hl
+                                    152 ;	spillPairReg hl
+      00006E 79                     153 	ld	a, c
+      00006F 87                     154 	add	a, a
+      000070 87                     155 	add	a, a
+      000071 47                     156 	ld	b, a
+      000072 AF                     157 	xor	a, a
+      000073 B5                     158 	or	a, l
+      000074 4F                     159 	ld	c, a
+      000075 78                     160 	ld	a, b
+      000076 B4                     161 	or	a, h
+      000077 47                     162 	ld	b, a
+      000078 79                     163 	ld	a, c
+      000079 12                     164 	ld	(de), a
+      00007A 13                     165 	inc	de
+      00007B 78                     166 	ld	a, b
+      00007C 12                     167 	ld	(de), a
+      00007D F8 0C                  168 	ldhl	sp,#12
+      00007F 2A                     169 	ld	a, (hl+)
+      000080 5F                     170 	ld	e, a
+      000081 56                     171 	ld	d, (hl)
+      000082 21 04 00               172 	ld	hl, #0x0004
+      000085 19                     173 	add	hl, de
+      000086 5D                     174 	ld	e, l
+      000087 54                     175 	ld	d, h
+      000088 79                     176 	ld	a, c
+      000089 12                     177 	ld	(de), a
+      00008A 13                     178 	inc	de
+      00008B 78                     179 	ld	a, b
+      00008C 12                     180 	ld	(de), a
+      00008D F8 0C                  181 	ldhl	sp,#12
+      00008F 2A                     182 	ld	a, (hl+)
+      000090 5F                     183 	ld	e, a
+      000091 56                     184 	ld	d, (hl)
+      000092 21 06 00               185 	ld	hl, #0x0006
+      000095 19                     186 	add	hl, de
+      000096 5D                     187 	ld	e, l
+      000097 54                     188 	ld	d, h
+      000098 79                     189 	ld	a, c
+      000099 12                     190 	ld	(de), a
+      00009A 13                     191 	inc	de
+      00009B 78                     192 	ld	a, b
+      00009C 12                     193 	ld	(de), a
+                                    194 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:39: set_sprite_palette(0,1,blackAndWhite);
+      00009D F8 0C                  195 	ldhl	sp,	#12
+      00009F 2A                     196 	ld	a, (hl+)
+      0000A0 4F                     197 	ld	c, a
+      0000A1 46                     198 	ld	b, (hl)
+      0000A2 C5                     199 	push	bc
+      0000A3 AF                     200 	xor	a, a
+      0000A4 3C                     201 	inc	a
+      0000A5 F5                     202 	push	af
+      0000A6 CDr00r00               203 	call	_set_sprite_palette
+      0000A9 E8 04                  204 	add	sp, #4
+                                    205 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:40: set_bkg_palette(0,1,blackAndWhite);
+      0000AB F8 0C                  206 	ldhl	sp,	#12
+      0000AD 2A                     207 	ld	a, (hl+)
+      0000AE 4F                     208 	ld	c, a
+      0000AF 46                     209 	ld	b, (hl)
+      0000B0 C5                     210 	push	bc
+      0000B1 AF                     211 	xor	a, a
+      0000B2 3C                     212 	inc	a
+      0000B3 F5                     213 	push	af
+      0000B4 CDr00r00               214 	call	_set_bkg_palette
+      0000B7 E8 04                  215 	add	sp, #4
+                                    216 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:42: wait_vbl_done();
+      0000B9 CDr00r00               217 	call	_wait_vbl_done
+                                    218 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:35: for(uint16_t fade=0;fade<255;fade+=15){
+      0000BC F8 0A                  219 	ldhl	sp,#10
+      0000BE 2A                     220 	ld	a, (hl+)
+      0000BF 5F                     221 	ld	e, a
+      0000C0 56                     222 	ld	d, (hl)
+      0000C1 21 0F 00               223 	ld	hl, #0x000f
+      0000C4 19                     224 	add	hl, de
+      0000C5 4D                     225 	ld	c, l
+      0000C6 44                     226 	ld	b, h
+      0000C7 C3r2Er00               227 	jp	00137$
+      0000CA                        228 00101$:
+                                    229 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:45: currentGameState=nextGameState;
+      0000CA F8 09                  230 	ldhl	sp,	#9
+      0000CC 3A                     231 	ld	a, (hl-)
+      0000CD 77                     232 	ld	(hl), a
+                                    233 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:47: ClearBackground();
+      0000CE CDr00r00               234 	call	_ClearBackground
+                                    235 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:48: ClearAllSprites();
+      0000D1 CDr00r00               236 	call	_ClearAllSprites
+                                    237 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:50: if(currentGameState==STARTSCREEN)SetupStartScreen();
+      0000D4 F8 09                  238 	ldhl	sp,	#9
+      0000D6 7E                     239 	ld	a, (hl)
+      0000D7 3D                     240 	dec	a
+      0000D8 20 05                  241 	jr	NZ, 00114$
+      0000DA CDr00r00               242 	call	_SetupStartScreen
+      0000DD 18 2E                  243 	jr	00115$
+      0000DF                        244 00114$:
+                                    245 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:51: else if(currentGameState==MENUSCREEN)SetupMenuScreen();
+      0000DF F8 09                  246 	ldhl	sp,	#9
+      0000E1 7E                     247 	ld	a, (hl)
+      0000E2 D6 02                  248 	sub	a, #0x02
+      0000E4 20 05                  249 	jr	NZ, 00111$
+      0000E6 CDr00r00               250 	call	_SetupMenuScreen
+      0000E9 18 22                  251 	jr	00115$
+      0000EB                        252 00111$:
+                                    253 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:52: else if(currentGameState==GAMEPLAYSCREEN)SetupGameplayScreen();
+      0000EB F8 09                  254 	ldhl	sp,	#9
+      0000ED 7E                     255 	ld	a, (hl)
+      0000EE D6 03                  256 	sub	a, #0x03
+      0000F0 20 05                  257 	jr	NZ, 00108$
+      0000F2 CDr00r00               258 	call	_SetupGameplayScreen
+      0000F5 18 16                  259 	jr	00115$
+      0000F7                        260 00108$:
+                                    261 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:53: else if(currentGameState==GAMEOVERSCREEN)SetupGameOverScreen();
+      0000F7 F8 09                  262 	ldhl	sp,	#9
+      0000F9 7E                     263 	ld	a, (hl)
+      0000FA D6 05                  264 	sub	a, #0x05
+      0000FC 20 05                  265 	jr	NZ, 00105$
+      0000FE CDr00r00               266 	call	_SetupGameOverScreen
+      000101 18 0A                  267 	jr	00115$
+      000103                        268 00105$:
+                                    269 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:54: else if(currentGameState==NEXTLEVELSCREEN)SetupNextLevelScreen();
+      000103 F8 09                  270 	ldhl	sp,	#9
+      000105 7E                     271 	ld	a, (hl)
+      000106 D6 04                  272 	sub	a, #0x04
+      000108 20 03                  273 	jr	NZ, 00115$
+      00010A CDr00r00               274 	call	_SetupNextLevelScreen
+      00010D                        275 00115$:
+                                    276 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:58: for(int16_t fade=250;fade>=0;fade-=15){
+      00010D 01 FA 00               277 	ld	bc, #0x00fa
+      000110                        278 00140$:
+      000110 F8 0A                  279 	ldhl	sp,	#10
+      000112 79                     280 	ld	a, c
+      000113 22                     281 	ld	(hl+), a
+      000114 70                     282 	ld	(hl), b
+      000115 CB 7E                  283 	bit	7, (hl)
+      000117 C2rABr01               284 	jp	NZ, 00118$
+                                    285 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:60: const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(fade, fade, fade),RGB8(fade, fade, fade),RGB8(fade, fade, fade)    };
+      00011A F8 00                  286 	ldhl	sp,	#0
+      00011C 7D                     287 	ld	a, l
+      00011D 54                     288 	ld	d, h
+      00011E F8 0C                  289 	ldhl	sp,	#12
+      000120 22                     290 	ld	(hl+), a
+      000121 7A                     291 	ld	a, d
+      000122 32                     292 	ld	(hl-), a
+      000123 2A                     293 	ld	a,	(hl+)
+      000124 66                     294 	ld	h, (hl)
+      000125 6F                     295 	ld	l, a
+      000126 3E FF                  296 	ld	a, #0xff
+      000128 22                     297 	ld	(hl+), a
+      000129 36 7F                  298 	ld	(hl), #0x7f
+      00012B F8 0C                  299 	ldhl	sp,	#12
+      00012D 2A                     300 	ld	a, (hl+)
+      00012E 5F                     301 	ld	e, a
+      00012F 56                     302 	ld	d, (hl)
+      000130 13                     303 	inc	de
+      000131 13                     304 	inc	de
+      000132 CB 28                  305 	sra	b
+      000134 CB 19                  306 	rr	c
+      000136 CB 28                  307 	sra	b
+      000138 CB 19                  308 	rr	c
+      00013A CB 28                  309 	sra	b
+      00013C CB 19                  310 	rr	c
+      00013E 69                     311 	ld	l, c
+      00013F 60                     312 	ld	h, b
+      000140 29                     313 	add	hl, hl
+      000141 29                     314 	add	hl, hl
+      000142 29                     315 	add	hl, hl
+      000143 29                     316 	add	hl, hl
+      000144 29                     317 	add	hl, hl
+      000145 7D                     318 	ld	a, l
+      000146 B1                     319 	or	a, c
+      000147 6F                     320 	ld	l, a
+                                    321 ;	spillPairReg hl
+                                    322 ;	spillPairReg hl
+      000148 7C                     323 	ld	a, h
+      000149 B0                     324 	or	a, b
+      00014A 67                     325 	ld	h, a
+                                    326 ;	spillPairReg hl
+                                    327 ;	spillPairReg hl
+      00014B 79                     328 	ld	a, c
+      00014C 87                     329 	add	a, a
+      00014D 87                     330 	add	a, a
+      00014E 47                     331 	ld	b, a
+      00014F AF                     332 	xor	a, a
+      000150 B5                     333 	or	a, l
+      000151 4F                     334 	ld	c, a
+      000152 78                     335 	ld	a, b
+      000153 B4                     336 	or	a, h
+      000154 47                     337 	ld	b, a
+      000155 79                     338 	ld	a, c
+      000156 12                     339 	ld	(de), a
+      000157 13                     340 	inc	de
+      000158 78                     341 	ld	a, b
+      000159 12                     342 	ld	(de), a
+      00015A F8 0C                  343 	ldhl	sp,#12
+      00015C 2A                     344 	ld	a, (hl+)
+      00015D 5F                     345 	ld	e, a
+      00015E 56                     346 	ld	d, (hl)
+      00015F 21 04 00               347 	ld	hl, #0x0004
+      000162 19                     348 	add	hl, de
+      000163 5D                     349 	ld	e, l
+      000164 54                     350 	ld	d, h
+      000165 79                     351 	ld	a, c
+      000166 12                     352 	ld	(de), a
+      000167 13                     353 	inc	de
+      000168 78                     354 	ld	a, b
+      000169 12                     355 	ld	(de), a
+      00016A F8 0C                  356 	ldhl	sp,#12
+      00016C 2A                     357 	ld	a, (hl+)
+      00016D 5F                     358 	ld	e, a
+      00016E 56                     359 	ld	d, (hl)
+      00016F 21 06 00               360 	ld	hl, #0x0006
+      000172 19                     361 	add	hl, de
+      000173 5D                     362 	ld	e, l
+      000174 54                     363 	ld	d, h
+      000175 79                     364 	ld	a, c
+      000176 12                     365 	ld	(de), a
+      000177 13                     366 	inc	de
+      000178 78                     367 	ld	a, b
+      000179 12                     368 	ld	(de), a
+                                    369 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:62: set_sprite_palette(0,1,blackAndWhite);
+      00017A F8 0C                  370 	ldhl	sp,	#12
+      00017C 2A                     371 	ld	a, (hl+)
+      00017D 4F                     372 	ld	c, a
+      00017E 46                     373 	ld	b, (hl)
+      00017F C5                     374 	push	bc
+      000180 AF                     375 	xor	a, a
+      000181 3C                     376 	inc	a
+      000182 F5                     377 	push	af
+      000183 CDr00r00               378 	call	_set_sprite_palette
+      000186 E8 04                  379 	add	sp, #4
+                                    380 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:63: set_bkg_palette(0,1,blackAndWhite);
+      000188 F8 0C                  381 	ldhl	sp,	#12
+      00018A 2A                     382 	ld	a, (hl+)
+      00018B 4F                     383 	ld	c, a
+      00018C 46                     384 	ld	b, (hl)
+      00018D C5                     385 	push	bc
+      00018E AF                     386 	xor	a, a
+      00018F 3C                     387 	inc	a
+      000190 F5                     388 	push	af
+      000191 CDr00r00               389 	call	_set_bkg_palette
+      000194 E8 04                  390 	add	sp, #4
+                                    391 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:65: wait_vbl_done();
+      000196 CDr00r00               392 	call	_wait_vbl_done
+                                    393 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:58: for(int16_t fade=250;fade>=0;fade-=15){
+      000199 F8 0A                  394 	ldhl	sp,#10
+      00019B 2A                     395 	ld	a, (hl+)
+      00019C 5F                     396 	ld	e, a
+      00019D 56                     397 	ld	d, (hl)
+      00019E 21 0F 00               398 	ld	hl, #0x000f
+      0001A1 7B                     399 	ld	a, e
+      0001A2 95                     400 	sub	a, l
+      0001A3 5F                     401 	ld	e, a
+      0001A4 7A                     402 	ld	a, d
+      0001A5 9C                     403 	sbc	a, h
+      0001A6 4B                     404 	ld	c, e
+      0001A7 47                     405 	ld	b, a
+      0001A8 C3r10r01               406 	jp	00140$
+      0001AB                        407 00118$:
+                                    408 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:70: if(currentGameState==STARTSCREEN)nextGameState=UpdateStartScreen();
+      0001AB F8 08                  409 	ldhl	sp,	#8
+      0001AD 7E                     410 	ld	a, (hl)
+      0001AE 3D                     411 	dec	a
+      0001AF 20 08                  412 	jr	NZ, 00131$
+      0001B1 CDr00r00               413 	call	_UpdateStartScreen
+      0001B4 F8 09                  414 	ldhl	sp,	#9
+      0001B6 73                     415 	ld	(hl), e
+      0001B7 18 3A                  416 	jr	00132$
+      0001B9                        417 00131$:
+                                    418 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:71: else if(currentGameState==MENUSCREEN)nextGameState=UpdateMenuScreen();
+      0001B9 F8 08                  419 	ldhl	sp,	#8
+      0001BB 7E                     420 	ld	a, (hl)
+      0001BC D6 02                  421 	sub	a, #0x02
+      0001BE 20 08                  422 	jr	NZ, 00128$
+      0001C0 CDr00r00               423 	call	_UpdateMenuScreen
+      0001C3 F8 09                  424 	ldhl	sp,	#9
+      0001C5 73                     425 	ld	(hl), e
+      0001C6 18 2B                  426 	jr	00132$
+      0001C8                        427 00128$:
+                                    428 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:72: else if(currentGameState==GAMEPLAYSCREEN)nextGameState=UpdateGameplayScreen();
+      0001C8 F8 08                  429 	ldhl	sp,	#8
+      0001CA 7E                     430 	ld	a, (hl)
+      0001CB D6 03                  431 	sub	a, #0x03
+      0001CD 20 08                  432 	jr	NZ, 00125$
+      0001CF CDr00r00               433 	call	_UpdateGameplayScreen
+      0001D2 F8 09                  434 	ldhl	sp,	#9
+      0001D4 73                     435 	ld	(hl), e
+      0001D5 18 1C                  436 	jr	00132$
+      0001D7                        437 00125$:
+                                    438 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:73: else if(currentGameState==GAMEOVERSCREEN)nextGameState=UpdateGameOverScreen();
+      0001D7 F8 08                  439 	ldhl	sp,	#8
+      0001D9 7E                     440 	ld	a, (hl)
+      0001DA D6 05                  441 	sub	a, #0x05
+      0001DC 20 08                  442 	jr	NZ, 00122$
+      0001DE CDr00r00               443 	call	_UpdateGameOverScreen
+      0001E1 F8 09                  444 	ldhl	sp,	#9
+      0001E3 73                     445 	ld	(hl), e
+      0001E4 18 0D                  446 	jr	00132$
+      0001E6                        447 00122$:
+                                    448 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:74: else if(currentGameState==NEXTLEVELSCREEN)nextGameState=UpdateNextLevelScreen();
+      0001E6 F8 08                  449 	ldhl	sp,	#8
+      0001E8 7E                     450 	ld	a, (hl)
+      0001E9 D6 04                  451 	sub	a, #0x04
+      0001EB 20 06                  452 	jr	NZ, 00132$
+      0001ED CDr00r00               453 	call	_UpdateNextLevelScreen
+      0001F0 F8 09                  454 	ldhl	sp,	#9
+      0001F2 73                     455 	ld	(hl), e
+      0001F3                        456 00132$:
+                                    457 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:77: wait_vbl_done();
+      0001F3 CDr00r00               458 	call	_wait_vbl_done
+      0001F6 C3r17r00               459 	jp	00134$
+                                    460 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:81: }
+      0001F9 E8 0E                  461 	add	sp, #14
+      0001FB C9                     462 	ret
+                                    463 	.area _CODE
+                                    464 	.area _INITIALIZER
+                                    465 	.area _CABS (ABS)

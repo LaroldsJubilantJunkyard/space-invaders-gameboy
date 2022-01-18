@@ -176,6 +176,8 @@ void UpdateInvaders(){
 
         // If the invaders should move
         if(InvadersShouldMove()){
+
+            
                 
             // Check if any have reached the end of the screen after sliding
             if(SlideInvader(i)){
@@ -198,12 +200,26 @@ void UpdateInvaders(){
         if(rowsAtEnd==5){
             rowsAtEnd=0;
 
+            
+
             ShiftAllInvadersDown();
         }
     }
 
     // If the invaders should move
     if(InvadersShouldMove()){
+
+        if(moveRow==4||moveRow==2){
+            NR21_REG=0x43;
+            NR22_REG=0x81;
+            NR23_REG=0xED;
+            NR24_REG=0xC1;
+        }else if(moveRow==0){
+            NR21_REG=0x83;
+            NR22_REG=0x81;
+            NR23_REG=0xED;
+            NR24_REG=0xC1;
+        }
 
         // Loop around after 5
         moveRow=(moveRow+1)%5;

@@ -65,8 +65,8 @@ ___func_BulletA::
 _BulletA_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x380a
-	.dw #0x001f
+	.dw #0x180a
+	.dw #0x0019
 _BulletA_tiles:
 	.db #0x10	; 16
 	.db #0x00	; 0
@@ -132,6 +132,54 @@ _BulletA_tiles:
 	.db #0x00	; 0
 	.db #0x10	; 16
 	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x38	; 56	'8'
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x38	; 56	'8'
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x38	; 56	'8'
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
 	.db #0x38	; 56	'8'
 	.db #0x00	; 0
 	.db #0x10	; 16
@@ -187,8 +235,8 @@ _BulletA_metasprite3:
 _BulletA_metasprite4:
 	.db #0xfc	; -4
 	.db #0xfc	; -4
-	.db #0x03	; 3
-	.db #0x40	; 64
+	.db #0x04	; 4
+	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
@@ -196,8 +244,8 @@ _BulletA_metasprite4:
 _BulletA_metasprite5:
 	.db #0xfc	; -4
 	.db #0xfc	; -4
-	.db #0x02	; 2
-	.db #0x40	; 64
+	.db #0x05	; 5
+	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
@@ -205,8 +253,8 @@ _BulletA_metasprite5:
 _BulletA_metasprite6:
 	.db #0xfc	; -4
 	.db #0xfc	; -4
-	.db #0x01	; 1
-	.db #0x40	; 64
+	.db #0x06	; 6
+	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
@@ -214,7 +262,7 @@ _BulletA_metasprite6:
 _BulletA_metasprite7:
 	.db #0xfc	; -4
 	.db #0xfc	; -4
-	.db #0x04	; 4
+	.db #0x07	; 7
 	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0

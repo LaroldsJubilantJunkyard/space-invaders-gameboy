@@ -9,981 +9,1012 @@
                                       9 ; Public variables in this module
                                      10 ;--------------------------------------------------------
                                      11 	.globl _InvaderCheckBulletCollision
-                                     12 	.globl _UpdateInvaderTiles
-                                     13 	.globl _IncreaseScore
-                                     14 	.globl _get_bkg_tile_xy
-                                     15 	.globl _set_bkg_tile_xy
-                                     16 	.globl _SetupBullets
-                                     17 	.globl _GetAvailableBulletSprite
-                                     18 	.globl _UpdateBullets
-                                     19 ;--------------------------------------------------------
-                                     20 ; special function registers
-                                     21 ;--------------------------------------------------------
+                                     12 	.globl _IncreaseScore
+                                     13 	.globl _DamagePlayer
+                                     14 	.globl _UpdateInvaderTiles
+                                     15 	.globl _get_bkg_tile_xy
+                                     16 	.globl _set_bkg_tile_xy
+                                     17 	.globl _SetupBullets
+                                     18 	.globl _GetAvailableBulletSprite
+                                     19 	.globl _UpdateBullets
+                                     20 ;--------------------------------------------------------
+                                     21 ; special function registers
                                      22 ;--------------------------------------------------------
-                                     23 ; ram data
-                                     24 ;--------------------------------------------------------
-                                     25 	.area _DATA
-                                     26 ;--------------------------------------------------------
-                                     27 ; ram data
-                                     28 ;--------------------------------------------------------
-                                     29 	.area _INITIALIZED
-                                     30 ;--------------------------------------------------------
-                                     31 ; absolute external ram data
-                                     32 ;--------------------------------------------------------
-                                     33 	.area _DABS (ABS)
-                                     34 ;--------------------------------------------------------
-                                     35 ; global & static initialisations
-                                     36 ;--------------------------------------------------------
-                                     37 	.area _HOME
-                                     38 	.area _GSINIT
-                                     39 	.area _GSFINAL
-                                     40 	.area _GSINIT
-                                     41 ;--------------------------------------------------------
-                                     42 ; Home
-                                     43 ;--------------------------------------------------------
-                                     44 	.area _HOME
+                                     23 ;--------------------------------------------------------
+                                     24 ; ram data
+                                     25 ;--------------------------------------------------------
+                                     26 	.area _DATA
+                                     27 ;--------------------------------------------------------
+                                     28 ; ram data
+                                     29 ;--------------------------------------------------------
+                                     30 	.area _INITIALIZED
+                                     31 ;--------------------------------------------------------
+                                     32 ; absolute external ram data
+                                     33 ;--------------------------------------------------------
+                                     34 	.area _DABS (ABS)
+                                     35 ;--------------------------------------------------------
+                                     36 ; global & static initialisations
+                                     37 ;--------------------------------------------------------
+                                     38 	.area _HOME
+                                     39 	.area _GSINIT
+                                     40 	.area _GSFINAL
+                                     41 	.area _GSINIT
+                                     42 ;--------------------------------------------------------
+                                     43 ; Home
+                                     44 ;--------------------------------------------------------
                                      45 	.area _HOME
-                                     46 ;--------------------------------------------------------
-                                     47 ; code
-                                     48 ;--------------------------------------------------------
-                                     49 	.area _CODE
-                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:12: void SetupBullets(){
-                                     51 ;	---------------------------------
-                                     52 ; Function SetupBullets
-                                     53 ; ---------------------------------
-      000000                         54 _SetupBullets::
-                                     55 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:17: for(INT8 i=2;i<8;i++)shadow_OAM[i].tile=0;
-      000000 0E 02                   56 	ld	c, #0x02
-      000002                         57 00103$:
-      000002 79                      58 	ld	a, c
-      000003 EE 80                   59 	xor	a, #0x80
-      000005 D6 88                   60 	sub	a, #0x88
-      000007 D0                      61 	ret	NC
-      000008 11r00r00                62 	ld	de, #_shadow_OAM+0
-      00000B 79                      63 	ld	a, c
-      00000C 6F                      64 	ld	l, a
-                                     65 ;	spillPairReg hl
+                                     46 	.area _HOME
+                                     47 ;--------------------------------------------------------
+                                     48 ; code
+                                     49 ;--------------------------------------------------------
+                                     50 	.area _CODE
+                                     51 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:12: void SetupBullets(){
+                                     52 ;	---------------------------------
+                                     53 ; Function SetupBullets
+                                     54 ; ---------------------------------
+      000000                         55 _SetupBullets::
+                                     56 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:17: for(int8_t i=2;i<8;i++)shadow_OAM[i].tile=0;
+      000000 0E 02                   57 	ld	c, #0x02
+      000002                         58 00103$:
+      000002 79                      59 	ld	a, c
+      000003 EE 80                   60 	xor	a, #0x80
+      000005 D6 88                   61 	sub	a, #0x88
+      000007 D0                      62 	ret	NC
+      000008 11r00r00                63 	ld	de, #_shadow_OAM+0
+      00000B 79                      64 	ld	a, c
+      00000C 6F                      65 	ld	l, a
                                      66 ;	spillPairReg hl
-      00000D 07                      67 	rlca
-      00000E 9F                      68 	sbc	a, a
-      00000F 67                      69 	ld	h, a
-      000010 29                      70 	add	hl, hl
-      000011 29                      71 	add	hl, hl
-      000012 19                      72 	add	hl, de
-      000013 23                      73 	inc	hl
-      000014 23                      74 	inc	hl
-      000015 36 00                   75 	ld	(hl), #0x00
-      000017 0C                      76 	inc	c
-                                     77 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:18: }
-      000018 18 E8                   78 	jr	00103$
-                                     79 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:21: uint8_t GetAvailableBulletSprite(){
-                                     80 ;	---------------------------------
-                                     81 ; Function GetAvailableBulletSprite
-                                     82 ; ---------------------------------
-      00001A                         83 _GetAvailableBulletSprite::
-                                     84 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(INT8 i=3;i<8;i++){
-      00001A 01 03 03                85 	ld	bc, #0x303
-      00001D                         86 00105$:
-      00001D 78                      87 	ld	a, b
-      00001E EE 80                   88 	xor	a, #0x80
-      000020 D6 88                   89 	sub	a, #0x88
-      000022 30 17                   90 	jr	NC, 00103$
-                                     91 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:27: if(shadow_OAM[i].tile==0)return i;
-      000024 11r00r00                92 	ld	de, #_shadow_OAM+0
-      000027 78                      93 	ld	a, b
-      000028 6F                      94 	ld	l, a
-                                     95 ;	spillPairReg hl
+                                     67 ;	spillPairReg hl
+      00000D 07                      68 	rlca
+      00000E 9F                      69 	sbc	a, a
+      00000F 67                      70 	ld	h, a
+      000010 29                      71 	add	hl, hl
+      000011 29                      72 	add	hl, hl
+      000012 19                      73 	add	hl, de
+      000013 23                      74 	inc	hl
+      000014 23                      75 	inc	hl
+      000015 36 00                   76 	ld	(hl), #0x00
+      000017 0C                      77 	inc	c
+                                     78 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:18: }
+      000018 18 E8                   79 	jr	00103$
+                                     80 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:21: uint8_t GetAvailableBulletSprite(){
+                                     81 ;	---------------------------------
+                                     82 ; Function GetAvailableBulletSprite
+                                     83 ; ---------------------------------
+      00001A                         84 _GetAvailableBulletSprite::
+                                     85 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(int8_t i=3;i<8;i++){
+      00001A 01 03 03                86 	ld	bc, #0x303
+      00001D                         87 00105$:
+      00001D 78                      88 	ld	a, b
+      00001E EE 80                   89 	xor	a, #0x80
+      000020 D6 88                   90 	sub	a, #0x88
+      000022 30 17                   91 	jr	NC, 00103$
+                                     92 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:27: if(shadow_OAM[i].tile==0)return i;
+      000024 11r00r00                93 	ld	de, #_shadow_OAM+0
+      000027 78                      94 	ld	a, b
+      000028 6F                      95 	ld	l, a
                                      96 ;	spillPairReg hl
-      000029 07                      97 	rlca
-      00002A 9F                      98 	sbc	a, a
-      00002B 67                      99 	ld	h, a
-      00002C 29                     100 	add	hl, hl
-      00002D 29                     101 	add	hl, hl
-      00002E 19                     102 	add	hl, de
-      00002F 23                     103 	inc	hl
-      000030 23                     104 	inc	hl
-      000031 7E                     105 	ld	a, (hl)
-      000032 B7                     106 	or	a, a
-      000033 20 02                  107 	jr	NZ, 00106$
-      000035 59                     108 	ld	e, c
-      000036 C9                     109 	ret
-      000037                        110 00106$:
-                                    111 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(INT8 i=3;i<8;i++){
-      000037 04                     112 	inc	b
-      000038 48                     113 	ld	c, b
-      000039 18 E2                  114 	jr	00105$
-      00003B                        115 00103$:
-                                    116 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:32: return 0;
-      00003B 1E 00                  117 	ld	e, #0x00
-                                    118 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:33: }
-      00003D C9                     119 	ret
-                                    120 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:39: uint8_t InvaderCheckBulletCollision(uint8_t i){
-                                    121 ;	---------------------------------
-                                    122 ; Function InvaderCheckBulletCollision
-                                    123 ; ---------------------------------
-      00003E                        124 _InvaderCheckBulletCollision::
-      00003E E8 FC                  125 	add	sp, #-4
-                                    126 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:41: if(PlayerBulletSprite.tile!=0&&invaders[i].active){
-      000040 FAr0Ar00               127 	ld	a, (#(_shadow_OAM + 10) + 0)
-      000043 B7                     128 	or	a, a
-      000044 CArD6r00               129 	jp	Z, 00109$
-      000047 F8 06                  130 	ldhl	sp,	#6
-      000049 4E                     131 	ld	c, (hl)
-      00004A 06 00                  132 	ld	b, #0x00
-      00004C 69                     133 	ld	l, c
-      00004D 60                     134 	ld	h, b
-      00004E 29                     135 	add	hl, hl
-      00004F 29                     136 	add	hl, hl
-      000050 09                     137 	add	hl, bc
-      000051 01r00r00               138 	ld	bc,#_invaders
-      000054 09                     139 	add	hl,bc
-      000055 33                     140 	inc	sp
-      000056 33                     141 	inc	sp
-      000057 4D                     142 	ld	c, l
-      000058 44                     143 	ld	b, h
-      000059 C5                     144 	push	bc
-      00005A 03                     145 	inc	bc
-      00005B 03                     146 	inc	bc
-      00005C 0A                     147 	ld	a, (bc)
-      00005D B7                     148 	or	a, a
-      00005E 28 76                  149 	jr	Z, 00109$
-                                    150 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:43: INT8 xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
-      000060 FAr09r00               151 	ld	a, (#(_shadow_OAM + 9) + 0)
-      000063 C6 FC                  152 	add	a, #0xfc
-      000065 F8 02                  153 	ldhl	sp,	#2
-      000067 22                     154 	ld	(hl+), a
-      000068 D1                     155 	pop	de
-      000069 D5                     156 	push	de
-      00006A 1A                     157 	ld	a, (de)
-      00006B 87                     158 	add	a, a
+                                     97 ;	spillPairReg hl
+      000029 07                      98 	rlca
+      00002A 9F                      99 	sbc	a, a
+      00002B 67                     100 	ld	h, a
+      00002C 29                     101 	add	hl, hl
+      00002D 29                     102 	add	hl, hl
+      00002E 19                     103 	add	hl, de
+      00002F 23                     104 	inc	hl
+      000030 23                     105 	inc	hl
+      000031 7E                     106 	ld	a, (hl)
+      000032 B7                     107 	or	a, a
+      000033 20 02                  108 	jr	NZ, 00106$
+      000035 59                     109 	ld	e, c
+      000036 C9                     110 	ret
+      000037                        111 00106$:
+                                    112 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:24: for(int8_t i=3;i<8;i++){
+      000037 04                     113 	inc	b
+      000038 48                     114 	ld	c, b
+      000039 18 E2                  115 	jr	00105$
+      00003B                        116 00103$:
+                                    117 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:32: return 0;
+      00003B 1E 00                  118 	ld	e, #0x00
+                                    119 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:33: }
+      00003D C9                     120 	ret
+                                    121 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:38: uint8_t InvaderCheckBulletCollision(uint8_t i){
+                                    122 ;	---------------------------------
+                                    123 ; Function InvaderCheckBulletCollision
+                                    124 ; ---------------------------------
+      00003E                        125 _InvaderCheckBulletCollision::
+      00003E E8 FC                  126 	add	sp, #-4
+                                    127 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:40: if(PlayerBulletSprite.tile!=0&&invaders[i].active){
+      000040 FAr0Ar00               128 	ld	a, (#(_shadow_OAM + 10) + 0)
+      000043 B7                     129 	or	a, a
+      000044 CArEBr00               130 	jp	Z, 00109$
+      000047 F8 06                  131 	ldhl	sp,	#6
+      000049 4E                     132 	ld	c, (hl)
+      00004A 06 00                  133 	ld	b, #0x00
+      00004C 69                     134 	ld	l, c
+      00004D 60                     135 	ld	h, b
+      00004E 29                     136 	add	hl, hl
+      00004F 29                     137 	add	hl, hl
+      000050 09                     138 	add	hl, bc
+      000051 01r00r00               139 	ld	bc,#_invaders
+      000054 09                     140 	add	hl,bc
+      000055 33                     141 	inc	sp
+      000056 33                     142 	inc	sp
+      000057 4D                     143 	ld	c, l
+      000058 44                     144 	ld	b, h
+      000059 C5                     145 	push	bc
+      00005A 03                     146 	inc	bc
+      00005B 03                     147 	inc	bc
+      00005C 0A                     148 	ld	a, (bc)
+      00005D B7                     149 	or	a, a
+      00005E CArEBr00               150 	jp	Z, 00109$
+                                    151 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:42: int8_t xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
+      000061 FAr09r00               152 	ld	a, (#(_shadow_OAM + 9) + 0)
+      000064 C6 FC                  153 	add	a, #0xfc
+      000066 F8 02                  154 	ldhl	sp,	#2
+      000068 22                     155 	ld	(hl+), a
+      000069 D1                     156 	pop	de
+      00006A D5                     157 	push	de
+      00006B 1A                     158 	ld	a, (de)
       00006C 87                     159 	add	a, a
       00006D 87                     160 	add	a, a
-      00006E C6 04                  161 	add	a, #0x04
-      000070 77                     162 	ld	(hl), a
-      000071 D1                     163 	pop	de
-      000072 D5                     164 	push	de
-      000073 21 04 00               165 	ld	hl, #0x0004
-      000076 19                     166 	add	hl, de
-      000077 5D                     167 	ld	e, l
-      000078 54                     168 	ld	d, h
-      000079 1A                     169 	ld	a, (de)
-      00007A F8 03                  170 	ldhl	sp,	#3
-      00007C 86                     171 	add	a, (hl)
-      00007D 2B                     172 	dec	hl
-      00007E 5F                     173 	ld	e, a
-      00007F 7E                     174 	ld	a, (hl)
-      000080 93                     175 	sub	a, e
-                                    176 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:44: INT8 yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
-      000081 22                     177 	ld	(hl+), a
-      000082 D1                     178 	pop	de
-      000083 D5                     179 	push	de
-      000084 13                     180 	inc	de
-      000085 1A                     181 	ld	a, (de)
-      000086 87                     182 	add	a, a
+      00006E 87                     161 	add	a, a
+      00006F C6 04                  162 	add	a, #0x04
+      000071 77                     163 	ld	(hl), a
+      000072 D1                     164 	pop	de
+      000073 D5                     165 	push	de
+      000074 21 04 00               166 	ld	hl, #0x0004
+      000077 19                     167 	add	hl, de
+      000078 5D                     168 	ld	e, l
+      000079 54                     169 	ld	d, h
+      00007A 1A                     170 	ld	a, (de)
+      00007B F8 03                  171 	ldhl	sp,	#3
+      00007D 86                     172 	add	a, (hl)
+      00007E 2B                     173 	dec	hl
+      00007F 5F                     174 	ld	e, a
+      000080 7E                     175 	ld	a, (hl)
+      000081 93                     176 	sub	a, e
+                                    177 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:43: int8_t yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
+      000082 22                     178 	ld	(hl+), a
+      000083 D1                     179 	pop	de
+      000084 D5                     180 	push	de
+      000085 13                     181 	inc	de
+      000086 1A                     182 	ld	a, (de)
       000087 87                     183 	add	a, a
       000088 87                     184 	add	a, a
-      000089 5F                     185 	ld	e, a
-      00008A 3E F8                  186 	ld	a, #0xf8
-      00008C 93                     187 	sub	a, e
-      00008D 77                     188 	ld	(hl), a
-      00008E FAr08r00               189 	ld	a, (#(_shadow_OAM + 8) + 0)
-      000091 86                     190 	add	a, (hl)
-                                    191 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:47: if(xd<0)xd=-xd;
-      000092 32                     192 	ld	(hl-), a
-      000093 CB 7E                  193 	bit	7, (hl)
-      000095 28 03                  194 	jr	Z, 00102$
-      000097 AF                     195 	xor	a, a
-      000098 96                     196 	sub	a, (hl)
-      000099 77                     197 	ld	(hl), a
-      00009A                        198 00102$:
-                                    199 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:48: if(yd<0)yd=-yd;
-      00009A F8 03                  200 	ldhl	sp,	#3
-      00009C CB 7E                  201 	bit	7, (hl)
-      00009E 28 03                  202 	jr	Z, 00104$
-      0000A0 AF                     203 	xor	a, a
-      0000A1 96                     204 	sub	a, (hl)
-      0000A2 77                     205 	ld	(hl), a
-      0000A3                        206 00104$:
-                                    207 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:50: if(xd<5&&yd<8){
-      0000A3 F8 02                  208 	ldhl	sp,	#2
-      0000A5 7E                     209 	ld	a, (hl)
-      0000A6 EE 80                  210 	xor	a, #0x80
-      0000A8 D6 85                  211 	sub	a, #0x85
-      0000AA 30 2A                  212 	jr	NC, 00109$
-      0000AC 23                     213 	inc	hl
-      0000AD 7E                     214 	ld	a, (hl)
-      0000AE EE 80                  215 	xor	a, #0x80
-      0000B0 D6 88                  216 	sub	a, #0x88
-      0000B2 30 22                  217 	jr	NC, 00109$
-                                    218 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:52: IncreaseScore(10);
-      0000B4 C5                     219 	push	bc
-      0000B5 3E 0A                  220 	ld	a, #0x0a
-      0000B7 F5                     221 	push	af
-      0000B8 33                     222 	inc	sp
-      0000B9 CDr00r00               223 	call	_IncreaseScore
-      0000BC 33                     224 	inc	sp
-      0000BD C1                     225 	pop	bc
-                                    226 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:54: invadersRemaining--;
-      0000BE 21r00r00               227 	ld	hl, #_invadersRemaining
-      0000C1 35                     228 	dec	(hl)
-                                    229 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:57: invaders[i].active=0;
-      0000C2 AF                     230 	xor	a, a
-      0000C3 02                     231 	ld	(bc), a
-                                    232 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:60: PlayerBulletSprite.tile=0;
-      0000C4 21r0Ar00               233 	ld	hl, #(_shadow_OAM + 10)
-      0000C7 36 00                  234 	ld	(hl), #0x00
-                                    235 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:63: UpdateInvaderTiles(i);
-      0000C9 F8 06                  236 	ldhl	sp,	#6
-      0000CB 7E                     237 	ld	a, (hl)
-      0000CC F5                     238 	push	af
-      0000CD 33                     239 	inc	sp
-      0000CE CDr00r00               240 	call	_UpdateInvaderTiles
-      0000D1 33                     241 	inc	sp
-                                    242 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:65: return 1;
-      0000D2 1E 01                  243 	ld	e, #0x01
-      0000D4 18 02                  244 	jr	00111$
-      0000D6                        245 00109$:
-                                    246 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:70: return 0;
-      0000D6 1E 00                  247 	ld	e, #0x00
-      0000D8                        248 00111$:
-                                    249 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:71: }
-      0000D8 E8 04                  250 	add	sp, #4
-      0000DA C9                     251 	ret
-                                    252 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:73: void UpdateBullets(){
-                                    253 ;	---------------------------------
-                                    254 ; Function UpdateBullets
-                                    255 ; ---------------------------------
-      0000DB                        256 _UpdateBullets::
-      0000DB E8 F8                  257 	add	sp, #-8
-                                    258 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:78: for(uint8_t i=2;i<8;i++){
-      0000DD F8 07                  259 	ldhl	sp,	#7
-      0000DF 36 02                  260 	ld	(hl), #0x02
-      0000E1                        261 00147$:
-      0000E1 F8 07                  262 	ldhl	sp,	#7
-      0000E3 7E                     263 	ld	a, (hl)
-      0000E4 D6 08                  264 	sub	a, #0x08
-      0000E6 D2r6Cr04               265 	jp	NC, 00148$
-                                    266 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:82: if(shadow_OAM[i].tile!=0){
-      0000E9 7E                     267 	ld	a, (hl)
-      0000EA 0E 00                  268 	ld	c, #0x00
-      0000EC 87                     269 	add	a, a
-      0000ED CB 11                  270 	rl	c
-      0000EF 87                     271 	add	a, a
-      0000F0 CB 11                  272 	rl	c
-      0000F2 F8 01                  273 	ldhl	sp,	#1
-      0000F4 22                     274 	ld	(hl+), a
-      0000F5 71                     275 	ld	(hl), c
-      0000F6 11r00r00               276 	ld	de, #_shadow_OAM
-      0000F9 3A                     277 	ld	a, (hl-)
-      0000FA 6E                     278 	ld	l, (hl)
-      0000FB 67                     279 	ld	h, a
-      0000FC 19                     280 	add	hl, de
-      0000FD 23                     281 	inc	hl
-      0000FE 23                     282 	inc	hl
-      0000FF 4D                     283 	ld	c, l
-      000100 44                     284 	ld	b, h
-      000101 0A                     285 	ld	a, (bc)
-      000102 F8 06                  286 	ldhl	sp,	#6
-      000104 77                     287 	ld	(hl), a
-      000105 7E                     288 	ld	a, (hl)
-      000106 B7                     289 	or	a, a
-      000107 CAr66r04               290 	jp	Z, 00141$
-                                    291 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:84: shadow_OAM[i].tile++;
-      00010A 11r00r00               292 	ld	de, #_shadow_OAM
-      00010D F8 01                  293 	ldhl	sp,	#1
-      00010F 2A                     294 	ld	a,	(hl+)
-      000110 66                     295 	ld	h, (hl)
-      000111 6F                     296 	ld	l, a
-      000112 19                     297 	add	hl, de
-      000113 E5                     298 	push	hl
-      000114 7D                     299 	ld	a, l
-      000115 F8 05                  300 	ldhl	sp,	#5
-      000117 77                     301 	ld	(hl), a
-      000118 E1                     302 	pop	hl
-      000119 7C                     303 	ld	a, h
-      00011A F8 04                  304 	ldhl	sp,	#4
-      00011C 32                     305 	ld	(hl-), a
-      00011D 2A                     306 	ld	a, (hl+)
-      00011E 5F                     307 	ld	e, a
-      00011F 56                     308 	ld	d, (hl)
-      000120 21 02 00               309 	ld	hl, #0x0002
-      000123 19                     310 	add	hl, de
-      000124 E5                     311 	push	hl
-      000125 7D                     312 	ld	a, l
-      000126 F8 07                  313 	ldhl	sp,	#7
-      000128 77                     314 	ld	(hl), a
-      000129 E1                     315 	pop	hl
-      00012A 7C                     316 	ld	a, h
-      00012B F8 06                  317 	ldhl	sp,	#6
-      00012D 32                     318 	ld	(hl-), a
-      00012E 2A                     319 	ld	a, (hl+)
-      00012F 5F                     320 	ld	e, a
-      000130 56                     321 	ld	d, (hl)
-      000131 1A                     322 	ld	a, (de)
-      000132 4F                     323 	ld	c, a
-      000133 0C                     324 	inc	c
-      000134 3A                     325 	ld	a, (hl-)
-      000135 6E                     326 	ld	l, (hl)
-      000136 67                     327 	ld	h, a
-      000137 71                     328 	ld	(hl), c
-                                    329 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:88: if(shadow_OAM[i].tile==ALIEN_SPRITE_START)shadow_OAM[i].tile=BULLETC_SPRITE_START;
-      000138 11r00r00               330 	ld	de, #_shadow_OAM
-      00013B F8 01                  331 	ldhl	sp,	#1
-      00013D 2A                     332 	ld	a,	(hl+)
-      00013E 66                     333 	ld	h, (hl)
-      00013F 6F                     334 	ld	l, a
-      000140 19                     335 	add	hl, de
-      000141 E5                     336 	push	hl
-      000142 7D                     337 	ld	a, l
-      000143 F8 05                  338 	ldhl	sp,	#5
-      000145 77                     339 	ld	(hl), a
-      000146 E1                     340 	pop	hl
-      000147 7C                     341 	ld	a, h
-      000148 F8 04                  342 	ldhl	sp,	#4
-      00014A 32                     343 	ld	(hl-), a
-      00014B 2A                     344 	ld	a, (hl+)
-      00014C 5F                     345 	ld	e, a
-      00014D 56                     346 	ld	d, (hl)
-      00014E 21 02 00               347 	ld	hl, #0x0002
-      000151 19                     348 	add	hl, de
-      000152 E5                     349 	push	hl
-      000153 7D                     350 	ld	a, l
-      000154 F8 07                  351 	ldhl	sp,	#7
-      000156 77                     352 	ld	(hl), a
-      000157 E1                     353 	pop	hl
-      000158 7C                     354 	ld	a, h
-      000159 F8 06                  355 	ldhl	sp,	#6
-      00015B 32                     356 	ld	(hl-), a
-      00015C 2A                     357 	ld	a, (hl+)
-      00015D 5F                     358 	ld	e, a
-      00015E 56                     359 	ld	d, (hl)
-      00015F 1A                     360 	ld	a, (de)
-      000160 D6 0A                  361 	sub	a, #0x0a
-      000162 20 1B                  362 	jr	NZ, 00102$
-      000164 11r00r00               363 	ld	de, #_shadow_OAM
-      000167 F8 01                  364 	ldhl	sp,	#1
-      000169 2A                     365 	ld	a,	(hl+)
-      00016A 66                     366 	ld	h, (hl)
-      00016B 6F                     367 	ld	l, a
-      00016C 19                     368 	add	hl, de
-      00016D E5                     369 	push	hl
-      00016E 7D                     370 	ld	a, l
-      00016F F8 07                  371 	ldhl	sp,	#7
-      000171 77                     372 	ld	(hl), a
-      000172 E1                     373 	pop	hl
-      000173 7C                     374 	ld	a, h
-      000174 F8 06                  375 	ldhl	sp,	#6
-      000176 32                     376 	ld	(hl-), a
-      000177 2A                     377 	ld	a, (hl+)
-      000178 4F                     378 	ld	c, a
-      000179 46                     379 	ld	b, (hl)
-      00017A 03                     380 	inc	bc
-      00017B 03                     381 	inc	bc
-      00017C 3E 09                  382 	ld	a, #0x09
-      00017E 02                     383 	ld	(bc), a
-      00017F                        384 00102$:
-                                    385 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:89: if(shadow_OAM[i].tile==BULLETC_SPRITE_START)shadow_OAM[i].tile=BULLETB_SPRITE_START;
-      00017F F8 07                  386 	ldhl	sp,	#7
-      000181 3A                     387 	ld	a, (hl-)
-      000182 2B                     388 	dec	hl
-      000183 22                     389 	ld	(hl+), a
-      000184 AF                     390 	xor	a, a
-      000185 32                     391 	ld	(hl-), a
-      000186 7E                     392 	ld	a, (hl)
-      000187 F8 00                  393 	ldhl	sp,	#0
-      000189 77                     394 	ld	(hl), a
-      00018A F8 06                  395 	ldhl	sp,	#6
-      00018C 7E                     396 	ld	a, (hl)
-      00018D F8 01                  397 	ldhl	sp,	#1
-      00018F 77                     398 	ld	(hl), a
-      000190 3E 02                  399 	ld	a, #0x02
-      000192                        400 00277$:
-      000192 F8 00                  401 	ldhl	sp,	#0
-      000194 CB 26                  402 	sla	(hl)
-      000196 23                     403 	inc	hl
-      000197 CB 16                  404 	rl	(hl)
-      000199 3D                     405 	dec	a
-      00019A 20 F6                  406 	jr	NZ, 00277$
-      00019C D1                     407 	pop	de
-      00019D D5                     408 	push	de
-      00019E 21r00r00               409 	ld	hl, #_shadow_OAM
-      0001A1 19                     410 	add	hl, de
-      0001A2 E5                     411 	push	hl
-      0001A3 7D                     412 	ld	a, l
-      0001A4 F8 07                  413 	ldhl	sp,	#7
-      0001A6 77                     414 	ld	(hl), a
-      0001A7 E1                     415 	pop	hl
-      0001A8 7C                     416 	ld	a, h
-      0001A9 F8 06                  417 	ldhl	sp,	#6
-      0001AB 32                     418 	ld	(hl-), a
-      0001AC 2A                     419 	ld	a, (hl+)
-      0001AD 4F                     420 	ld	c, a
-      0001AE 46                     421 	ld	b, (hl)
-      0001AF 03                     422 	inc	bc
-      0001B0 03                     423 	inc	bc
-      0001B1 0A                     424 	ld	a, (bc)
-      0001B2 D6 09                  425 	sub	a, #0x09
-      0001B4 20 1A                  426 	jr	NZ, 00106$
-      0001B6 11r00r00               427 	ld	de, #_shadow_OAM
-      0001B9 E1                     428 	pop	hl
-      0001BA E5                     429 	push	hl
-      0001BB 19                     430 	add	hl, de
-      0001BC E5                     431 	push	hl
-      0001BD 7D                     432 	ld	a, l
-      0001BE F8 07                  433 	ldhl	sp,	#7
-      0001C0 77                     434 	ld	(hl), a
-      0001C1 E1                     435 	pop	hl
-      0001C2 7C                     436 	ld	a, h
-      0001C3 F8 06                  437 	ldhl	sp,	#6
-      0001C5 32                     438 	ld	(hl-), a
-      0001C6 2A                     439 	ld	a, (hl+)
-      0001C7 4F                     440 	ld	c, a
-      0001C8 46                     441 	ld	b, (hl)
-      0001C9 03                     442 	inc	bc
-      0001CA 03                     443 	inc	bc
-      0001CB 3E 08                  444 	ld	a, #0x08
-      0001CD 02                     445 	ld	(bc), a
-      0001CE 18 18                  446 	jr	00107$
-      0001D0                        447 00106$:
-                                    448 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:90: else if(shadow_OAM[i].tile==BULLETB_SPRITE_START)shadow_OAM[i].tile=BULLETA_SPRITE_START;
-      0001D0 D1                     449 	pop	de
-      0001D1 D5                     450 	push	de
-      0001D2 21r01r00               451 	ld	hl,#_shadow_OAM + 1
-      0001D5 19                     452 	add	hl,de
-      0001D6 23                     453 	inc	hl
-      0001D7 4D                     454 	ld	c, l
-      0001D8 44                     455 	ld	b, h
-      0001D9 0A                     456 	ld	a, (bc)
-      0001DA D6 08                  457 	sub	a, #0x08
-      0001DC 20 0A                  458 	jr	NZ, 00107$
-      0001DE 01r00r00               459 	ld	bc, #_shadow_OAM+0
-      0001E1 E1                     460 	pop	hl
-      0001E2 E5                     461 	push	hl
-      0001E3 09                     462 	add	hl, bc
-      0001E4 23                     463 	inc	hl
-      0001E5 23                     464 	inc	hl
-      0001E6 36 03                  465 	ld	(hl), #0x03
-      0001E8                        466 00107$:
-                                    467 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:94: if(i==2)shadow_OAM[i].y-=2;
-      0001E8 F8 07                  468 	ldhl	sp,	#7
-      0001EA 7E                     469 	ld	a, (hl)
-      0001EB D6 02                  470 	sub	a, #0x02
-      0001ED 20 16                  471 	jr	NZ, 00109$
-      0001EF 01r00r00               472 	ld	bc, #_shadow_OAM+0
-      0001F2 E1                     473 	pop	hl
-      0001F3 E5                     474 	push	hl
-      0001F4 09                     475 	add	hl, bc
-      0001F5 4D                     476 	ld	c, l
-      0001F6 44                     477 	ld	b, h
-      0001F7 11r00r00               478 	ld	de, #_shadow_OAM
-      0001FA E1                     479 	pop	hl
-      0001FB E5                     480 	push	hl
-      0001FC 19                     481 	add	hl, de
-      0001FD 5D                     482 	ld	e, l
-      0001FE 54                     483 	ld	d, h
-      0001FF 1A                     484 	ld	a, (de)
-      000200 3D                     485 	dec	a
-      000201 3D                     486 	dec	a
-      000202 02                     487 	ld	(bc), a
-      000203 18 14                  488 	jr	00110$
-      000205                        489 00109$:
-                                    490 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:95: else shadow_OAM[i].y+=2;
-      000205 01r00r00               491 	ld	bc, #_shadow_OAM+0
-      000208 E1                     492 	pop	hl
-      000209 E5                     493 	push	hl
-      00020A 09                     494 	add	hl, bc
-      00020B 4D                     495 	ld	c, l
-      00020C 44                     496 	ld	b, h
-      00020D 11r00r00               497 	ld	de, #_shadow_OAM+0
-      000210 E1                     498 	pop	hl
-      000211 E5                     499 	push	hl
-      000212 19                     500 	add	hl, de
-      000213 5D                     501 	ld	e, l
-      000214 54                     502 	ld	d, h
-      000215 1A                     503 	ld	a, (de)
-      000216 C6 02                  504 	add	a, #0x02
-      000218 02                     505 	ld	(bc), a
-      000219                        506 00110$:
-                                    507 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:98: if(shadow_OAM[i].y>176||shadow_OAM[i].y>250)shadow_OAM[i].tile=0;
-      000219 11r00r00               508 	ld	de, #_shadow_OAM
-      00021C E1                     509 	pop	hl
-      00021D E5                     510 	push	hl
-      00021E 19                     511 	add	hl, de
-      00021F 4D                     512 	ld	c, l
-      000220 44                     513 	ld	b, h
-      000221 0A                     514 	ld	a, (bc)
-      000222 4F                     515 	ld	c, a
-      000223 3E B0                  516 	ld	a, #0xb0
-      000225 91                     517 	sub	a, c
-      000226 38 0F                  518 	jr	C, 00135$
-      000228 11r00r00               519 	ld	de, #_shadow_OAM
-      00022B E1                     520 	pop	hl
-      00022C E5                     521 	push	hl
-      00022D 19                     522 	add	hl, de
-      00022E 4D                     523 	ld	c, l
-      00022F 44                     524 	ld	b, h
-      000230 0A                     525 	ld	a, (bc)
-      000231 4F                     526 	ld	c, a
-      000232 3E FA                  527 	ld	a, #0xfa
-      000234 91                     528 	sub	a, c
-      000235 30 0F                  529 	jr	NC, 00136$
-      000237                        530 00135$:
-      000237 11r00r00               531 	ld	de, #_shadow_OAM
-      00023A E1                     532 	pop	hl
-      00023B E5                     533 	push	hl
-      00023C 19                     534 	add	hl, de
-      00023D 23                     535 	inc	hl
-      00023E 23                     536 	inc	hl
-      00023F 4D                     537 	ld	c, l
-      000240 44                     538 	ld	b, h
-      000241 AF                     539 	xor	a, a
-      000242 02                     540 	ld	(bc), a
-      000243 C3r66r04               541 	jp	00141$
-      000246                        542 00136$:
-                                    543 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:103: uint8_t currentColumn = (shadow_OAM[i].x-4)/8;
-      000246 11r00r00               544 	ld	de, #_shadow_OAM
-      000249 E1                     545 	pop	hl
-      00024A E5                     546 	push	hl
-      00024B 19                     547 	add	hl, de
-      00024C 23                     548 	inc	hl
-      00024D 4D                     549 	ld	c, l
-      00024E 44                     550 	ld	b, h
-      00024F 0A                     551 	ld	a, (bc)
-      000250 F8 05                  552 	ldhl	sp,	#5
-      000252 22                     553 	ld	(hl+), a
-      000253 AF                     554 	xor	a, a
-      000254 32                     555 	ld	(hl-), a
-      000255 2A                     556 	ld	a, (hl+)
-      000256 5F                     557 	ld	e, a
-      000257 56                     558 	ld	d, (hl)
-      000258 21 04 00               559 	ld	hl, #0x0004
-      00025B 7B                     560 	ld	a, e
-      00025C 95                     561 	sub	a, l
-      00025D 5F                     562 	ld	e, a
-      00025E 7A                     563 	ld	a, d
-      00025F 9C                     564 	sbc	a, h
-      000260 47                     565 	ld	b, a
-      000261 6B                     566 	ld	l, e
-                                    567 ;	spillPairReg hl
-                                    568 ;	spillPairReg hl
-      000262 60                     569 	ld	h, b
-                                    570 ;	spillPairReg hl
-                                    571 ;	spillPairReg hl
-      000263 CB 78                  572 	bit	7, b
-      000265 28 08                  573 	jr	Z, 00150$
-      000267 F8 05                  574 	ldhl	sp,	#5
-      000269 2A                     575 	ld	a, (hl+)
-      00026A 66                     576 	ld	h, (hl)
-                                    577 ;	spillPairReg hl
-                                    578 ;	spillPairReg hl
-      00026B 6F                     579 	ld	l, a
-                                    580 ;	spillPairReg hl
-                                    581 ;	spillPairReg hl
-      00026C 23                     582 	inc	hl
-      00026D 23                     583 	inc	hl
-      00026E 23                     584 	inc	hl
-      00026F                        585 00150$:
-      00026F 4D                     586 	ld	c, l
-      000270 44                     587 	ld	b, h
-      000271 CB 28                  588 	sra	b
-      000273 CB 19                  589 	rr	c
-      000275 CB 28                  590 	sra	b
-      000277 CB 19                  591 	rr	c
-      000279 CB 28                  592 	sra	b
-      00027B CB 19                  593 	rr	c
-      00027D F8 02                  594 	ldhl	sp,	#2
-      00027F 71                     595 	ld	(hl), c
-                                    596 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:104: uint8_t currentRow = (shadow_OAM[i].y-12)/8;
-      000280 11r00r00               597 	ld	de, #_shadow_OAM
-      000283 E1                     598 	pop	hl
-      000284 E5                     599 	push	hl
-      000285 19                     600 	add	hl, de
-      000286 4D                     601 	ld	c, l
-      000287 44                     602 	ld	b, h
-      000288 0A                     603 	ld	a, (bc)
-      000289 F8 03                  604 	ldhl	sp,	#3
-      00028B 22                     605 	ld	(hl+), a
-      00028C AF                     606 	xor	a, a
-      00028D 32                     607 	ld	(hl-), a
-      00028E 2A                     608 	ld	a, (hl+)
-      00028F 5F                     609 	ld	e, a
-      000290 56                     610 	ld	d, (hl)
-      000291 21 0C 00               611 	ld	hl, #0x000c
-      000294 7B                     612 	ld	a, e
-      000295 95                     613 	sub	a, l
-      000296 5F                     614 	ld	e, a
-      000297 7A                     615 	ld	a, d
-      000298 9C                     616 	sbc	a, h
-      000299 F8 06                  617 	ldhl	sp,	#6
-      00029B 32                     618 	ld	(hl-), a
-      00029C 73                     619 	ld	(hl), e
-      00029D 2A                     620 	ld	a, (hl+)
-      00029E 4F                     621 	ld	c, a
-      00029F 46                     622 	ld	b, (hl)
-      0002A0 CB 7E                  623 	bit	7, (hl)
-      0002A2 28 0C                  624 	jr	Z, 00151$
-      0002A4 2B                     625 	dec	hl
-      0002A5 2B                     626 	dec	hl
-      0002A6 2B                     627 	dec	hl
-      0002A7 2A                     628 	ld	a, (hl+)
-      0002A8 5F                     629 	ld	e, a
-      0002A9 56                     630 	ld	d, (hl)
-      0002AA 21 FB FF               631 	ld	hl, #0xfffb
-      0002AD 19                     632 	add	hl, de
-      0002AE 4D                     633 	ld	c, l
-      0002AF 44                     634 	ld	b, h
-      0002B0                        635 00151$:
-      0002B0 CB 28                  636 	sra	b
-      0002B2 CB 19                  637 	rr	c
-      0002B4 CB 28                  638 	sra	b
-      0002B6 CB 19                  639 	rr	c
-      0002B8 CB 28                  640 	sra	b
-      0002BA CB 19                  641 	rr	c
-      0002BC F8 03                  642 	ldhl	sp,	#3
-      0002BE 71                     643 	ld	(hl), c
-                                    644 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:105: uint8_t currentTile=get_bkg_tile_xy(currentColumn,currentRow);
-      0002BF 3A                     645 	ld	a, (hl-)
-      0002C0 57                     646 	ld	d, a
-      0002C1 5E                     647 	ld	e, (hl)
-      0002C2 D5                     648 	push	de
-      0002C3 CDr00r00               649 	call	_get_bkg_tile_xy
-      0002C6 E1                     650 	pop	hl
-      0002C7 F8 06                  651 	ldhl	sp,	#6
-      0002C9 73                     652 	ld	(hl), e
-                                    653 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:110: if(currentTile>=BARRICADE_TILES_START&&currentTile<=BARRICADE_LAST_TILE){
-      0002CA 7E                     654 	ld	a, (hl)
-      0002CB D6 60                  655 	sub	a, #0x60
-      0002CD 38 45                  656 	jr	C, 00120$
-      0002CF 3E 6E                  657 	ld	a, #0x6e
-      0002D1 96                     658 	sub	a, (hl)
-      0002D2 38 40                  659 	jr	C, 00120$
-                                    660 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:113: uint8_t newTile=currentTile+1;
+      000089 87                     185 	add	a, a
+      00008A 5F                     186 	ld	e, a
+      00008B 3E F8                  187 	ld	a, #0xf8
+      00008D 93                     188 	sub	a, e
+      00008E 77                     189 	ld	(hl), a
+      00008F FAr08r00               190 	ld	a, (#(_shadow_OAM + 8) + 0)
+      000092 86                     191 	add	a, (hl)
+                                    192 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:46: if(xd<0)xd=-xd;
+      000093 32                     193 	ld	(hl-), a
+      000094 CB 7E                  194 	bit	7, (hl)
+      000096 28 03                  195 	jr	Z, 00102$
+      000098 AF                     196 	xor	a, a
+      000099 96                     197 	sub	a, (hl)
+      00009A 77                     198 	ld	(hl), a
+      00009B                        199 00102$:
+                                    200 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:47: if(yd<0)yd=-yd;
+      00009B F8 03                  201 	ldhl	sp,	#3
+      00009D CB 7E                  202 	bit	7, (hl)
+      00009F 28 03                  203 	jr	Z, 00104$
+      0000A1 AF                     204 	xor	a, a
+      0000A2 96                     205 	sub	a, (hl)
+      0000A3 77                     206 	ld	(hl), a
+      0000A4                        207 00104$:
+                                    208 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:49: if(xd<5&&yd<8){
+      0000A4 F8 02                  209 	ldhl	sp,	#2
+      0000A6 7E                     210 	ld	a, (hl)
+      0000A7 EE 80                  211 	xor	a, #0x80
+      0000A9 D6 85                  212 	sub	a, #0x85
+      0000AB 30 3E                  213 	jr	NC, 00109$
+      0000AD 23                     214 	inc	hl
+      0000AE 7E                     215 	ld	a, (hl)
+      0000AF EE 80                  216 	xor	a, #0x80
+      0000B1 D6 88                  217 	sub	a, #0x88
+      0000B3 30 36                  218 	jr	NC, 00109$
+                                    219 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:51: IncreaseScore(10);
+      0000B5 C5                     220 	push	bc
+      0000B6 3E 0A                  221 	ld	a, #0x0a
+      0000B8 F5                     222 	push	af
+      0000B9 33                     223 	inc	sp
+      0000BA CDr00r00               224 	call	_IncreaseScore
+      0000BD 33                     225 	inc	sp
+      0000BE C1                     226 	pop	bc
+                                    227 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:53: invadersRemaining--;
+      0000BF 21r00r00               228 	ld	hl, #_invadersRemaining
+      0000C2 35                     229 	dec	(hl)
+                                    230 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:56: invaders[i].active=0;
+      0000C3 AF                     231 	xor	a, a
+      0000C4 02                     232 	ld	(bc), a
+                                    233 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:59: PlayerBulletSprite.tile=0;
+      0000C5 21r0Ar00               234 	ld	hl, #(_shadow_OAM + 10)
+      0000C8 36 00                  235 	ld	(hl), #0x00
+                                    236 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:62: UpdateInvaderTiles(i);
+      0000CA F8 06                  237 	ldhl	sp,	#6
+      0000CC 7E                     238 	ld	a, (hl)
+      0000CD F5                     239 	push	af
+      0000CE 33                     240 	inc	sp
+      0000CF CDr00r00               241 	call	_UpdateInvaderTiles
+      0000D2 33                     242 	inc	sp
+                                    243 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:64: NR10_REG=0x7D;
+      0000D3 3E 7D                  244 	ld	a, #0x7d
+      0000D5 E0r00                  245 	ldh	(_NR10_REG + 0), a
+                                    246 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:65: NR11_REG=0xC2;
+      0000D7 3E C2                  247 	ld	a, #0xc2
+      0000D9 E0r00                  248 	ldh	(_NR11_REG + 0), a
+                                    249 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:66: NR12_REG=0x37;
+      0000DB 3E 37                  250 	ld	a, #0x37
+      0000DD E0r00                  251 	ldh	(_NR12_REG + 0), a
+                                    252 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:67: NR13_REG=0x2E;
+      0000DF 3E 2E                  253 	ld	a, #0x2e
+      0000E1 E0r00                  254 	ldh	(_NR13_REG + 0), a
+                                    255 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:68: NR14_REG=0x87;
+      0000E3 3E 87                  256 	ld	a, #0x87
+      0000E5 E0r00                  257 	ldh	(_NR14_REG + 0), a
+                                    258 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:70: return 1;
+      0000E7 1E 01                  259 	ld	e, #0x01
+      0000E9 18 02                  260 	jr	00111$
+      0000EB                        261 00109$:
+                                    262 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:75: return 0;
+      0000EB 1E 00                  263 	ld	e, #0x00
+      0000ED                        264 00111$:
+                                    265 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:76: }
+      0000ED E8 04                  266 	add	sp, #4
+      0000EF C9                     267 	ret
+                                    268 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:78: void UpdateBullets(){
+                                    269 ;	---------------------------------
+                                    270 ; Function UpdateBullets
+                                    271 ; ---------------------------------
+      0000F0                        272 _UpdateBullets::
+      0000F0 E8 F8                  273 	add	sp, #-8
+                                    274 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:83: for(uint8_t i=2;i<8;i++){
+      0000F2 F8 07                  275 	ldhl	sp,	#7
+      0000F4 36 02                  276 	ld	(hl), #0x02
+      0000F6                        277 00147$:
+      0000F6 F8 07                  278 	ldhl	sp,	#7
+      0000F8 7E                     279 	ld	a, (hl)
+      0000F9 D6 08                  280 	sub	a, #0x08
+      0000FB D2r94r04               281 	jp	NC, 00148$
+                                    282 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:87: if(shadow_OAM[i].tile!=0){
+      0000FE 7E                     283 	ld	a, (hl)
+      0000FF 0E 00                  284 	ld	c, #0x00
+      000101 87                     285 	add	a, a
+      000102 CB 11                  286 	rl	c
+      000104 87                     287 	add	a, a
+      000105 CB 11                  288 	rl	c
+      000107 F8 01                  289 	ldhl	sp,	#1
+      000109 22                     290 	ld	(hl+), a
+      00010A 71                     291 	ld	(hl), c
+      00010B 11r00r00               292 	ld	de, #_shadow_OAM
+      00010E 3A                     293 	ld	a, (hl-)
+      00010F 6E                     294 	ld	l, (hl)
+      000110 67                     295 	ld	h, a
+      000111 19                     296 	add	hl, de
+      000112 23                     297 	inc	hl
+      000113 23                     298 	inc	hl
+      000114 4D                     299 	ld	c, l
+      000115 44                     300 	ld	b, h
+      000116 0A                     301 	ld	a, (bc)
+      000117 F8 06                  302 	ldhl	sp,	#6
+      000119 77                     303 	ld	(hl), a
+      00011A 7E                     304 	ld	a, (hl)
+      00011B B7                     305 	or	a, a
+      00011C CAr8Er04               306 	jp	Z, 00141$
+                                    307 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:89: shadow_OAM[i].tile++;
+      00011F 11r00r00               308 	ld	de, #_shadow_OAM
+      000122 F8 01                  309 	ldhl	sp,	#1
+      000124 2A                     310 	ld	a,	(hl+)
+      000125 66                     311 	ld	h, (hl)
+      000126 6F                     312 	ld	l, a
+      000127 19                     313 	add	hl, de
+      000128 E5                     314 	push	hl
+      000129 7D                     315 	ld	a, l
+      00012A F8 05                  316 	ldhl	sp,	#5
+      00012C 77                     317 	ld	(hl), a
+      00012D E1                     318 	pop	hl
+      00012E 7C                     319 	ld	a, h
+      00012F F8 04                  320 	ldhl	sp,	#4
+      000131 32                     321 	ld	(hl-), a
+      000132 2A                     322 	ld	a, (hl+)
+      000133 5F                     323 	ld	e, a
+      000134 56                     324 	ld	d, (hl)
+      000135 21 02 00               325 	ld	hl, #0x0002
+      000138 19                     326 	add	hl, de
+      000139 E5                     327 	push	hl
+      00013A 7D                     328 	ld	a, l
+      00013B F8 07                  329 	ldhl	sp,	#7
+      00013D 77                     330 	ld	(hl), a
+      00013E E1                     331 	pop	hl
+      00013F 7C                     332 	ld	a, h
+      000140 F8 06                  333 	ldhl	sp,	#6
+      000142 32                     334 	ld	(hl-), a
+      000143 2A                     335 	ld	a, (hl+)
+      000144 5F                     336 	ld	e, a
+      000145 56                     337 	ld	d, (hl)
+      000146 1A                     338 	ld	a, (de)
+      000147 4F                     339 	ld	c, a
+      000148 0C                     340 	inc	c
+      000149 3A                     341 	ld	a, (hl-)
+      00014A 6E                     342 	ld	l, (hl)
+      00014B 67                     343 	ld	h, a
+      00014C 71                     344 	ld	(hl), c
+                                    345 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:93: if(shadow_OAM[i].tile==ALIEN_SPRITE_START)shadow_OAM[i].tile=BULLETC_SPRITE_START;
+      00014D 11r00r00               346 	ld	de, #_shadow_OAM
+      000150 F8 01                  347 	ldhl	sp,	#1
+      000152 2A                     348 	ld	a,	(hl+)
+      000153 66                     349 	ld	h, (hl)
+      000154 6F                     350 	ld	l, a
+      000155 19                     351 	add	hl, de
+      000156 E5                     352 	push	hl
+      000157 7D                     353 	ld	a, l
+      000158 F8 05                  354 	ldhl	sp,	#5
+      00015A 77                     355 	ld	(hl), a
+      00015B E1                     356 	pop	hl
+      00015C 7C                     357 	ld	a, h
+      00015D F8 04                  358 	ldhl	sp,	#4
+      00015F 32                     359 	ld	(hl-), a
+      000160 2A                     360 	ld	a, (hl+)
+      000161 5F                     361 	ld	e, a
+      000162 56                     362 	ld	d, (hl)
+      000163 21 02 00               363 	ld	hl, #0x0002
+      000166 19                     364 	add	hl, de
+      000167 E5                     365 	push	hl
+      000168 7D                     366 	ld	a, l
+      000169 F8 07                  367 	ldhl	sp,	#7
+      00016B 77                     368 	ld	(hl), a
+      00016C E1                     369 	pop	hl
+      00016D 7C                     370 	ld	a, h
+      00016E F8 06                  371 	ldhl	sp,	#6
+      000170 32                     372 	ld	(hl-), a
+      000171 2A                     373 	ld	a, (hl+)
+      000172 5F                     374 	ld	e, a
+      000173 56                     375 	ld	d, (hl)
+      000174 1A                     376 	ld	a, (de)
+      000175 D6 10                  377 	sub	a, #0x10
+      000177 20 1B                  378 	jr	NZ, 00102$
+      000179 11r00r00               379 	ld	de, #_shadow_OAM
+      00017C F8 01                  380 	ldhl	sp,	#1
+      00017E 2A                     381 	ld	a,	(hl+)
+      00017F 66                     382 	ld	h, (hl)
+      000180 6F                     383 	ld	l, a
+      000181 19                     384 	add	hl, de
+      000182 E5                     385 	push	hl
+      000183 7D                     386 	ld	a, l
+      000184 F8 07                  387 	ldhl	sp,	#7
+      000186 77                     388 	ld	(hl), a
+      000187 E1                     389 	pop	hl
+      000188 7C                     390 	ld	a, h
+      000189 F8 06                  391 	ldhl	sp,	#6
+      00018B 32                     392 	ld	(hl-), a
+      00018C 2A                     393 	ld	a, (hl+)
+      00018D 4F                     394 	ld	c, a
+      00018E 46                     395 	ld	b, (hl)
+      00018F 03                     396 	inc	bc
+      000190 03                     397 	inc	bc
+      000191 3E 0F                  398 	ld	a, #0x0f
+      000193 02                     399 	ld	(bc), a
+      000194                        400 00102$:
+                                    401 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:94: if(shadow_OAM[i].tile==BULLETC_SPRITE_START)shadow_OAM[i].tile=BULLETB_SPRITE_START;
+      000194 F8 07                  402 	ldhl	sp,	#7
+      000196 3A                     403 	ld	a, (hl-)
+      000197 2B                     404 	dec	hl
+      000198 22                     405 	ld	(hl+), a
+      000199 AF                     406 	xor	a, a
+      00019A 32                     407 	ld	(hl-), a
+      00019B 7E                     408 	ld	a, (hl)
+      00019C F8 00                  409 	ldhl	sp,	#0
+      00019E 77                     410 	ld	(hl), a
+      00019F F8 06                  411 	ldhl	sp,	#6
+      0001A1 7E                     412 	ld	a, (hl)
+      0001A2 F8 01                  413 	ldhl	sp,	#1
+      0001A4 77                     414 	ld	(hl), a
+      0001A5 3E 02                  415 	ld	a, #0x02
+      0001A7                        416 00277$:
+      0001A7 F8 00                  417 	ldhl	sp,	#0
+      0001A9 CB 26                  418 	sla	(hl)
+      0001AB 23                     419 	inc	hl
+      0001AC CB 16                  420 	rl	(hl)
+      0001AE 3D                     421 	dec	a
+      0001AF 20 F6                  422 	jr	NZ, 00277$
+      0001B1 D1                     423 	pop	de
+      0001B2 D5                     424 	push	de
+      0001B3 21r00r00               425 	ld	hl, #_shadow_OAM
+      0001B6 19                     426 	add	hl, de
+      0001B7 E5                     427 	push	hl
+      0001B8 7D                     428 	ld	a, l
+      0001B9 F8 07                  429 	ldhl	sp,	#7
+      0001BB 77                     430 	ld	(hl), a
+      0001BC E1                     431 	pop	hl
+      0001BD 7C                     432 	ld	a, h
+      0001BE F8 06                  433 	ldhl	sp,	#6
+      0001C0 32                     434 	ld	(hl-), a
+      0001C1 2A                     435 	ld	a, (hl+)
+      0001C2 4F                     436 	ld	c, a
+      0001C3 46                     437 	ld	b, (hl)
+      0001C4 03                     438 	inc	bc
+      0001C5 03                     439 	inc	bc
+      0001C6 0A                     440 	ld	a, (bc)
+      0001C7 D6 0F                  441 	sub	a, #0x0f
+      0001C9 20 1A                  442 	jr	NZ, 00106$
+      0001CB 11r00r00               443 	ld	de, #_shadow_OAM
+      0001CE E1                     444 	pop	hl
+      0001CF E5                     445 	push	hl
+      0001D0 19                     446 	add	hl, de
+      0001D1 E5                     447 	push	hl
+      0001D2 7D                     448 	ld	a, l
+      0001D3 F8 07                  449 	ldhl	sp,	#7
+      0001D5 77                     450 	ld	(hl), a
+      0001D6 E1                     451 	pop	hl
+      0001D7 7C                     452 	ld	a, h
+      0001D8 F8 06                  453 	ldhl	sp,	#6
+      0001DA 32                     454 	ld	(hl-), a
+      0001DB 2A                     455 	ld	a, (hl+)
+      0001DC 4F                     456 	ld	c, a
+      0001DD 46                     457 	ld	b, (hl)
+      0001DE 03                     458 	inc	bc
+      0001DF 03                     459 	inc	bc
+      0001E0 3E 0B                  460 	ld	a, #0x0b
+      0001E2 02                     461 	ld	(bc), a
+      0001E3 18 18                  462 	jr	00107$
+      0001E5                        463 00106$:
+                                    464 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:95: else if(shadow_OAM[i].tile==BULLETB_SPRITE_START)shadow_OAM[i].tile=BULLETA_SPRITE_START;
+      0001E5 D1                     465 	pop	de
+      0001E6 D5                     466 	push	de
+      0001E7 21r01r00               467 	ld	hl,#_shadow_OAM + 1
+      0001EA 19                     468 	add	hl,de
+      0001EB 23                     469 	inc	hl
+      0001EC 4D                     470 	ld	c, l
+      0001ED 44                     471 	ld	b, h
+      0001EE 0A                     472 	ld	a, (bc)
+      0001EF D6 0B                  473 	sub	a, #0x0b
+      0001F1 20 0A                  474 	jr	NZ, 00107$
+      0001F3 01r00r00               475 	ld	bc, #_shadow_OAM+0
+      0001F6 E1                     476 	pop	hl
+      0001F7 E5                     477 	push	hl
+      0001F8 09                     478 	add	hl, bc
+      0001F9 23                     479 	inc	hl
+      0001FA 23                     480 	inc	hl
+      0001FB 36 03                  481 	ld	(hl), #0x03
+      0001FD                        482 00107$:
+                                    483 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:99: if(i==2)shadow_OAM[i].y-=2;
+      0001FD F8 07                  484 	ldhl	sp,	#7
+      0001FF 7E                     485 	ld	a, (hl)
+      000200 D6 02                  486 	sub	a, #0x02
+      000202 20 16                  487 	jr	NZ, 00109$
+      000204 01r00r00               488 	ld	bc, #_shadow_OAM+0
+      000207 E1                     489 	pop	hl
+      000208 E5                     490 	push	hl
+      000209 09                     491 	add	hl, bc
+      00020A 4D                     492 	ld	c, l
+      00020B 44                     493 	ld	b, h
+      00020C 11r00r00               494 	ld	de, #_shadow_OAM
+      00020F E1                     495 	pop	hl
+      000210 E5                     496 	push	hl
+      000211 19                     497 	add	hl, de
+      000212 5D                     498 	ld	e, l
+      000213 54                     499 	ld	d, h
+      000214 1A                     500 	ld	a, (de)
+      000215 3D                     501 	dec	a
+      000216 3D                     502 	dec	a
+      000217 02                     503 	ld	(bc), a
+      000218 18 14                  504 	jr	00110$
+      00021A                        505 00109$:
+                                    506 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:100: else shadow_OAM[i].y+=2;
+      00021A 01r00r00               507 	ld	bc, #_shadow_OAM+0
+      00021D E1                     508 	pop	hl
+      00021E E5                     509 	push	hl
+      00021F 09                     510 	add	hl, bc
+      000220 4D                     511 	ld	c, l
+      000221 44                     512 	ld	b, h
+      000222 11r00r00               513 	ld	de, #_shadow_OAM+0
+      000225 E1                     514 	pop	hl
+      000226 E5                     515 	push	hl
+      000227 19                     516 	add	hl, de
+      000228 5D                     517 	ld	e, l
+      000229 54                     518 	ld	d, h
+      00022A 1A                     519 	ld	a, (de)
+      00022B C6 02                  520 	add	a, #0x02
+      00022D 02                     521 	ld	(bc), a
+      00022E                        522 00110$:
+                                    523 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:103: if(shadow_OAM[i].y>176||shadow_OAM[i].y>250)shadow_OAM[i].tile=0;
+      00022E 11r00r00               524 	ld	de, #_shadow_OAM
+      000231 E1                     525 	pop	hl
+      000232 E5                     526 	push	hl
+      000233 19                     527 	add	hl, de
+      000234 4D                     528 	ld	c, l
+      000235 44                     529 	ld	b, h
+      000236 0A                     530 	ld	a, (bc)
+      000237 4F                     531 	ld	c, a
+      000238 3E B0                  532 	ld	a, #0xb0
+      00023A 91                     533 	sub	a, c
+      00023B 38 0F                  534 	jr	C, 00135$
+      00023D 11r00r00               535 	ld	de, #_shadow_OAM
+      000240 E1                     536 	pop	hl
+      000241 E5                     537 	push	hl
+      000242 19                     538 	add	hl, de
+      000243 4D                     539 	ld	c, l
+      000244 44                     540 	ld	b, h
+      000245 0A                     541 	ld	a, (bc)
+      000246 4F                     542 	ld	c, a
+      000247 3E FA                  543 	ld	a, #0xfa
+      000249 91                     544 	sub	a, c
+      00024A 30 0F                  545 	jr	NC, 00136$
+      00024C                        546 00135$:
+      00024C 11r00r00               547 	ld	de, #_shadow_OAM
+      00024F E1                     548 	pop	hl
+      000250 E5                     549 	push	hl
+      000251 19                     550 	add	hl, de
+      000252 23                     551 	inc	hl
+      000253 23                     552 	inc	hl
+      000254 4D                     553 	ld	c, l
+      000255 44                     554 	ld	b, h
+      000256 AF                     555 	xor	a, a
+      000257 02                     556 	ld	(bc), a
+      000258 C3r8Er04               557 	jp	00141$
+      00025B                        558 00136$:
+                                    559 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:108: uint8_t currentColumn = (shadow_OAM[i].x-4)/8;
+      00025B 11r00r00               560 	ld	de, #_shadow_OAM
+      00025E E1                     561 	pop	hl
+      00025F E5                     562 	push	hl
+      000260 19                     563 	add	hl, de
+      000261 23                     564 	inc	hl
+      000262 4D                     565 	ld	c, l
+      000263 44                     566 	ld	b, h
+      000264 0A                     567 	ld	a, (bc)
+      000265 F8 05                  568 	ldhl	sp,	#5
+      000267 22                     569 	ld	(hl+), a
+      000268 AF                     570 	xor	a, a
+      000269 32                     571 	ld	(hl-), a
+      00026A 2A                     572 	ld	a, (hl+)
+      00026B 5F                     573 	ld	e, a
+      00026C 56                     574 	ld	d, (hl)
+      00026D 21 04 00               575 	ld	hl, #0x0004
+      000270 7B                     576 	ld	a, e
+      000271 95                     577 	sub	a, l
+      000272 5F                     578 	ld	e, a
+      000273 7A                     579 	ld	a, d
+      000274 9C                     580 	sbc	a, h
+      000275 47                     581 	ld	b, a
+      000276 6B                     582 	ld	l, e
+                                    583 ;	spillPairReg hl
+                                    584 ;	spillPairReg hl
+      000277 60                     585 	ld	h, b
+                                    586 ;	spillPairReg hl
+                                    587 ;	spillPairReg hl
+      000278 CB 78                  588 	bit	7, b
+      00027A 28 08                  589 	jr	Z, 00150$
+      00027C F8 05                  590 	ldhl	sp,	#5
+      00027E 2A                     591 	ld	a, (hl+)
+      00027F 66                     592 	ld	h, (hl)
+                                    593 ;	spillPairReg hl
+                                    594 ;	spillPairReg hl
+      000280 6F                     595 	ld	l, a
+                                    596 ;	spillPairReg hl
+                                    597 ;	spillPairReg hl
+      000281 23                     598 	inc	hl
+      000282 23                     599 	inc	hl
+      000283 23                     600 	inc	hl
+      000284                        601 00150$:
+      000284 4D                     602 	ld	c, l
+      000285 44                     603 	ld	b, h
+      000286 CB 28                  604 	sra	b
+      000288 CB 19                  605 	rr	c
+      00028A CB 28                  606 	sra	b
+      00028C CB 19                  607 	rr	c
+      00028E CB 28                  608 	sra	b
+      000290 CB 19                  609 	rr	c
+      000292 F8 02                  610 	ldhl	sp,	#2
+      000294 71                     611 	ld	(hl), c
+                                    612 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:109: uint8_t currentRow = (shadow_OAM[i].y-12)/8;
+      000295 11r00r00               613 	ld	de, #_shadow_OAM
+      000298 E1                     614 	pop	hl
+      000299 E5                     615 	push	hl
+      00029A 19                     616 	add	hl, de
+      00029B 4D                     617 	ld	c, l
+      00029C 44                     618 	ld	b, h
+      00029D 0A                     619 	ld	a, (bc)
+      00029E F8 03                  620 	ldhl	sp,	#3
+      0002A0 22                     621 	ld	(hl+), a
+      0002A1 AF                     622 	xor	a, a
+      0002A2 32                     623 	ld	(hl-), a
+      0002A3 2A                     624 	ld	a, (hl+)
+      0002A4 5F                     625 	ld	e, a
+      0002A5 56                     626 	ld	d, (hl)
+      0002A6 21 0C 00               627 	ld	hl, #0x000c
+      0002A9 7B                     628 	ld	a, e
+      0002AA 95                     629 	sub	a, l
+      0002AB 5F                     630 	ld	e, a
+      0002AC 7A                     631 	ld	a, d
+      0002AD 9C                     632 	sbc	a, h
+      0002AE F8 06                  633 	ldhl	sp,	#6
+      0002B0 32                     634 	ld	(hl-), a
+      0002B1 73                     635 	ld	(hl), e
+      0002B2 2A                     636 	ld	a, (hl+)
+      0002B3 4F                     637 	ld	c, a
+      0002B4 46                     638 	ld	b, (hl)
+      0002B5 CB 7E                  639 	bit	7, (hl)
+      0002B7 28 0C                  640 	jr	Z, 00151$
+      0002B9 2B                     641 	dec	hl
+      0002BA 2B                     642 	dec	hl
+      0002BB 2B                     643 	dec	hl
+      0002BC 2A                     644 	ld	a, (hl+)
+      0002BD 5F                     645 	ld	e, a
+      0002BE 56                     646 	ld	d, (hl)
+      0002BF 21 FB FF               647 	ld	hl, #0xfffb
+      0002C2 19                     648 	add	hl, de
+      0002C3 4D                     649 	ld	c, l
+      0002C4 44                     650 	ld	b, h
+      0002C5                        651 00151$:
+      0002C5 CB 28                  652 	sra	b
+      0002C7 CB 19                  653 	rr	c
+      0002C9 CB 28                  654 	sra	b
+      0002CB CB 19                  655 	rr	c
+      0002CD CB 28                  656 	sra	b
+      0002CF CB 19                  657 	rr	c
+      0002D1 F8 03                  658 	ldhl	sp,	#3
+      0002D3 71                     659 	ld	(hl), c
+                                    660 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:110: uint8_t currentTile=get_bkg_tile_xy(currentColumn,currentRow);
       0002D4 3A                     661 	ld	a, (hl-)
-      0002D5 2B                     662 	dec	hl
-      0002D6 3C                     663 	inc	a
-      0002D7 77                     664 	ld	(hl), a
-                                    665 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:119: if(newTile%3==0)newTile=0;
-      0002D8 2A                     666 	ld	a, (hl+)
-      0002D9 22                     667 	ld	(hl+), a
-      0002DA 11 03 00               668 	ld	de, #0x0003
-      0002DD 7A                     669 	ld	a, d
-      0002DE 32                     670 	ld	(hl-), a
-      0002DF D5                     671 	push	de
-      0002E0 2A                     672 	ld	a, (hl+)
-      0002E1 5F                     673 	ld	e, a
-      0002E2 56                     674 	ld	d, (hl)
-      0002E3 D5                     675 	push	de
-      0002E4 CDr00r00               676 	call	__modsint
-      0002E7 E8 04                  677 	add	sp, #4
-      0002E9 F8 05                  678 	ldhl	sp,	#5
-      0002EB 7B                     679 	ld	a, e
-      0002EC 22                     680 	ld	(hl+), a
-      0002ED 72                     681 	ld	(hl), d
-      0002EE F8 06                  682 	ldhl	sp,	#6
-      0002F0 3A                     683 	ld	a, (hl-)
-      0002F1 B6                     684 	or	a, (hl)
-      0002F2 20 03                  685 	jr	NZ, 00112$
-      0002F4 2B                     686 	dec	hl
-      0002F5 36 00                  687 	ld	(hl), #0x00
-      0002F7                        688 00112$:
-                                    689 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:120: set_bkg_tile_xy(currentColumn,currentRow,newTile);
-      0002F7 F8 04                  690 	ldhl	sp,	#4
-      0002F9 3A                     691 	ld	a, (hl-)
-      0002FA 57                     692 	ld	d, a
-      0002FB 3A                     693 	ld	a, (hl-)
-      0002FC 5F                     694 	ld	e, a
-      0002FD D5                     695 	push	de
-      0002FE 7E                     696 	ld	a, (hl)
-      0002FF F5                     697 	push	af
-      000300 33                     698 	inc	sp
-      000301 CDr00r00               699 	call	_set_bkg_tile_xy
-      000304 E8 03                  700 	add	sp, #3
-                                    701 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:123: shadow_OAM[i].tile=0;
-      000306 01r00r00               702 	ld	bc, #_shadow_OAM+0
-      000309 E1                     703 	pop	hl
-      00030A E5                     704 	push	hl
-      00030B 09                     705 	add	hl, bc
-      00030C 23                     706 	inc	hl
-      00030D 23                     707 	inc	hl
-      00030E 4D                     708 	ld	c, l
-      00030F 44                     709 	ld	b, h
-      000310 AF                     710 	xor	a, a
-      000311 02                     711 	ld	(bc), a
-      000312 18 22                  712 	jr	00121$
-      000314                        713 00120$:
-                                    714 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:124: }else if(currentTile>=INVADER1_TILES_START&&currentTile<=INVADER3_TILES_START+Invader3_TILE_COUNT){
-      000314 F8 06                  715 	ldhl	sp,	#6
-      000316 7E                     716 	ld	a, (hl)
-      000317 D6 05                  717 	sub	a, #0x05
-      000319 38 1B                  718 	jr	C, 00121$
-      00031B 3E 35                  719 	ld	a, #0x35
-      00031D 96                     720 	sub	a, (hl)
-      00031E 38 16                  721 	jr	C, 00121$
-                                    722 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:127: for(uint8_t j=0;j<40;j++){
-      000320 06 00                  723 	ld	b, #0x00
-      000322                        724 00144$:
-      000322 78                     725 	ld	a, b
-      000323 D6 28                  726 	sub	a, #0x28
-      000325 30 0F                  727 	jr	NC, 00121$
-                                    728 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:129: if(InvaderCheckBulletCollision(j)){
-      000327 C5                     729 	push	bc
-      000328 C5                     730 	push	bc
-      000329 33                     731 	inc	sp
-      00032A CDr3Er00               732 	call	_InvaderCheckBulletCollision
-      00032D 33                     733 	inc	sp
-      00032E 7B                     734 	ld	a, e
-      00032F C1                     735 	pop	bc
-      000330 B7                     736 	or	a, a
-      000331 20 03                  737 	jr	NZ, 00121$
-                                    738 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:127: for(uint8_t j=0;j<40;j++){
-      000333 04                     739 	inc	b
-      000334 18 EC                  740 	jr	00144$
-      000336                        741 00121$:
-                                    742 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:140: if(i>2){
-      000336 3E 02                  743 	ld	a, #0x02
-      000338 F8 07                  744 	ldhl	sp,	#7
-      00033A 96                     745 	sub	a, (hl)
-      00033B D2r66r04               746 	jp	NC, 00141$
-                                    747 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:141: if(shadow_OAM[i].x-4<paddle.x-8)continue;
-      00033E 11r00r00               748 	ld	de, #_shadow_OAM
-      000341 E1                     749 	pop	hl
-      000342 E5                     750 	push	hl
-      000343 19                     751 	add	hl, de
-      000344 23                     752 	inc	hl
-      000345 4D                     753 	ld	c, l
-      000346 44                     754 	ld	b, h
-      000347 0A                     755 	ld	a, (bc)
-      000348 4F                     756 	ld	c, a
-      000349 06 00                  757 	ld	b, #0x00
-      00034B 11 04 00               758 	ld	de, #0x0004
-      00034E 79                     759 	ld	a, c
-      00034F 93                     760 	sub	a, e
-      000350 5F                     761 	ld	e, a
-      000351 78                     762 	ld	a, b
-      000352 9A                     763 	sbc	a, d
-      000353 F8 04                  764 	ldhl	sp,	#4
-      000355 32                     765 	ld	(hl-), a
-      000356 73                     766 	ld	(hl), e
-      000357 FAr00r00               767 	ld	a, (#_paddle + 0)
-      00035A 4F                     768 	ld	c, a
-      00035B 06 00                  769 	ld	b, #0x00
-      00035D 11 08 00               770 	ld	de, #0x0008
-      000360 79                     771 	ld	a, c
-      000361 93                     772 	sub	a, e
-      000362 5F                     773 	ld	e, a
-      000363 78                     774 	ld	a, b
-      000364 9A                     775 	sbc	a, d
-      000365 F8 06                  776 	ldhl	sp,	#6
-      000367 32                     777 	ld	(hl-), a
-      000368 73                     778 	ld	(hl), e
-      000369 F8 03                  779 	ldhl	sp,	#3
-      00036B 5D                     780 	ld	e, l
-      00036C 54                     781 	ld	d, h
-      00036D F8 05                  782 	ldhl	sp,	#5
-      00036F 1A                     783 	ld	a, (de)
-      000370 13                     784 	inc	de
-      000371 96                     785 	sub	a, (hl)
-      000372 23                     786 	inc	hl
-      000373 1A                     787 	ld	a, (de)
-      000374 9E                     788 	sbc	a, (hl)
-      000375 1A                     789 	ld	a, (de)
-      000376 57                     790 	ld	d, a
-      000377 CB 7E                  791 	bit	7, (hl)
-      000379 28 07                  792 	jr	Z, 00284$
-      00037B CB 7A                  793 	bit	7, d
-      00037D 20 08                  794 	jr	NZ, 00285$
-      00037F BF                     795 	cp	a, a
-      000380 18 05                  796 	jr	00285$
-      000382                        797 00284$:
-      000382 CB 7A                  798 	bit	7, d
-      000384 28 01                  799 	jr	Z, 00285$
-      000386 37                     800 	scf
-      000387                        801 00285$:
-      000387 DAr66r04               802 	jp	C, 00141$
-                                    803 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:142: if(shadow_OAM[i].x-4>paddle.x+8)continue;
-      00038A 11r00r00               804 	ld	de, #_shadow_OAM
-      00038D E1                     805 	pop	hl
-      00038E E5                     806 	push	hl
-      00038F 19                     807 	add	hl, de
-      000390 23                     808 	inc	hl
-      000391 5D                     809 	ld	e, l
-      000392 54                     810 	ld	d, h
-      000393 1A                     811 	ld	a, (de)
-      000394 1E 00                  812 	ld	e, #0x00
-      000396 C6 FC                  813 	add	a, #0xfc
-      000398 6F                     814 	ld	l, a
-                                    815 ;	spillPairReg hl
-                                    816 ;	spillPairReg hl
-      000399 7B                     817 	ld	a, e
-      00039A CE FF                  818 	adc	a, #0xff
-      00039C 67                     819 	ld	h, a
-                                    820 ;	spillPairReg hl
-                                    821 ;	spillPairReg hl
-      00039D 79                     822 	ld	a, c
-      00039E C6 08                  823 	add	a, #0x08
-      0003A0 4F                     824 	ld	c, a
-      0003A1 30 01                  825 	jr	NC, 00286$
-      0003A3 04                     826 	inc	b
-      0003A4                        827 00286$:
-      0003A4 5C                     828 	ld	e, h
-      0003A5 50                     829 	ld	d, b
-      0003A6 79                     830 	ld	a, c
-      0003A7 95                     831 	sub	a, l
-      0003A8 78                     832 	ld	a, b
-      0003A9 9C                     833 	sbc	a, h
-      0003AA CB 7B                  834 	bit	7, e
-      0003AC 28 07                  835 	jr	Z, 00287$
-      0003AE CB 7A                  836 	bit	7, d
-      0003B0 20 08                  837 	jr	NZ, 00288$
-      0003B2 BF                     838 	cp	a, a
-      0003B3 18 05                  839 	jr	00288$
-      0003B5                        840 00287$:
-      0003B5 CB 7A                  841 	bit	7, d
-      0003B7 28 01                  842 	jr	Z, 00288$
-      0003B9 37                     843 	scf
-      0003BA                        844 00288$:
-      0003BA DAr66r04               845 	jp	C, 00141$
-                                    846 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:143: if(shadow_OAM[i].y-12<paddle.y-4)continue;
-      0003BD 11r00r00               847 	ld	de, #_shadow_OAM
-      0003C0 E1                     848 	pop	hl
-      0003C1 E5                     849 	push	hl
-      0003C2 19                     850 	add	hl, de
-      0003C3 4D                     851 	ld	c, l
-      0003C4 44                     852 	ld	b, h
-      0003C5 0A                     853 	ld	a, (bc)
-      0003C6 4F                     854 	ld	c, a
-      0003C7 06 00                  855 	ld	b, #0x00
-      0003C9 11 0C 00               856 	ld	de, #0x000c
-      0003CC 79                     857 	ld	a, c
-      0003CD 93                     858 	sub	a, e
-      0003CE 5F                     859 	ld	e, a
-      0003CF 78                     860 	ld	a, b
-      0003D0 9A                     861 	sbc	a, d
-      0003D1 F8 04                  862 	ldhl	sp,	#4
-      0003D3 32                     863 	ld	(hl-), a
-      0003D4 73                     864 	ld	(hl), e
-      0003D5 FAr01r00               865 	ld	a, (#(_paddle + 1) + 0)
-      0003D8 4F                     866 	ld	c, a
-      0003D9 06 00                  867 	ld	b, #0x00
-      0003DB 11 04 00               868 	ld	de, #0x0004
-      0003DE 79                     869 	ld	a, c
-      0003DF 93                     870 	sub	a, e
-      0003E0 5F                     871 	ld	e, a
-      0003E1 78                     872 	ld	a, b
-      0003E2 9A                     873 	sbc	a, d
-      0003E3 F8 06                  874 	ldhl	sp,	#6
-      0003E5 32                     875 	ld	(hl-), a
-      0003E6 73                     876 	ld	(hl), e
-      0003E7 F8 03                  877 	ldhl	sp,	#3
-      0003E9 5D                     878 	ld	e, l
-      0003EA 54                     879 	ld	d, h
-      0003EB F8 05                  880 	ldhl	sp,	#5
-      0003ED 1A                     881 	ld	a, (de)
-      0003EE 13                     882 	inc	de
-      0003EF 96                     883 	sub	a, (hl)
-      0003F0 23                     884 	inc	hl
-      0003F1 1A                     885 	ld	a, (de)
-      0003F2 9E                     886 	sbc	a, (hl)
-      0003F3 1A                     887 	ld	a, (de)
-      0003F4 57                     888 	ld	d, a
-      0003F5 CB 7E                  889 	bit	7, (hl)
-      0003F7 28 07                  890 	jr	Z, 00289$
-      0003F9 CB 7A                  891 	bit	7, d
-      0003FB 20 08                  892 	jr	NZ, 00290$
-      0003FD BF                     893 	cp	a, a
-      0003FE 18 05                  894 	jr	00290$
-      000400                        895 00289$:
-      000400 CB 7A                  896 	bit	7, d
-      000402 28 01                  897 	jr	Z, 00290$
-      000404 37                     898 	scf
-      000405                        899 00290$:
-      000405 38 5F                  900 	jr	C, 00141$
-                                    901 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:144: if(shadow_OAM[i].y-12>paddle.y+4)continue;
-      000407 11r00r00               902 	ld	de, #_shadow_OAM
-      00040A E1                     903 	pop	hl
-      00040B E5                     904 	push	hl
-      00040C 19                     905 	add	hl, de
-      00040D 5D                     906 	ld	e, l
-      00040E 54                     907 	ld	d, h
-      00040F 1A                     908 	ld	a, (de)
-      000410 1E 00                  909 	ld	e, #0x00
-      000412 C6 F4                  910 	add	a, #0xf4
-      000414 6F                     911 	ld	l, a
-                                    912 ;	spillPairReg hl
-                                    913 ;	spillPairReg hl
-      000415 7B                     914 	ld	a, e
-      000416 CE FF                  915 	adc	a, #0xff
-      000418 67                     916 	ld	h, a
-                                    917 ;	spillPairReg hl
-                                    918 ;	spillPairReg hl
-      000419 03                     919 	inc	bc
-      00041A 03                     920 	inc	bc
-      00041B 03                     921 	inc	bc
-      00041C 03                     922 	inc	bc
-      00041D 5C                     923 	ld	e, h
-      00041E 50                     924 	ld	d, b
-      00041F 79                     925 	ld	a, c
-      000420 95                     926 	sub	a, l
-      000421 78                     927 	ld	a, b
-      000422 9C                     928 	sbc	a, h
-      000423 CB 7B                  929 	bit	7, e
-      000425 28 07                  930 	jr	Z, 00291$
-      000427 CB 7A                  931 	bit	7, d
-      000429 20 08                  932 	jr	NZ, 00292$
-      00042B BF                     933 	cp	a, a
-      00042C 18 05                  934 	jr	00292$
-      00042E                        935 00291$:
-      00042E CB 7A                  936 	bit	7, d
-      000430 28 01                  937 	jr	Z, 00292$
-      000432 37                     938 	scf
-      000433                        939 00292$:
-      000433 38 31                  940 	jr	C, 00141$
-                                    941 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:145: if(paddle.damageTimer>0)continue;
-      000435 FAr04r00               942 	ld	a, (#(_paddle + 4) + 0)
-      000438 B7                     943 	or	a, a
-      000439 20 2B                  944 	jr	NZ, 00141$
-                                    945 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:146: shadow_OAM[i].tile=0;
-      00043B D1                     946 	pop	de
-      00043C D5                     947 	push	de
-      00043D 21r00r00               948 	ld	hl, #_shadow_OAM
-      000440 19                     949 	add	hl, de
-      000441 E5                     950 	push	hl
-      000442 7D                     951 	ld	a, l
-      000443 F8 07                  952 	ldhl	sp,	#7
-      000445 77                     953 	ld	(hl), a
-      000446 E1                     954 	pop	hl
-      000447 7C                     955 	ld	a, h
-      000448 F8 06                  956 	ldhl	sp,	#6
-      00044A 32                     957 	ld	(hl-), a
-      00044B 2A                     958 	ld	a, (hl+)
-      00044C 5F                     959 	ld	e, a
-      00044D 56                     960 	ld	d, (hl)
-      00044E 21 02 00               961 	ld	hl, #0x0002
-      000451 19                     962 	add	hl, de
-      000452 E5                     963 	push	hl
-      000453 7D                     964 	ld	a, l
-      000454 F8 05                  965 	ldhl	sp,	#5
-      000456 77                     966 	ld	(hl), a
-      000457 E1                     967 	pop	hl
-      000458 7C                     968 	ld	a, h
-      000459 F8 04                  969 	ldhl	sp,	#4
-      00045B 32                     970 	ld	(hl-), a
-      00045C 2A                     971 	ld	a,	(hl+)
-      00045D 66                     972 	ld	h, (hl)
-      00045E 6F                     973 	ld	l, a
-      00045F 36 00                  974 	ld	(hl), #0x00
-                                    975 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:147: paddle.dead=1;
-      000461 21r02r00               976 	ld	hl, #(_paddle + 2)
-      000464 36 01                  977 	ld	(hl), #0x01
-      000466                        978 00141$:
-                                    979 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:78: for(uint8_t i=2;i<8;i++){
-      000466 F8 07                  980 	ldhl	sp,	#7
-      000468 34                     981 	inc	(hl)
-      000469 C3rE1r00               982 	jp	00147$
-      00046C                        983 00148$:
-                                    984 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:154: }
-      00046C E8 08                  985 	add	sp, #8
-      00046E C9                     986 	ret
-                                    987 	.area _CODE
-                                    988 	.area _INITIALIZER
-                                    989 	.area _CABS (ABS)
+      0002D5 57                     662 	ld	d, a
+      0002D6 5E                     663 	ld	e, (hl)
+      0002D7 D5                     664 	push	de
+      0002D8 CDr00r00               665 	call	_get_bkg_tile_xy
+      0002DB E1                     666 	pop	hl
+      0002DC F8 06                  667 	ldhl	sp,	#6
+      0002DE 73                     668 	ld	(hl), e
+                                    669 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:113: if(currentTile>=BARRICADE_TILES_START&&currentTile<=BARRICADE_LAST_TILE){
+      0002DF 7E                     670 	ld	a, (hl)
+      0002E0 D6 60                  671 	sub	a, #0x60
+      0002E2 38 55                  672 	jr	C, 00120$
+      0002E4 3E 6E                  673 	ld	a, #0x6e
+      0002E6 96                     674 	sub	a, (hl)
+      0002E7 38 50                  675 	jr	C, 00120$
+                                    676 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:116: uint8_t newTile=currentTile+1;
+      0002E9 3A                     677 	ld	a, (hl-)
+      0002EA 2B                     678 	dec	hl
+      0002EB 3C                     679 	inc	a
+      0002EC 77                     680 	ld	(hl), a
+                                    681 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:122: if(newTile%3==0)newTile=0;
+      0002ED 2A                     682 	ld	a, (hl+)
+      0002EE 22                     683 	ld	(hl+), a
+      0002EF 11 03 00               684 	ld	de, #0x0003
+      0002F2 7A                     685 	ld	a, d
+      0002F3 32                     686 	ld	(hl-), a
+      0002F4 D5                     687 	push	de
+      0002F5 2A                     688 	ld	a, (hl+)
+      0002F6 5F                     689 	ld	e, a
+      0002F7 56                     690 	ld	d, (hl)
+      0002F8 D5                     691 	push	de
+      0002F9 CDr00r00               692 	call	__modsint
+      0002FC E8 04                  693 	add	sp, #4
+      0002FE F8 05                  694 	ldhl	sp,	#5
+      000300 7B                     695 	ld	a, e
+      000301 22                     696 	ld	(hl+), a
+      000302 72                     697 	ld	(hl), d
+      000303 F8 06                  698 	ldhl	sp,	#6
+      000305 3A                     699 	ld	a, (hl-)
+      000306 B6                     700 	or	a, (hl)
+      000307 20 03                  701 	jr	NZ, 00112$
+      000309 2B                     702 	dec	hl
+      00030A 36 00                  703 	ld	(hl), #0x00
+      00030C                        704 00112$:
+                                    705 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:123: set_bkg_tile_xy(currentColumn,currentRow,newTile);
+      00030C F8 04                  706 	ldhl	sp,	#4
+      00030E 3A                     707 	ld	a, (hl-)
+      00030F 57                     708 	ld	d, a
+      000310 3A                     709 	ld	a, (hl-)
+      000311 5F                     710 	ld	e, a
+      000312 D5                     711 	push	de
+      000313 7E                     712 	ld	a, (hl)
+      000314 F5                     713 	push	af
+      000315 33                     714 	inc	sp
+      000316 CDr00r00               715 	call	_set_bkg_tile_xy
+      000319 E8 03                  716 	add	sp, #3
+                                    717 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:126: shadow_OAM[i].tile=0;
+      00031B 01r00r00               718 	ld	bc, #_shadow_OAM+0
+      00031E E1                     719 	pop	hl
+      00031F E5                     720 	push	hl
+      000320 09                     721 	add	hl, bc
+      000321 23                     722 	inc	hl
+      000322 23                     723 	inc	hl
+      000323 4D                     724 	ld	c, l
+      000324 44                     725 	ld	b, h
+      000325 AF                     726 	xor	a, a
+      000326 02                     727 	ld	(bc), a
+                                    728 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:127: NR41_REG = 0x30;
+      000327 3E 30                  729 	ld	a, #0x30
+      000329 E0r00                  730 	ldh	(_NR41_REG + 0), a
+                                    731 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:128: NR42_REG = 0x61;
+      00032B 3E 61                  732 	ld	a, #0x61
+      00032D E0r00                  733 	ldh	(_NR42_REG + 0), a
+                                    734 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:129: NR43_REG = 0x80;
+      00032F 3E 80                  735 	ld	a, #0x80
+      000331 E0r00                  736 	ldh	(_NR43_REG + 0), a
+                                    737 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:130: NR44_REG = 0xC0;
+      000333 3E C0                  738 	ld	a, #0xc0
+      000335 E0r00                  739 	ldh	(_NR44_REG + 0), a
+      000337 18 22                  740 	jr	00121$
+      000339                        741 00120$:
+                                    742 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:132: }else if(currentTile>=INVADER1_TILES_START&&currentTile<=INVADER3_TILES_START+Invader3_TILE_COUNT){
+      000339 F8 06                  743 	ldhl	sp,	#6
+      00033B 7E                     744 	ld	a, (hl)
+      00033C D6 05                  745 	sub	a, #0x05
+      00033E 38 1B                  746 	jr	C, 00121$
+      000340 3E 35                  747 	ld	a, #0x35
+      000342 96                     748 	sub	a, (hl)
+      000343 38 16                  749 	jr	C, 00121$
+                                    750 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:134: for(uint8_t j=0;j<40;j++){
+      000345 06 00                  751 	ld	b, #0x00
+      000347                        752 00144$:
+      000347 78                     753 	ld	a, b
+      000348 D6 28                  754 	sub	a, #0x28
+      00034A 30 0F                  755 	jr	NC, 00121$
+                                    756 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:136: if(InvaderCheckBulletCollision(j)){
+      00034C C5                     757 	push	bc
+      00034D C5                     758 	push	bc
+      00034E 33                     759 	inc	sp
+      00034F CDr3Er00               760 	call	_InvaderCheckBulletCollision
+      000352 33                     761 	inc	sp
+      000353 7B                     762 	ld	a, e
+      000354 C1                     763 	pop	bc
+      000355 B7                     764 	or	a, a
+      000356 20 03                  765 	jr	NZ, 00121$
+                                    766 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:134: for(uint8_t j=0;j<40;j++){
+      000358 04                     767 	inc	b
+      000359 18 EC                  768 	jr	00144$
+      00035B                        769 00121$:
+                                    770 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:143: if(i>2){
+      00035B 3E 02                  771 	ld	a, #0x02
+      00035D F8 07                  772 	ldhl	sp,	#7
+      00035F 96                     773 	sub	a, (hl)
+      000360 D2r8Er04               774 	jp	NC, 00141$
+                                    775 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:144: if(shadow_OAM[i].x-4<paddle.x-8)continue;
+      000363 11r00r00               776 	ld	de, #_shadow_OAM
+      000366 E1                     777 	pop	hl
+      000367 E5                     778 	push	hl
+      000368 19                     779 	add	hl, de
+      000369 23                     780 	inc	hl
+      00036A 4D                     781 	ld	c, l
+      00036B 44                     782 	ld	b, h
+      00036C 0A                     783 	ld	a, (bc)
+      00036D 4F                     784 	ld	c, a
+      00036E 06 00                  785 	ld	b, #0x00
+      000370 11 04 00               786 	ld	de, #0x0004
+      000373 79                     787 	ld	a, c
+      000374 93                     788 	sub	a, e
+      000375 5F                     789 	ld	e, a
+      000376 78                     790 	ld	a, b
+      000377 9A                     791 	sbc	a, d
+      000378 F8 04                  792 	ldhl	sp,	#4
+      00037A 32                     793 	ld	(hl-), a
+      00037B 73                     794 	ld	(hl), e
+      00037C FAr00r00               795 	ld	a, (#_paddle + 0)
+      00037F 4F                     796 	ld	c, a
+      000380 06 00                  797 	ld	b, #0x00
+      000382 11 08 00               798 	ld	de, #0x0008
+      000385 79                     799 	ld	a, c
+      000386 93                     800 	sub	a, e
+      000387 5F                     801 	ld	e, a
+      000388 78                     802 	ld	a, b
+      000389 9A                     803 	sbc	a, d
+      00038A F8 06                  804 	ldhl	sp,	#6
+      00038C 32                     805 	ld	(hl-), a
+      00038D 73                     806 	ld	(hl), e
+      00038E F8 03                  807 	ldhl	sp,	#3
+      000390 5D                     808 	ld	e, l
+      000391 54                     809 	ld	d, h
+      000392 F8 05                  810 	ldhl	sp,	#5
+      000394 1A                     811 	ld	a, (de)
+      000395 13                     812 	inc	de
+      000396 96                     813 	sub	a, (hl)
+      000397 23                     814 	inc	hl
+      000398 1A                     815 	ld	a, (de)
+      000399 9E                     816 	sbc	a, (hl)
+      00039A 1A                     817 	ld	a, (de)
+      00039B 57                     818 	ld	d, a
+      00039C CB 7E                  819 	bit	7, (hl)
+      00039E 28 07                  820 	jr	Z, 00284$
+      0003A0 CB 7A                  821 	bit	7, d
+      0003A2 20 08                  822 	jr	NZ, 00285$
+      0003A4 BF                     823 	cp	a, a
+      0003A5 18 05                  824 	jr	00285$
+      0003A7                        825 00284$:
+      0003A7 CB 7A                  826 	bit	7, d
+      0003A9 28 01                  827 	jr	Z, 00285$
+      0003AB 37                     828 	scf
+      0003AC                        829 00285$:
+      0003AC DAr8Er04               830 	jp	C, 00141$
+                                    831 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:145: if(shadow_OAM[i].x-4>paddle.x+8)continue;
+      0003AF 11r00r00               832 	ld	de, #_shadow_OAM
+      0003B2 E1                     833 	pop	hl
+      0003B3 E5                     834 	push	hl
+      0003B4 19                     835 	add	hl, de
+      0003B5 23                     836 	inc	hl
+      0003B6 5D                     837 	ld	e, l
+      0003B7 54                     838 	ld	d, h
+      0003B8 1A                     839 	ld	a, (de)
+      0003B9 1E 00                  840 	ld	e, #0x00
+      0003BB C6 FC                  841 	add	a, #0xfc
+      0003BD 6F                     842 	ld	l, a
+                                    843 ;	spillPairReg hl
+                                    844 ;	spillPairReg hl
+      0003BE 7B                     845 	ld	a, e
+      0003BF CE FF                  846 	adc	a, #0xff
+      0003C1 67                     847 	ld	h, a
+                                    848 ;	spillPairReg hl
+                                    849 ;	spillPairReg hl
+      0003C2 79                     850 	ld	a, c
+      0003C3 C6 08                  851 	add	a, #0x08
+      0003C5 4F                     852 	ld	c, a
+      0003C6 30 01                  853 	jr	NC, 00286$
+      0003C8 04                     854 	inc	b
+      0003C9                        855 00286$:
+      0003C9 5C                     856 	ld	e, h
+      0003CA 50                     857 	ld	d, b
+      0003CB 79                     858 	ld	a, c
+      0003CC 95                     859 	sub	a, l
+      0003CD 78                     860 	ld	a, b
+      0003CE 9C                     861 	sbc	a, h
+      0003CF CB 7B                  862 	bit	7, e
+      0003D1 28 07                  863 	jr	Z, 00287$
+      0003D3 CB 7A                  864 	bit	7, d
+      0003D5 20 08                  865 	jr	NZ, 00288$
+      0003D7 BF                     866 	cp	a, a
+      0003D8 18 05                  867 	jr	00288$
+      0003DA                        868 00287$:
+      0003DA CB 7A                  869 	bit	7, d
+      0003DC 28 01                  870 	jr	Z, 00288$
+      0003DE 37                     871 	scf
+      0003DF                        872 00288$:
+      0003DF DAr8Er04               873 	jp	C, 00141$
+                                    874 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:146: if(shadow_OAM[i].y-12<paddle.y-4)continue;
+      0003E2 11r00r00               875 	ld	de, #_shadow_OAM
+      0003E5 E1                     876 	pop	hl
+      0003E6 E5                     877 	push	hl
+      0003E7 19                     878 	add	hl, de
+      0003E8 4D                     879 	ld	c, l
+      0003E9 44                     880 	ld	b, h
+      0003EA 0A                     881 	ld	a, (bc)
+      0003EB 4F                     882 	ld	c, a
+      0003EC 06 00                  883 	ld	b, #0x00
+      0003EE 11 0C 00               884 	ld	de, #0x000c
+      0003F1 79                     885 	ld	a, c
+      0003F2 93                     886 	sub	a, e
+      0003F3 5F                     887 	ld	e, a
+      0003F4 78                     888 	ld	a, b
+      0003F5 9A                     889 	sbc	a, d
+      0003F6 F8 04                  890 	ldhl	sp,	#4
+      0003F8 32                     891 	ld	(hl-), a
+      0003F9 73                     892 	ld	(hl), e
+      0003FA FAr01r00               893 	ld	a, (#(_paddle + 1) + 0)
+      0003FD 4F                     894 	ld	c, a
+      0003FE 06 00                  895 	ld	b, #0x00
+      000400 11 04 00               896 	ld	de, #0x0004
+      000403 79                     897 	ld	a, c
+      000404 93                     898 	sub	a, e
+      000405 5F                     899 	ld	e, a
+      000406 78                     900 	ld	a, b
+      000407 9A                     901 	sbc	a, d
+      000408 F8 06                  902 	ldhl	sp,	#6
+      00040A 32                     903 	ld	(hl-), a
+      00040B 73                     904 	ld	(hl), e
+      00040C F8 03                  905 	ldhl	sp,	#3
+      00040E 5D                     906 	ld	e, l
+      00040F 54                     907 	ld	d, h
+      000410 F8 05                  908 	ldhl	sp,	#5
+      000412 1A                     909 	ld	a, (de)
+      000413 13                     910 	inc	de
+      000414 96                     911 	sub	a, (hl)
+      000415 23                     912 	inc	hl
+      000416 1A                     913 	ld	a, (de)
+      000417 9E                     914 	sbc	a, (hl)
+      000418 1A                     915 	ld	a, (de)
+      000419 57                     916 	ld	d, a
+      00041A CB 7E                  917 	bit	7, (hl)
+      00041C 28 07                  918 	jr	Z, 00289$
+      00041E CB 7A                  919 	bit	7, d
+      000420 20 08                  920 	jr	NZ, 00290$
+      000422 BF                     921 	cp	a, a
+      000423 18 05                  922 	jr	00290$
+      000425                        923 00289$:
+      000425 CB 7A                  924 	bit	7, d
+      000427 28 01                  925 	jr	Z, 00290$
+      000429 37                     926 	scf
+      00042A                        927 00290$:
+      00042A 38 62                  928 	jr	C, 00141$
+                                    929 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:147: if(shadow_OAM[i].y-12>paddle.y+4)continue;
+      00042C 11r00r00               930 	ld	de, #_shadow_OAM
+      00042F E1                     931 	pop	hl
+      000430 E5                     932 	push	hl
+      000431 19                     933 	add	hl, de
+      000432 5D                     934 	ld	e, l
+      000433 54                     935 	ld	d, h
+      000434 1A                     936 	ld	a, (de)
+      000435 1E 00                  937 	ld	e, #0x00
+      000437 C6 F4                  938 	add	a, #0xf4
+      000439 6F                     939 	ld	l, a
+                                    940 ;	spillPairReg hl
+                                    941 ;	spillPairReg hl
+      00043A 7B                     942 	ld	a, e
+      00043B CE FF                  943 	adc	a, #0xff
+      00043D 67                     944 	ld	h, a
+                                    945 ;	spillPairReg hl
+                                    946 ;	spillPairReg hl
+      00043E 03                     947 	inc	bc
+      00043F 03                     948 	inc	bc
+      000440 03                     949 	inc	bc
+      000441 03                     950 	inc	bc
+      000442 5C                     951 	ld	e, h
+      000443 50                     952 	ld	d, b
+      000444 79                     953 	ld	a, c
+      000445 95                     954 	sub	a, l
+      000446 78                     955 	ld	a, b
+      000447 9C                     956 	sbc	a, h
+      000448 CB 7B                  957 	bit	7, e
+      00044A 28 07                  958 	jr	Z, 00291$
+      00044C CB 7A                  959 	bit	7, d
+      00044E 20 08                  960 	jr	NZ, 00292$
+      000450 BF                     961 	cp	a, a
+      000451 18 05                  962 	jr	00292$
+      000453                        963 00291$:
+      000453 CB 7A                  964 	bit	7, d
+      000455 28 01                  965 	jr	Z, 00292$
+      000457 37                     966 	scf
+      000458                        967 00292$:
+      000458 38 34                  968 	jr	C, 00141$
+                                    969 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:148: if(paddle.damageTimer>0)continue;
+      00045A FAr04r00               970 	ld	a, (#(_paddle + 4) + 0)
+      00045D B7                     971 	or	a, a
+      00045E 20 2E                  972 	jr	NZ, 00141$
+                                    973 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:149: shadow_OAM[i].tile=0;
+      000460 D1                     974 	pop	de
+      000461 D5                     975 	push	de
+      000462 21r00r00               976 	ld	hl, #_shadow_OAM
+      000465 19                     977 	add	hl, de
+      000466 E5                     978 	push	hl
+      000467 7D                     979 	ld	a, l
+      000468 F8 07                  980 	ldhl	sp,	#7
+      00046A 77                     981 	ld	(hl), a
+      00046B E1                     982 	pop	hl
+      00046C 7C                     983 	ld	a, h
+      00046D F8 06                  984 	ldhl	sp,	#6
+      00046F 32                     985 	ld	(hl-), a
+      000470 2A                     986 	ld	a, (hl+)
+      000471 5F                     987 	ld	e, a
+      000472 56                     988 	ld	d, (hl)
+      000473 21 02 00               989 	ld	hl, #0x0002
+      000476 19                     990 	add	hl, de
+      000477 E5                     991 	push	hl
+      000478 7D                     992 	ld	a, l
+      000479 F8 05                  993 	ldhl	sp,	#5
+      00047B 77                     994 	ld	(hl), a
+      00047C E1                     995 	pop	hl
+      00047D 7C                     996 	ld	a, h
+      00047E F8 04                  997 	ldhl	sp,	#4
+      000480 32                     998 	ld	(hl-), a
+      000481 2A                     999 	ld	a,	(hl+)
+      000482 66                    1000 	ld	h, (hl)
+      000483 6F                    1001 	ld	l, a
+      000484 36 00                 1002 	ld	(hl), #0x00
+                                   1003 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:151: DamagePlayer(1);
+      000486 3E 01                 1004 	ld	a, #0x01
+      000488 F5                    1005 	push	af
+      000489 33                    1006 	inc	sp
+      00048A CDr00r00              1007 	call	_DamagePlayer
+      00048D 33                    1008 	inc	sp
+      00048E                       1009 00141$:
+                                   1010 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:83: for(uint8_t i=2;i<8;i++){
+      00048E F8 07                 1011 	ldhl	sp,	#7
+      000490 34                    1012 	inc	(hl)
+      000491 C3rF6r00              1013 	jp	00147$
+      000494                       1014 00148$:
+                                   1015 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\bullets.c:158: }
+      000494 E8 08                 1016 	add	sp, #8
+      000496 C9                    1017 	ret
+                                   1018 	.area _CODE
+                                   1019 	.area _INITIALIZER
+                                   1020 	.area _CABS (ABS)

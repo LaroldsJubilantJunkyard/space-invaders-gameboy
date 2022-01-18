@@ -63,35 +63,35 @@ _SetupMenuScreen::
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:21: set_sprite_data(BULLETA_SPRITE_START,BulletA_TILE_COUNT,BulletA_tiles);
 	ld	de, #_BulletA_tiles
 	push	de
-	ld	hl, #0x503
+	ld	hl, #0x803
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:22: set_sprite_data(BULLETB_SPRITE_START,BulletB_TILE_COUNT,BulletB_tiles);
 	ld	de, #_BulletB_tiles
 	push	de
-	ld	hl, #0x108
+	ld	hl, #0x40b
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:23: set_sprite_data(BULLETC_SPRITE_START,BulletC_TILE_COUNT,BulletC_tiles);
 	ld	de, #_BulletC_tiles
 	push	de
-	ld	hl, #0x109
+	ld	hl, #0x10f
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:24: set_sprite_data(ALIEN_SPRITE_START,Alien_TILE_COUNT,Alien_tiles);
 	ld	de, #_Alien_tiles
 	push	de
-	ld	hl, #0x20a
+	ld	hl, #0x210
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\MenuScreen.c:25: set_sprite_data(EXPLOSION_SPRITE_START,Explosion_TILE_COUNT,Explosion_tiles);
 	ld	de, #_Explosion_tiles
 	push	de
-	ld	hl, #0x40c
+	ld	hl, #0x412
 	push	hl
 	call	_set_sprite_data
 	add	sp, #4

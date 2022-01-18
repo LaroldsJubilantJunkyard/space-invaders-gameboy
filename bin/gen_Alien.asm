@@ -58,8 +58,8 @@ ___func_Alien::
 _Alien_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x740a
-	.dw #0x0007
+	.dw #0x540a
+	.dw #0x000c
 _Alien_tiles:
 	.db #0x01	; 1
 	.db #0x00	; 0
