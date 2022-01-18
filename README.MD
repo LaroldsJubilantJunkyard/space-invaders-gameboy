@@ -1,6 +1,6 @@
 # Space Invaders Clone for Gameboy
 
-In this repository you'll find a space invaders clone. All assets are included, even the used aseprite files (although those are not directly used).
+In this repository you'll find a space invaders clone. All assets are included, even the used aseprite files (although those are not directly used). A tutorial will be published at LaroldsJubilantJunkyard.com soon.
 
 ## Game Elements
 
