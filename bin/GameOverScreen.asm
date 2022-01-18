@@ -47,19 +47,19 @@
 ; Function SetupGameOverScreen
 ; ---------------------------------
 _SetupGameOverScreen::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:7: DrawText(7,9,"GAME OVER");
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:7: DrawText(5,9,"GAME  OVER");
 	ld	de, #___str_0
 	push	de
-	ld	hl, #0x907
+	ld	hl, #0x905
 	push	hl
 	call	_DrawText
 	add	sp, #4
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:8: }
 	ret
 ___str_0:
-	.ascii "GAME OVER"
+	.ascii "GAME  OVER"
 	.db 0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:9: UINT8 UpdateGameOverScreen(){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:9: uint8_t UpdateGameOverScreen(){
 ;	---------------------------------
 ; Function UpdateGameOverScreen
 ; ---------------------------------

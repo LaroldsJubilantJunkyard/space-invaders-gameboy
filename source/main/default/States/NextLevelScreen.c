@@ -4,12 +4,12 @@
 
 void SetupNextLevelScreen(){
 
-    DrawText(9,8,"ROUND");
-    DrawNumber(11,9,level,2);
-    DrawText(9,11,"READY!");
+    DrawText(8,8,"ROUND");
+    DrawNumber(9,9,level,2);
+    DrawText(8,11,"READY!");
 }
 
-UINT8 UpdateNextLevelScreen(){
+uint8_t UpdateNextLevelScreen(){
 
     delay(2000);
 

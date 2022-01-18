@@ -8,18 +8,18 @@
 
 #define BulletB_TILE_H 8
 #define BulletB_WIDTH 8
-#define BulletB_HEIGHT 16
-#define BulletB_TILE_COUNT 3
+#define BulletB_HEIGHT 8
+#define BulletB_TILE_COUNT 1
 #define BulletB_PIVOT_X 4
-#define BulletB_PIVOT_Y 8
+#define BulletB_PIVOT_Y 4
 #define BulletB_PIVOT_W 8
-#define BulletB_PIVOT_H 16
+#define BulletB_PIVOT_H 8
 
 BANKREF_EXTERN(BulletB)
 
 extern const palette_color_t BulletB_palettes[4];
-extern const uint8_t BulletB_tiles[48];
+extern const uint8_t BulletB_tiles[16];
 
-extern const metasprite_t* const BulletB_metasprites[4];
+extern const metasprite_t* const BulletB_metasprites[8];
 
 #endif

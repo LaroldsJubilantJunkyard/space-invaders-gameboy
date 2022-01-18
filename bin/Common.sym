@@ -9,19 +9,22 @@ Symbol Table
     .__.H$L.                                                    =  000000 L
   0 _ClearAllSprites                                               00001D GR
   0 _ClearBackground                                               00003B GR
+    _DIV_REG                                                       ****** GX
   0 _GetNextAvailableSprite                                        000000 GR
   0 _RandomNumber                                                  00004D GR
     __modsint                                                      ****** GX
   7 __xinit__highScore                                             000001 R
   7 __xinit__level                                                 000000 R
+  7 __xinit__slideDir                                              000003 R
   7 __xinit__spaceInvadersFontCurrentStart                         000002 R
     _fill_bkg_rect                                                 ****** GX
   2 _highScore                                                     000001 GR
+  1 _invadersRemaining                                             000002 GR
   1 _joypadCurrent                                                 000000 GR
   1 _joypadPrevious                                                000001 GR
   2 _level                                                         000000 GR
     _shadow_OAM                                                    ****** GX
-  1 _slideDir                                                      000002 GR
+  2 _slideDir                                                      000003 GR
   2 _spaceInvadersFontCurrentStart                                 000002 GR
 
 
@@ -30,13 +33,13 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     86   flags    0
+   0 _CODE                                      size     84   flags    0
    1 _DATA                                      size      3   flags    0
-   2 _INITIALIZED                               size      3   flags    0
+   2 _INITIALIZED                               size      4   flags    0
    3 _DABS                                      size      0   flags    8
    4 _HOME                                      size      0   flags    0
    5 _GSINIT                                    size      0   flags    0
    6 _GSFINAL                                   size      0   flags    0
-   7 _INITIALIZER                               size      3   flags    0
+   7 _INITIALIZER                               size      4   flags    0
    8 _CABS                                      size      0   flags    8
 

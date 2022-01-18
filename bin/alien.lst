@@ -1,0 +1,303 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (MINGW32)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module alien
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _UpdateAlien
+                                     12 	.globl _SetupAlien
+                                     13 	.globl _IncreaseScore
+                                     14 	.globl _RandomNumber
+                                     15 	.globl _alienCounter
+                                     16 ;--------------------------------------------------------
+                                     17 ; special function registers
+                                     18 ;--------------------------------------------------------
+                                     19 ;--------------------------------------------------------
+                                     20 ; ram data
+                                     21 ;--------------------------------------------------------
+                                     22 	.area _DATA
+      000000                         23 _alienCounter::
+      000000                         24 	.ds 2
+                                     25 ;--------------------------------------------------------
+                                     26 ; ram data
+                                     27 ;--------------------------------------------------------
+                                     28 	.area _INITIALIZED
+                                     29 ;--------------------------------------------------------
+                                     30 ; absolute external ram data
+                                     31 ;--------------------------------------------------------
+                                     32 	.area _DABS (ABS)
+                                     33 ;--------------------------------------------------------
+                                     34 ; global & static initialisations
+                                     35 ;--------------------------------------------------------
+                                     36 	.area _HOME
+                                     37 	.area _GSINIT
+                                     38 	.area _GSFINAL
+                                     39 	.area _GSINIT
+                                     40 ;--------------------------------------------------------
+                                     41 ; Home
+                                     42 ;--------------------------------------------------------
+                                     43 	.area _HOME
+                                     44 	.area _HOME
+                                     45 ;--------------------------------------------------------
+                                     46 ; code
+                                     47 ;--------------------------------------------------------
+                                     48 	.area _CODE
+                                     49 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:8: void SetupAlien(){
+                                     50 ;	---------------------------------
+                                     51 ; Function SetupAlien
+                                     52 ; ---------------------------------
+      000000                         53 _SetupAlien::
+                                     54 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:10: alienCounter=0;
+      000000 AF                      55 	xor	a, a
+      000001 21r00r00                56 	ld	hl, #_alienCounter
+      000004 22                      57 	ld	(hl+), a
+      000005 77                      58 	ld	(hl), a
+                                     59 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000006 21r22r00                60 	ld	hl, #(_shadow_OAM + 34)
+      000009 36 00                   61 	ld	(hl), #0x00
+      00000B 21r26r00                62 	ld	hl, #(_shadow_OAM + 38)
+      00000E 36 00                   63 	ld	(hl), #0x00
+                                     64 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000010 01r20r00                65 	ld	bc, #_shadow_OAM+32
+                                     66 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000013 AF                      67 	xor	a, a
+      000014 02                      68 	ld	(bc), a
+      000015 03                      69 	inc	bc
+      000016 AF                      70 	xor	a, a
+      000017 02                      71 	ld	(bc), a
+                                     72 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000018 01r24r00                73 	ld	bc, #_shadow_OAM+36
+                                     74 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      00001B AF                      75 	xor	a, a
+      00001C 02                      76 	ld	(bc), a
+      00001D 03                      77 	inc	bc
+      00001E AF                      78 	xor	a, a
+      00001F 02                      79 	ld	(bc), a
+                                     80 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:18: move_sprite(ALIEN_OAM_SPRITE+1,0,0);
+                                     81 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:19: }
+      000020 C9                      82 	ret
+                                     83 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:21: void UpdateAlien(){
+                                     84 ;	---------------------------------
+                                     85 ; Function UpdateAlien
+                                     86 ; ---------------------------------
+      000021                         87 _UpdateAlien::
+      000021 3B                      88 	dec	sp
+                                     89 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:23: if(shadow_OAM[ALIEN_OAM_SPRITE].tile==0){
+      000022 FAr22r00                90 	ld	a, (#(_shadow_OAM + 34) + 0)
+      000025 B7                      91 	or	a, a
+      000026 20 08                   92 	jr	NZ, 00102$
+                                     93 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:24: alienCounter++;;
+      000028 21r00r00                94 	ld	hl, #_alienCounter
+      00002B 34                      95 	inc	(hl)
+      00002C 20 02                   96 	jr	NZ, 00196$
+      00002E 23                      97 	inc	hl
+      00002F 34                      98 	inc	(hl)
+      000030                         99 00196$:
+      000030                        100 00102$:
+                                    101 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:28: if(alienCounter>=400&&shadow_OAM[ALIEN_OAM_SPRITE].tile==0){
+      000030 21r00r00               102 	ld	hl, #_alienCounter
+      000033 2A                     103 	ld	a, (hl+)
+      000034 4F                     104 	ld	c, a
+      000035 46                     105 	ld	b, (hl)
+      000036 79                     106 	ld	a, c
+      000037 D6 90                  107 	sub	a, #0x90
+      000039 78                     108 	ld	a, b
+      00003A DE 01                  109 	sbc	a, #0x01
+      00003C 38 39                  110 	jr	C, 00121$
+      00003E FAr22r00               111 	ld	a, (#(_shadow_OAM + 34) + 0)
+      000041 B7                     112 	or	a, a
+      000042 20 33                  113 	jr	NZ, 00121$
+                                    114 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:30: if(RandomNumber(0,100)<10){
+      000044 21 00 64               115 	ld	hl, #0x6400
+      000047 E5                     116 	push	hl
+      000048 CDr00r00               117 	call	_RandomNumber
+      00004B E1                     118 	pop	hl
+      00004C 7B                     119 	ld	a, e
+      00004D D6 0A                  120 	sub	a, #0x0a
+      00004F 30 1D                  121 	jr	NC, 00104$
+                                    122 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000051 21r22r00               123 	ld	hl, #(_shadow_OAM + 34)
+      000054 36 0A                  124 	ld	(hl), #0x0a
+      000056 21r26r00               125 	ld	hl, #(_shadow_OAM + 38)
+      000059 36 0B                  126 	ld	(hl), #0x0b
+                                    127 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      00005B 21r20r00               128 	ld	hl, #(_shadow_OAM + 32)
+                                    129 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      00005E 3E 18                  130 	ld	a, #0x18
+      000060 22                     131 	ld	(hl+), a
+      000061 36 E7                  132 	ld	(hl), #0xe7
+                                    133 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000063 21r24r00               134 	ld	hl, #(_shadow_OAM + 36)
+                                    135 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000066 3E 18                  136 	ld	a, #0x18
+      000068 22                     137 	ld	(hl+), a
+      000069 36 EF                  138 	ld	(hl), #0xef
+                                    139 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:38: move_sprite(ALIEN_OAM_SPRITE+1,239,24);
+      00006B C3r3Br01               140 	jp	00134$
+      00006E                        141 00104$:
+                                    142 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:41: alienCounter=0;
+      00006E AF                     143 	xor	a, a
+      00006F 21r00r00               144 	ld	hl, #_alienCounter
+      000072 22                     145 	ld	(hl+), a
+      000073 77                     146 	ld	(hl), a
+      000074 C3r3Br01               147 	jp	00134$
+      000077                        148 00121$:
+                                    149 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:44: }else if(shadow_OAM[ALIEN_OAM_SPRITE].tile!=0){
+      000077 FAr22r00               150 	ld	a, (#(_shadow_OAM + 34) + 0)
+      00007A B7                     151 	or	a, a
+      00007B CAr3Br01               152 	jp	Z, 00134$
+                                    153 ;C:/gbdk/include/gb/gb.h:1415: OAM_item_t * itm = &shadow_OAM[nb];
+      00007E 01r20r00               154 	ld	bc, #_shadow_OAM+32
+                                    155 ;C:/gbdk/include/gb/gb.h:1416: itm->y+=y, itm->x+=x;
+      000081 0A                     156 	ld	a, (bc)
+      000082 02                     157 	ld	(bc), a
+      000083 03                     158 	inc	bc
+      000084 0A                     159 	ld	a, (bc)
+      000085 3C                     160 	inc	a
+      000086 02                     161 	ld	(bc), a
+                                    162 ;C:/gbdk/include/gb/gb.h:1415: OAM_item_t * itm = &shadow_OAM[nb];
+      000087 01r24r00               163 	ld	bc, #_shadow_OAM+36
+                                    164 ;C:/gbdk/include/gb/gb.h:1416: itm->y+=y, itm->x+=x;
+      00008A 0A                     165 	ld	a, (bc)
+      00008B 02                     166 	ld	(bc), a
+      00008C 03                     167 	inc	bc
+      00008D 0A                     168 	ld	a, (bc)
+      00008E 3C                     169 	inc	a
+      00008F 02                     170 	ld	(bc), a
+                                    171 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:51: if(PlayerBulletSprite.tile!=0){
+      000090 FAr0Ar00               172 	ld	a, (#(_shadow_OAM + 10) + 0)
+      000093 B7                     173 	or	a, a
+      000094 28 75                  174 	jr	Z, 00114$
+                                    175 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:55: INT8 xd = PlayerBulletSprite.x-(shadow_OAM[ALIEN_OAM_SPRITE+1].x-8);
+      000096 21r09r00               176 	ld	hl, #(_shadow_OAM + 9)
+      000099 4E                     177 	ld	c, (hl)
+      00009A FAr25r00               178 	ld	a, (#(_shadow_OAM + 37) + 0)
+      00009D C6 F8                  179 	add	a, #0xf8
+      00009F 47                     180 	ld	b, a
+      0000A0 79                     181 	ld	a, c
+      0000A1 90                     182 	sub	a, b
+      0000A2 4F                     183 	ld	c, a
+                                    184 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:56: INT8 yd = PlayerBulletSprite.y-shadow_OAM[ALIEN_OAM_SPRITE+1].y;
+      0000A3 FAr08r00               185 	ld	a, (#(_shadow_OAM + 8) + 0)
+      0000A6 F8 00                  186 	ldhl	sp,	#0
+      0000A8 77                     187 	ld	(hl), a
+      0000A9 11r24r00               188 	ld	de, #_shadow_OAM+36
+      0000AC 1A                     189 	ld	a, (de)
+      0000AD 5F                     190 	ld	e, a
+      0000AE F8 00                  191 	ldhl	sp,	#0
+      0000B0 7E                     192 	ld	a, (hl)
+      0000B1 93                     193 	sub	a, e
+      0000B2 47                     194 	ld	b, a
+                                    195 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:58: if(xd<0)xd=-xd;
+      0000B3 CB 79                  196 	bit	7, c
+      0000B5 28 03                  197 	jr	Z, 00107$
+      0000B7 AF                     198 	xor	a, a
+      0000B8 91                     199 	sub	a, c
+      0000B9 4F                     200 	ld	c, a
+      0000BA                        201 00107$:
+                                    202 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:59: if(yd<0)yd=-yd;
+      0000BA CB 78                  203 	bit	7, b
+      0000BC 28 03                  204 	jr	Z, 00109$
+      0000BE AF                     205 	xor	a, a
+      0000BF 90                     206 	sub	a, b
+      0000C0 47                     207 	ld	b, a
+      0000C1                        208 00109$:
+                                    209 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:62: if(xd<=8&&yd<=8){
+      0000C1 59                     210 	ld	e, c
+      0000C2 3E 08                  211 	ld	a,#0x08
+      0000C4 57                     212 	ld	d,a
+      0000C5 91                     213 	sub	a, c
+      0000C6 CB 7B                  214 	bit	7, e
+      0000C8 28 07                  215 	jr	Z, 00197$
+      0000CA CB 7A                  216 	bit	7, d
+      0000CC 20 08                  217 	jr	NZ, 00198$
+      0000CE BF                     218 	cp	a, a
+      0000CF 18 05                  219 	jr	00198$
+      0000D1                        220 00197$:
+      0000D1 CB 7A                  221 	bit	7, d
+      0000D3 28 01                  222 	jr	Z, 00198$
+      0000D5 37                     223 	scf
+      0000D6                        224 00198$:
+      0000D6 38 33                  225 	jr	C, 00114$
+      0000D8 58                     226 	ld	e, b
+      0000D9 3E 08                  227 	ld	a,#0x08
+      0000DB 57                     228 	ld	d,a
+      0000DC 90                     229 	sub	a, b
+      0000DD CB 7B                  230 	bit	7, e
+      0000DF 28 07                  231 	jr	Z, 00199$
+      0000E1 CB 7A                  232 	bit	7, d
+      0000E3 20 08                  233 	jr	NZ, 00200$
+      0000E5 BF                     234 	cp	a, a
+      0000E6 18 05                  235 	jr	00200$
+      0000E8                        236 00199$:
+      0000E8 CB 7A                  237 	bit	7, d
+      0000EA 28 01                  238 	jr	Z, 00200$
+      0000EC 37                     239 	scf
+      0000ED                        240 00200$:
+      0000ED 38 1C                  241 	jr	C, 00114$
+                                    242 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:66: shadow_OAM[ALIEN_OAM_SPRITE].x=178;
+      0000EF 21r21r00               243 	ld	hl, #(_shadow_OAM + 33)
+      0000F2 36 B2                  244 	ld	(hl), #0xb2
+                                    245 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:69: PlayerBulletSprite.tile=0;
+      0000F4 21r0Ar00               246 	ld	hl, #(_shadow_OAM + 10)
+      0000F7 36 00                  247 	ld	(hl), #0x00
+                                    248 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:70: PlayerBulletSprite.x=0;
+      0000F9 21r09r00               249 	ld	hl, #(_shadow_OAM + 9)
+      0000FC 36 00                  250 	ld	(hl), #0x00
+                                    251 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:71: PlayerBulletSprite.y=0;
+      0000FE 21r08r00               252 	ld	hl, #(_shadow_OAM + 8)
+      000101 36 00                  253 	ld	(hl), #0x00
+                                    254 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:74: IncreaseScore(100);
+      000103 3E 64                  255 	ld	a, #0x64
+      000105 F5                     256 	push	af
+      000106 33                     257 	inc	sp
+      000107 CDr00r00               258 	call	_IncreaseScore
+      00010A 33                     259 	inc	sp
+      00010B                        260 00114$:
+                                    261 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:81: if(shadow_OAM[ALIEN_OAM_SPRITE].x>168 &&shadow_OAM[ALIEN_OAM_SPRITE].x<200){       
+      00010B 21r21r00               262 	ld	hl, #(_shadow_OAM + 33)
+      00010E 4E                     263 	ld	c, (hl)
+      00010F 3E A8                  264 	ld	a, #0xa8
+      000111 91                     265 	sub	a, c
+      000112 30 27                  266 	jr	NC, 00134$
+      000114 FAr21r00               267 	ld	a, (#(_shadow_OAM + 33) + 0)
+      000117 D6 C8                  268 	sub	a, #0xc8
+      000119 30 20                  269 	jr	NC, 00134$
+                                    270 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:83: alienCounter=0;     
+      00011B AF                     271 	xor	a, a
+      00011C 21r00r00               272 	ld	hl, #_alienCounter
+      00011F 22                     273 	ld	(hl+), a
+      000120 77                     274 	ld	(hl), a
+                                    275 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000121 21r22r00               276 	ld	hl, #(_shadow_OAM + 34)
+      000124 36 00                  277 	ld	(hl), #0x00
+      000126 21r26r00               278 	ld	hl, #(_shadow_OAM + 38)
+      000129 36 00                  279 	ld	(hl), #0x00
+                                    280 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      00012B 01r20r00               281 	ld	bc, #(_shadow_OAM + 32)
+                                    282 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      00012E AF                     283 	xor	a, a
+      00012F 02                     284 	ld	(bc), a
+      000130 03                     285 	inc	bc
+      000131 AF                     286 	xor	a, a
+      000132 02                     287 	ld	(bc), a
+                                    288 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000133 01r24r00               289 	ld	bc, #(_shadow_OAM + 36)
+                                    290 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000136 AF                     291 	xor	a, a
+      000137 02                     292 	ld	(bc), a
+      000138 03                     293 	inc	bc
+      000139 AF                     294 	xor	a, a
+      00013A 02                     295 	ld	(bc), a
+                                    296 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:91: move_sprite(ALIEN_OAM_SPRITE+1,0,0);
+      00013B                        297 00134$:
+                                    298 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\Gameplay\alien.c:95: }
+      00013B 33                     299 	inc	sp
+      00013C C9                     300 	ret
+                                    301 	.area _CODE
+                                    302 	.area _INITIALIZER
+                                    303 	.area _CABS (ABS)

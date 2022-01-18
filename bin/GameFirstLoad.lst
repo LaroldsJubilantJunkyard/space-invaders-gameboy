@@ -42,13 +42,13 @@
                                      42 ; code
                                      43 ;--------------------------------------------------------
                                      44 	.area _CODE
-                                     45 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:14: void GameFirstLoad(){
+                                     45 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:13: void GameFirstLoad(){
                                      46 ;	---------------------------------
                                      47 ; Function GameFirstLoad
                                      48 ; ---------------------------------
       000000                         49 _GameFirstLoad::
       000000 E8 F8                   50 	add	sp, #-8
-                                     51 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:16: const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(0, 0, 0),RGB8(0, 0, 0),RGB8(0, 0, 0)    };
+                                     51 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:15: const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(0, 0, 0),RGB8(0, 0, 0),RGB8(0, 0, 0)    };
       000002 F8 00                   52 	ldhl	sp,	#0
       000004 4D                      53 	ld	c,l
       000005 44                      54 	ld	b,h
@@ -73,23 +73,23 @@
       00001E AF                      73 	xor	a, a
       00001F 22                      74 	ld	(hl+), a
       000020 77                      75 	ld	(hl), a
-                                     76 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:19: DISPLAY_ON;
+                                     76 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:18: DISPLAY_ON;
       000021 F0r00                   77 	ldh	a, (_LCDC_REG + 0)
       000023 F6 80                   78 	or	a, #0x80
       000025 E0r00                   79 	ldh	(_LCDC_REG + 0), a
-                                     80 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:20: SHOW_SPRITES;
+                                     80 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:19: SHOW_SPRITES;
       000027 F0r00                   81 	ldh	a, (_LCDC_REG + 0)
       000029 F6 02                   82 	or	a, #0x02
       00002B E0r00                   83 	ldh	(_LCDC_REG + 0), a
-                                     84 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:21: SHOW_BKG;
+                                     84 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:20: SHOW_BKG;
       00002D F0r00                   85 	ldh	a, (_LCDC_REG + 0)
       00002F F6 01                   86 	or	a, #0x01
       000031 E0r00                   87 	ldh	(_LCDC_REG + 0), a
-                                     88 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:22: SPRITES_8x8;
+                                     88 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:21: SPRITES_8x8;
       000033 F0r00                   89 	ldh	a, (_LCDC_REG + 0)
       000035 E6 FB                   90 	and	a, #0xfb
       000037 E0r00                   91 	ldh	(_LCDC_REG + 0), a
-                                     92 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:24: set_sprite_palette(0,1,blackAndWhite);
+                                     92 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:23: set_sprite_palette(0,1,blackAndWhite);
       000039 59                      93 	ld	e, c
       00003A 50                      94 	ld	d, b
       00003B C5                      95 	push	bc
@@ -103,7 +103,7 @@
       000046 3C                     103 	inc	a
       000047 F5                     104 	push	af
       000048 CDr00r00               105 	call	_set_bkg_palette
-                                    106 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:28: }
+                                    106 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameFirstLoad.c:29: }
       00004B E8 0C                  107 	add	sp, #12
       00004D C9                     108 	ret
                                     109 	.area _CODE

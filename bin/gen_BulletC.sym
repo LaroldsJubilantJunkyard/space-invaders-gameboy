@@ -8,20 +8,20 @@ Symbol Table
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
   0 _BulletC_metasprite0                                           000018 GR
-  0 _BulletC_metasprites                                           000024 GR
+  0 _BulletC_metasprite1                                           000020 GR
+  0 _BulletC_metasprites                                           000028 GR
   0 _BulletC_palettes                                              000000 GR
   0 _BulletC_tiles                                                 000008 GR
     ___bank_BulletC                                             =  000000 G
   0 ___func_BulletC                                                000000 GR
     b___func_BulletC                                            =  000000 L
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     26   flags    0
+   0 _CODE                                      size     2C   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

@@ -4,9 +4,9 @@
 
 void SetupGameOverScreen(){
     
-    DrawText(7,9,"GAME OVER");
+    DrawText(5,9,"GAME  OVER");
 }
-UINT8 UpdateGameOverScreen(){
+uint8_t UpdateGameOverScreen(){
 
     if(joypadCurrent & J_A)return STARTSCREEN;
 

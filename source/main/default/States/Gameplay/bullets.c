@@ -3,6 +3,7 @@
 #include "States/Gameplay/player.h"
 #include "States/Gameplay/bullets.h"
 #include "States/GameplayScreen.h"
+#include "Graphics/Alien.h"
 #include "Graphics/SpaceInvadersFont.h"
 #include "Common.h"
 
@@ -17,7 +18,7 @@ void SetupBullets(){
 }
 
 
-UINT8 GetAvailableBulletSprite(){
+uint8_t GetAvailableBulletSprite(){
 
     // Check the sprites we have assigned for enemy bullets
     for(INT8 i=3;i<8;i++){
@@ -31,12 +32,50 @@ UINT8 GetAvailableBulletSprite(){
     return 0;
 }
 
+
+
+void UpdateInvaderTiles(uint8_t i);
+
+uint8_t InvaderCheckBulletCollision(uint8_t i){
+
+    if(PlayerBulletSprite.tile!=0&&invaders[i].active){
+
+        INT8 xd = (PlayerBulletSprite.x-4)-(invaders[i].column*8+4+invaders[i].slide);
+        INT8 yd = (PlayerBulletSprite.y-12)-invaders[i].row*8+4;
+
+        // Get the absolute value
+        if(xd<0)xd=-xd;
+        if(yd<0)yd=-yd;
+
+        if(xd<5&&yd<8){
+
+            IncreaseScore(10);
+            
+            invadersRemaining--;
+
+            // Set this enemy as inactive
+            invaders[i].active=0;
+
+            // Set the bullet as in active
+            PlayerBulletSprite.tile=0;
+
+            // Update the tiles for this invader
+            UpdateInvaderTiles(i);
+
+            return 1;
+
+        }
+    }
+
+    return 0;
+}
+
 void UpdateBullets(){
 
     // For each of our bullet sprites
     // Bullet i=2 is the player's bullet
     // Bullet i=3 => i=7 are enemy bullets
-    for(UINT8 i=2;i<8;i++){
+    for(uint8_t i=2;i<8;i++){
 
         // If the tile isn't zero
         // If the tile IS zero, this sprite is not in use
@@ -52,8 +91,8 @@ void UpdateBullets(){
 
             // Move the player bullet up
             // Move enemy bullets down
-            if(i==2)shadow_OAM[i].y-=4;
-            else shadow_OAM[i].y+=4;
+            if(i==2)shadow_OAM[i].y-=2;
+            else shadow_OAM[i].y+=2;
 
             // If the bullet is off screen,reset it
             if(shadow_OAM[i].y>176||shadow_OAM[i].y>250)shadow_OAM[i].tile=0;
@@ -61,37 +100,43 @@ void UpdateBullets(){
             // If the bullet is onscreen
             else {
 
-                UINT8 currentColumn = (shadow_OAM[i].x-4)/8;
-                UINT8 currentRow = (shadow_OAM[i].y-12)/8;
-                UINT8 currentTile=get_bkg_tile_xy(currentColumn,currentRow);
+                uint8_t currentColumn = (shadow_OAM[i].x-4)/8;
+                uint8_t currentRow = (shadow_OAM[i].y-12)/8;
+                uint8_t currentTile=get_bkg_tile_xy(currentColumn,currentRow);
                 
                 // If this is a barricade tile
                 if(currentTile>=BARRICADE_TILES_START&&currentTile<=BARRICADE_LAST_TILE){
 
                     // Go to the next tile
-                    UINT8 newTile=currentTile+1;
-                    UINT8 barricadeRelativeTile = newTile-BARRICADE_TILES_START;
+                    uint8_t newTile=currentTile+1;
+                    uint8_t barricadeRelativeTile = newTile-BARRICADE_TILES_START;
 
                     // The barricade graphic has 5 rows of 3
                     // When the barricade relative tile is a multiple of 3, that tile has been fully disolved
                     // We then set the tile to 0, otherwise it would loop on to become the next barriacde tile.
-                    if(newTile==3||newTile==6||newTile==9||newTile==12||newTile==15)newTile=0;
+                    if(newTile%3==0)newTile=0;
                     set_bkg_tile_xy(currentColumn,currentRow,newTile);
 
                     // Reset the bullet sprite
                     shadow_OAM[i].tile=0;
+
+                }else if(currentTile>=INVADER1_TILES_START&&currentTile<=INVADER3_TILES_START+Invader3_TILE_COUNT){
+
+                    for(uint8_t j=0;j<40;j++){
+
+                        if(InvaderCheckBulletCollision(j)){
+                            break;
+                        }
+                    }
                 }
 
                 // If it is an enemy bullet, we'll check against the player
-                // We handle enemy collision in the UpdateInvaders function
-                // We handle player collision here, to avoid adding an unneccessary loop:
-                //      That would require looping against all enemy bullets while updating the player
-                //      Which might put strain on the gameboy game's performance
                 if(i>2){
                     if(shadow_OAM[i].x-4<paddle.x-8)continue;
                     if(shadow_OAM[i].x-4>paddle.x+8)continue;
                     if(shadow_OAM[i].y-12<paddle.y-4)continue;
                     if(shadow_OAM[i].y-12>paddle.y+4)continue;
+                    if(paddle.damageTimer>0)continue;
                     shadow_OAM[i].tile=0;
                     paddle.dead=1;
                 }

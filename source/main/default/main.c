@@ -13,8 +13,8 @@ void main(void){
 
     GameFirstLoad();
 
-    UINT8 currentGameState = GAMEFIRSTLOAD;
-    UINT8 nextGameState = STARTSCREEN;
+    uint8_t currentGameState = GAMEFIRSTLOAD;
+    uint8_t nextGameState = STARTSCREEN;
 
     while(1){
         

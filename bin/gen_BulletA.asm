@@ -9,6 +9,9 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _BulletA_metasprites
+	.globl _BulletA_metasprite7
+	.globl _BulletA_metasprite6
+	.globl _BulletA_metasprite5
 	.globl _BulletA_metasprite4
 	.globl _BulletA_metasprite3
 	.globl _BulletA_metasprite2
@@ -62,117 +65,156 @@ ___func_BulletA::
 _BulletA_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x640a
-	.dw #0x000c
+	.dw #0x380a
+	.dw #0x001f
 _BulletA_tiles:
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0xff	; 255
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0xff	; 255
+	.db #0x38	; 56	'8'
 	.db #0x00	; 0
-	.db #0xff	; 255
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0xff	; 255
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0xff	; 255
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0xff	; 255
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x38	; 56	'8'
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
 	.db #0x00	; 0
-	.db #0x18	; 24
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x38	; 56	'8'
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x38	; 56	'8'
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
+	.db #0x00	; 0
+	.db #0x10	; 16
 	.db #0x00	; 0
 _BulletA_metasprite0:
-	.db #0xf8	; -8
+	.db #0xfc	; -4
 	.db #0xfc	; -4
 	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x08	;  8
-	.db #0x00	;  0
-	.db #0x01	; 1
 	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
 _BulletA_metasprite1:
-	.db #0xf8	; -8
 	.db #0xfc	; -4
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x08	;  8
-	.db #0x00	;  0
-	.db #0x02	; 2
+	.db #0xfc	; -4
+	.db #0x01	; 1
 	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
 _BulletA_metasprite2:
-	.db #0xf8	; -8
+	.db #0xfc	; -4
 	.db #0xfc	; -4
 	.db #0x02	; 2
-	.db #0x60	; 96
-	.db #0x08	;  8
-	.db #0x00	;  0
-	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
 _BulletA_metasprite3:
-	.db #0xf8	; -8
 	.db #0xfc	; -4
-	.db #0x01	; 1
-	.db #0x60	; 96
-	.db #0x08	;  8
-	.db #0x00	;  0
-	.db #0x00	; 0
+	.db #0xfc	; -4
+	.db #0x03	; 3
 	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
 _BulletA_metasprite4:
-	.db #0xf8	; -8
 	.db #0xfc	; -4
-	.db #0x00	; 0
-	.db #0x00	; 0
-	.db #0x08	;  8
+	.db #0xfc	; -4
+	.db #0x03	; 3
+	.db #0x40	; 64
+	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletA_metasprite5:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
+	.db #0x02	; 2
+	.db #0x40	; 64
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletA_metasprite6:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
+	.db #0x01	; 1
+	.db #0x40	; 64
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletA_metasprite7:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
+	.db #0x04	; 4
 	.db #0x00	; 0
 	.db #0x80	; -128
 	.db #0x00	;  0
@@ -184,5 +226,8 @@ _BulletA_metasprites:
 	.dw _BulletA_metasprite2
 	.dw _BulletA_metasprite3
 	.dw _BulletA_metasprite4
+	.dw _BulletA_metasprite5
+	.dw _BulletA_metasprite6
+	.dw _BulletA_metasprite7
 	.area _INITIALIZER
 	.area _CABS (ABS)

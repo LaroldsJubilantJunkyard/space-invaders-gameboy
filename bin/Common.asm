@@ -13,10 +13,11 @@
 	.globl _ClearAllSprites
 	.globl _GetNextAvailableSprite
 	.globl _fill_bkg_rect
+	.globl _slideDir
 	.globl _spaceInvadersFontCurrentStart
 	.globl _highScore
 	.globl _level
-	.globl _slideDir
+	.globl _invadersRemaining
 	.globl _joypadPrevious
 	.globl _joypadCurrent
 ;--------------------------------------------------------
@@ -30,7 +31,7 @@ _joypadCurrent::
 	.ds 1
 _joypadPrevious::
 	.ds 1
-_slideDir::
+_invadersRemaining::
 	.ds 1
 ;--------------------------------------------------------
 ; ram data
@@ -41,6 +42,8 @@ _level::
 _highScore::
 	.ds 1
 _spaceInvadersFontCurrentStart::
+	.ds 1
+_slideDir::
 	.ds 1
 ;--------------------------------------------------------
 ; absolute external ram data
@@ -62,12 +65,12 @@ _spaceInvadersFontCurrentStart::
 ; code
 ;--------------------------------------------------------
 	.area _CODE
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:6: UINT8 GetNextAvailableSprite(){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:6: uint8_t GetNextAvailableSprite(){
 ;	---------------------------------
 ; Function GetNextAvailableSprite
 ; ---------------------------------
 _GetNextAvailableSprite::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(UINT8 i=2;i<40;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(uint8_t i=2;i<40;i++){
 	ld	de, #0x202
 00106$:
 	ld	a, d
@@ -91,7 +94,7 @@ _GetNextAvailableSprite::
 	or	a, a
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:10: return i;
 	ret	Z
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(UINT8 i=2;i<40;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(uint8_t i=2;i<40;i++){
 	inc	d
 	ld	e, d
 	jr	00106$
@@ -105,7 +108,7 @@ _GetNextAvailableSprite::
 ; Function ClearAllSprites
 ; ---------------------------------
 _ClearAllSprites::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(UINT8 i=0;i<40;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(uint8_t i=0;i<40;i++){
 	ld	c, #0x00
 00105$:
 	ld	a, c
@@ -133,7 +136,7 @@ _ClearAllSprites::
 	xor	a, a
 	ld	(hl+), a
 	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(UINT8 i=0;i<40;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(uint8_t i=0;i<40;i++){
 	inc	c
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:22: }
 	jr	00105$
@@ -157,18 +160,16 @@ _ClearBackground::
 	add	sp, #5
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:26: }
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:29: UINT8 RandomNumber(UINT8 min, UINT8 max){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:29: uint8_t RandomNumber(uint8_t min, uint8_t max){
 ;	---------------------------------
 ; Function RandomNumber
 ; ---------------------------------
 _RandomNumber::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:35: UINT8 v = (*(ptr_div_reg))+shadow_OAM[0].x+shadow_OAM[1].x+shadow_OAM[2].x+shadow_OAM[3].x+shadow_OAM[4].x;
-	ld	hl, #0xff04
+	dec	sp
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:32: uint8_t v = DIV_REG+shadow_OAM[0].x+shadow_OAM[2].x+shadow_OAM[3].x;
+	ld	hl, #(_shadow_OAM + 1)
 	ld	c, (hl)
-	ld	a, (#(_shadow_OAM + 1) + 0)
-	add	a, c
-	ld	c, a
-	ld	a, (#(_shadow_OAM + 5) + 0)
+	ldh	a, (_DIV_REG + 0)
 	add	a, c
 	ld	c, a
 	ld	a, (#(_shadow_OAM + 9) + 0)
@@ -176,31 +177,34 @@ _RandomNumber::
 	ld	c, a
 	ld	a, (#(_shadow_OAM + 13) + 0)
 	add	a, c
-	ld	c, a
-	ld	a, (#(_shadow_OAM + 17) + 0)
-	add	a, c
-	ld	c, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:37: return min+(v % (max-min));    // get value at memory address
-	ldhl	sp,	#3
+	ldhl	sp,	#0
+	ld	(hl), a
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:34: return min+(v % (max-min));    // get value at memory address
+	ldhl	sp,	#4
 	ld	a, (hl-)
+	ld	c, a
 	ld	b, #0x00
 	ld	e, (hl)
 	ld	d, #0x00
+	ld	a, c
 	sub	a, e
-	ld	e, a
+	ld	c, a
 	ld	a, b
 	sbc	a, d
-	ld	b, #0x00
-	ld	d, a
-	push	de
+	ld	b, a
+	ldhl	sp,	#0
+	ld	e, (hl)
+	ld	d, #0x00
 	push	bc
+	push	de
 	call	__modsint
 	add	sp, #4
-	ldhl	sp,	#2
+	ldhl	sp,	#3
 	ld	a, (hl)
 	add	a, e
 	ld	e, a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:38: }
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:35: }
+	inc	sp
 	ret
 	.area _CODE
 	.area _INITIALIZER
@@ -210,4 +214,6 @@ __xinit__highScore:
 	.db #0x00	; 0
 __xinit__spaceInvadersFontCurrentStart:
 	.db #0x00	; 0
+__xinit__slideDir:
+	.db #0xff	; -1
 	.area _CABS (ABS)

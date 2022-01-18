@@ -8,28 +8,31 @@ Symbol Table
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
     _GetAvailableBulletSprite                                      ****** GX
-    _IncreaseScore                                                 ****** GX
-  0 _InvaderCheckBulletCollision                                   0001AB GR
-  0 _InvaderCheckPlayerCollision                                   000139 GR
-  0 _InvaderTryFireBullet                                          000412 GR
-  0 _InvadersShouldMove                                            0004A3 GR
+  0 _InvaderCheckPlayerCollision                                   000143 GR
+  0 _InvaderTryFireBullet                                          0003CA GR
+  0 _InvadersShouldMove                                            000463 GR
     _RandomNumber                                                  ****** GX
   0 _SetupInvaders                                                 000000 GR
-  0 _ShiftAllInvadersDown                                          00046C GR
-  0 _SlideInvader                                                  0003A3 GR
-  0 _UpdateInvaderTiles                                            000227 GR
-  0 _UpdateInvaders                                                0004E9 GR
+  0 _ShiftAllInvadersDown                                          000423 GR
+  0 _SlideInvader                                                  000339 GR
+  0 _UpdateInvaderTiles                                            0001B5 GR
+  0 _UpdateInvaders                                                0004A9 GR
+    __modsint                                                      ****** GX
+  7 __xinit__moveRow                                               000000 R
+  7 __xinit__rowsAtEnd                                             000001 R
     _fill_bkg_rect                                                 ****** GX
   1 _invaderCounter                                                0000C9 GR
   1 _invaderSpeed                                                  0000C8 GR
   1 _invaders                                                      000000 GR
-  1 _invadersRemaining                                             0000CB GR
+    _invadersRemaining                                             ****** GX
+  2 _moveRow                                                       000000 GR
     _paddle                                                        ****** GX
+  2 _rowsAtEnd                                                     000001 GR
     _set_bkg_tile_xy                                               ****** GX
     _shadow_OAM                                                    ****** GX
-  1 _shotTimer                                                     0000CC GR
+  1 _shotTimer                                                     0000CB GR
     _slideDir                                                      ****** GX
-  0 _tiles                                                         000130 GR
+  0 _tiles                                                         00013A GR
   1 _topRow                                                        0000CA GR
 
 
@@ -38,13 +41,13 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size    583   flags    0
-   1 _DATA                                      size     CD   flags    0
-   2 _INITIALIZED                               size      0   flags    0
+   0 _CODE                                      size    58B   flags    0
+   1 _DATA                                      size     CC   flags    0
+   2 _INITIALIZED                               size      2   flags    0
    3 _DABS                                      size      0   flags    8
    4 _HOME                                      size      0   flags    0
    5 _GSINIT                                    size      0   flags    0
    6 _GSFINAL                                   size      0   flags    0
-   7 _INITIALIZER                               size      0   flags    0
+   7 _INITIALIZER                               size      2   flags    0
    8 _CABS                                      size      0   flags    8
 

@@ -9,6 +9,7 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _BulletC_metasprites
+	.globl _BulletC_metasprite1
 	.globl _BulletC_metasprite0
 	.globl _BulletC_tiles
 	.globl _BulletC_palettes
@@ -58,8 +59,8 @@ ___func_BulletC::
 _BulletC_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x680a
-	.dw #0x0002
+	.dw #0x3c0a
+	.dw #0x001b
 _BulletC_tiles:
 	.db #0x10	; 16
 	.db #0x00	; 0
@@ -78,12 +79,17 @@ _BulletC_tiles:
 	.db #0x10	; 16
 	.db #0x00	; 0
 _BulletC_metasprite0:
-	.db #0xf8	; -8
+	.db #0xfc	; -4
 	.db #0xfc	; -4
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x08	;  8
+	.db #0x80	; -128
 	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletC_metasprite1:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x80	; -128
@@ -92,5 +98,6 @@ _BulletC_metasprite0:
 	.db #0x00	; 0
 _BulletC_metasprites:
 	.dw _BulletC_metasprite0
+	.dw _BulletC_metasprite1
 	.area _INITIALIZER
 	.area _CABS (ABS)

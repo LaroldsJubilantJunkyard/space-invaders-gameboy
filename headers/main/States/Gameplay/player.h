@@ -5,7 +5,7 @@
 
 typedef struct Paddle{
 
-    UINT8 x,y,dead,lives;
+    uint8_t x,y,dead,lives,damageTimer;
 } Paddle;
 
 

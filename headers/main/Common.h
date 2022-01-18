@@ -17,14 +17,23 @@
 
 #define PlayerBulletSprite shadow_OAM[2]
 
+#define NUMBER_OF_ENEMY_BULLETS 5
+#define PLAYER_BULLET_SPRITE 2
+#define ALIEN_OAM_SPRITE PLAYER_BULLET_SPRITE+NUMBER_OF_ENEMY_BULLETS+1
+
+
 #define PLAYER_SPRITE_START 1
+
+// Sprites
 #define BULLETA_SPRITE_START PLAYER_SPRITE_START+Player_TILE_COUNT
 #define BULLETB_SPRITE_START BULLETA_SPRITE_START+BulletA_TILE_COUNT
 #define BULLETC_SPRITE_START BULLETB_SPRITE_START+BulletB_TILE_COUNT
 #define ALIEN_SPRITE_START BULLETC_SPRITE_START+BulletC_TILE_COUNT
+#define EXPLOSION_SPRITE_START ALIEN_SPRITE_START+Alien_TILE_COUNT
 
-
-#define INVADER1_TILES_START PLAYER_SPRITE_START+Player_TILE_COUNT
+// Backgrounds
+#define ALIEN_TILES_START PLAYER_SPRITE_START+Player_TILE_COUNT
+#define INVADER1_TILES_START ALIEN_TILES_START+Alien_TILE_COUNT
 #define INVADER2_TILES_START INVADER1_TILES_START+Invader1_TILE_COUNT
 #define INVADER3_TILES_START INVADER2_TILES_START+Invader2_TILE_COUNT
 #define SPACEINVADERSFONT_TILES_START INVADER3_TILES_START+Invader3_TILE_COUNT
@@ -36,11 +45,12 @@
 #define SPACEINVADERSFONT_TILES_START2 1
 #define SPACEINVADERSTITLE_TILES_START SPACEINVADERSFONT_TILES_START2+SpaceInvadersFont_TILE_COUNT-5
 
-extern UINT8 level,highScore,joypadCurrent,joypadPrevious,slideDir,spaceInvadersFontCurrentStart;
+extern int8_t slideDir;
+extern uint8_t level,highScore,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart,invadersRemaining,topRow;
 
 
 void ClearAllSprites();
 void ClearBackground();
-UINT8 GetNextAvailableSprite();
-void DrawNumber(UINT8 x,UINT8 y, UINT16 number,UINT8 digits);
-UINT8 RandomNumber(UINT8 min, UINT8 max);
+uint8_t GetNextAvailableSprite();
+void DrawNumber(uint8_t x,uint8_t y, uint16_t number,uint8_t digits);
+uint8_t RandomNumber(uint8_t min, uint8_t max);

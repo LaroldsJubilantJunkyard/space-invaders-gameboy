@@ -15,10 +15,10 @@ Symbol Table
     _SpaceInvadersFont_tiles                                       ****** GX
     _SpaceInvadersTitle_map                                        ****** GX
     _SpaceInvadersTitle_tiles                                      ****** GX
-  0 _UpdateStartScreen                                             00007A GR
-  0 ___str_0                                                       000132 R
-  0 ___str_1                                                       00013B R
-  0 ___str_2                                                       000143 R
+  0 _UpdateStartScreen                                             000079 GR
+  0 ___str_0                                                       000131 R
+  0 ___str_1                                                       00013A R
+  0 ___str_2                                                       000142 R
   0 ___str_3                                                       000155 R
   1 _blinkCounter                                                  000000 GR
     _fill_bkg_rect                                                 ****** GX

@@ -4,7 +4,7 @@
 #include "Graphics/SpaceInvadersTitle.h"
 #include "Graphics/SpaceInvadersFont.h"
 
-UINT8 blinkCounter,showText;
+uint8_t blinkCounter,showText;
 
 void SetupStartScreen(){
 
@@ -17,15 +17,15 @@ void SetupStartScreen(){
 
     unsigned char helper[108];
 
-    for(UINT8 i=0;i<108;i++){
+    for(uint8_t i=0;i<108;i++){
         helper[i]=SpaceInvadersTitle_map[i]+SPACEINVADERSTITLE_TILES_START;
     }
 
-    set_bkg_tiles(2,3,18,6,helper);
+    set_bkg_tiles(1,3,18,6,helper);
 
-    move_bkg(7,144);
+    move_bkg(0,144);
 }
-UINT8 UpdateStartScreen(){
+uint8_t UpdateStartScreen(){
 
     blinkCounter++;
     
@@ -38,10 +38,10 @@ UINT8 UpdateStartScreen(){
 
             blinkCounter=30;
             
-            DrawText(4,1,"HI-SCORE");
+            DrawText(3,1,"HI-SCORE");
             DrawNumber(13,1,highScore,5);
             DrawText(7,14,"LAROLDS");
-            DrawText(2,16,"JUBILANT JUNKYARD");
+            DrawText(1,16,"JUBILANT  JUNKYARD");
         }
     }
 

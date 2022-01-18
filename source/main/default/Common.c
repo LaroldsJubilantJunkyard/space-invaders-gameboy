@@ -1,11 +1,11 @@
 #include <gb/gb.h>
 
-UINT8 level=1,highScore=0,joypadCurrent,joypadPrevious,slideDir,spaceInvadersFontCurrentStart=0;
+uint8_t level=1,highScore=0,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart=0,invadersRemaining;
+int8_t slideDir=-1;
 
-
-UINT8 GetNextAvailableSprite(){
+uint8_t GetNextAvailableSprite(){
     
-    for(UINT8 i=2;i<40;i++){
+    for(uint8_t i=2;i<40;i++){
         if(get_sprite_tile(i)==0){
             return i;
         }
@@ -15,7 +15,7 @@ UINT8 GetNextAvailableSprite(){
 
 void ClearAllSprites(){
     
-    for(UINT8 i=0;i<40;i++){
+    for(uint8_t i=0;i<40;i++){
         set_sprite_tile(i,0);
         move_sprite(i,0,0);
     }
@@ -26,13 +26,10 @@ void ClearBackground(){
 }
 
 
-UINT8 RandomNumber(UINT8 min, UINT8 max){
+uint8_t RandomNumber(uint8_t min, uint8_t max){
 
-    // The value at this register changes rapidly
-    const unsigned char *ptr_div_reg = 0xFF04; 
-
-    // Use the first 5 sprites in getting a random value
-    UINT8 v = (*(ptr_div_reg))+shadow_OAM[0].x+shadow_OAM[1].x+shadow_OAM[2].x+shadow_OAM[3].x+shadow_OAM[4].x;
+    // Use some sprites in getting a random value
+    uint8_t v = DIV_REG+shadow_OAM[0].x+shadow_OAM[2].x+shadow_OAM[3].x;
     
     return min+(v % (max-min));    // get value at memory address
 }

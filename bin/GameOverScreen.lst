@@ -47,33 +47,33 @@
                                      47 ; Function SetupGameOverScreen
                                      48 ; ---------------------------------
       000000                         49 _SetupGameOverScreen::
-                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:7: DrawText(7,9,"GAME OVER");
+                                     50 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:7: DrawText(5,9,"GAME  OVER");
       000000 11r0Er00                51 	ld	de, #___str_0
       000003 D5                      52 	push	de
-      000004 21 07 09                53 	ld	hl, #0x907
+      000004 21 05 09                53 	ld	hl, #0x905
       000007 E5                      54 	push	hl
       000008 CDr00r00                55 	call	_DrawText
       00000B E8 04                   56 	add	sp, #4
                                      57 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:8: }
       00000D C9                      58 	ret
       00000E                         59 ___str_0:
-      00000E 47 41 4D 45 20 4F 56    60 	.ascii "GAME OVER"
-             45 52
-      000017 00                      61 	.db 0x00
-                                     62 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:9: UINT8 UpdateGameOverScreen(){
+      00000E 47 41 4D 45 20 20 4F    60 	.ascii "GAME  OVER"
+             56 45 52
+      000018 00                      61 	.db 0x00
+                                     62 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:9: uint8_t UpdateGameOverScreen(){
                                      63 ;	---------------------------------
                                      64 ; Function UpdateGameOverScreen
                                      65 ; ---------------------------------
-      000018                         66 _UpdateGameOverScreen::
+      000019                         66 _UpdateGameOverScreen::
                                      67 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:11: if(joypadCurrent & J_A)return STARTSCREEN;
-      000018 FAr00r00                68 	ld	a, (#_joypadCurrent)
-      00001B CB 67                   69 	bit	4, a
+      000019 FAr00r00                68 	ld	a, (#_joypadCurrent)
+      00001C CB 67                   69 	bit	4, a
                                      70 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:13: return GAMEOVERSCREEN;
-      00001D 1E 01                   71 	ld	e, #0x01
-      00001F C0                      72 	ret	NZ
-      000020 1E 05                   73 	ld	e, #0x05
+      00001E 1E 01                   71 	ld	e, #0x01
+      000020 C0                      72 	ret	NZ
+      000021 1E 05                   73 	ld	e, #0x05
                                      74 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\GameOverScreen.c:14: }
-      000022 C9                      75 	ret
+      000023 C9                      75 	ret
                                      76 	.area _CODE
                                      77 	.area _INITIALIZER
                                      78 	.area _CABS (ABS)

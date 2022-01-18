@@ -1,12 +1,13 @@
 XL3
-H 9 areas E global symbols
+H 9 areas 10 global symbols
 M Common
 O -mgbz80
 S .__.ABS. Def000000
 S _shadow_OAM Ref000000
 S _fill_bkg_rect Ref000000
 S __modsint Ref000000
-A _CODE size 86 flags 0 addr 0
+S _DIV_REG Ref000000
+A _CODE size 84 flags 0 addr 0
 S _ClearBackground Def00003B
 S _ClearAllSprites Def00001D
 S _GetNextAvailableSprite Def000000
@@ -14,8 +15,9 @@ S _RandomNumber Def00004D
 A _DATA size 3 flags 0 addr 0
 S _joypadPrevious Def000001
 S _joypadCurrent Def000000
-S _slideDir Def000002
-A _INITIALIZED size 3 flags 0 addr 0
+S _invadersRemaining Def000002
+A _INITIALIZED size 4 flags 0 addr 0
+S _slideDir Def000003
 S _spaceInvadersFontCurrentStart Def000002
 S _level Def000000
 S _highScore Def000001
@@ -23,7 +25,7 @@ A _DABS size 0 flags 8 addr 0
 A _HOME size 0 flags 0 addr 0
 A _GSINIT size 0 flags 0 addr 0
 A _GSFINAL size 0 flags 0 addr 0
-A _INITIALIZER size 3 flags 0 addr 0
+A _INITIALIZER size 4 flags 0 addr 0
 A _CABS size 0 flags 8 addr 0
 T 00 00 00
 R 00 00 01 00
@@ -48,6 +50,10 @@ R 00 00 02 00
 T 02 00 00
 R 00 00 02 00
 T 02 00 00
+R 00 00 02 00
+T 03 00 00
+R 00 00 02 00
+T 03 00 00
 R 00 00 02 00
 T 00 00 00
 R 00 00 00 00
@@ -83,15 +89,15 @@ T 48 00 00 00 00 E8 05 C9
 R 00 00 00 00 02 03 02 00
 T 4D 00 00
 R 00 00 00 00
-T 4D 00 00 21 04 FF 4E FA 01 00 81 4F FA 05 00 81
-R 00 00 00 00 02 08 01 00 02 0D 01 00
-T 5A 00 00 4F FA 09 00 81 4F FA 0D 00 81 4F FA
-R 00 00 00 00 02 05 01 00 02 0A 01 00
-T 66 00 00 11 00 81 4F F8 03 3A 06 00 5E 16 00 93
-R 00 00 00 00 02 03 01 00
-T 73 00 00 5F 78 9A 06 00 57 D5 C5 CD 00 00 E8 04
-R 00 00 00 00 02 0C 03 00
-T 80 00 00 F8 02 7E 83 5F C9
+T 4D 00 00 3B 21 01 00 4E F0 00 00 00 81 4F FA
+R 00 00 00 00 02 05 01 00 0B 09 04 00
+T 57 00 00 09 00 81 4F FA 0D 00 81 F8 00 77 F8 04
+R 00 00 00 00 02 03 01 00 02 08 01 00
+T 64 00 00 3A 4F 06 00 5E 16 00 79 93 4F 78 9A 47
+R 00 00 00 00
+T 71 00 00 F8 00 5E 16 00 C5 D5 CD 00 00 E8 04 F8
+R 00 00 00 00 02 0B 03 00
+T 7E 00 00 03 7E 83 5F 33 C9
 R 00 00 00 00
 T 00 00 00
 R 00 00 07 00
@@ -104,4 +110,8 @@ R 00 00 07 00
 T 02 00 00
 R 00 00 07 00
 T 02 00 00 00
+R 00 00 07 00
+T 03 00 00
+R 00 00 07 00
+T 03 00 00 FF
 R 00 00 07 00

@@ -1,0 +1,68 @@
+XL3
+H 9 areas B global symbols
+M Explosion
+O -mgbz80
+S ___bank_Explosion Def000000
+S .__.ABS. Def000000
+A _CODE size 76 flags 0 addr 0
+S _Explosion_tiles Def000008
+S _Explosion_palettes Def000000
+S ___func_Explosion Def000000
+S _Explosion_metasprite0 Def000048
+S _Explosion_metasprite1 Def00004C
+S _Explosion_metasprite2 Def000054
+S _Explosion_metasprite3 Def00005C
+S _Explosion_metasprites Def00006C
+S _Explosion_metasprite4 Def000064
+A _DATA size 0 flags 0 addr 0
+A _INITIALIZED size 0 flags 0 addr 0
+A _DABS size 0 flags 8 addr 0
+A _HOME size 0 flags 0 addr 0
+A _GSINIT size 0 flags 0 addr 0
+A _GSFINAL size 0 flags 0 addr 0
+A _INITIALIZER size 0 flags 0 addr 0
+A _CABS size 0 flags 8 addr 0
+T 00 00 00
+R 00 00 00 00
+T 00 00 00
+R 00 00 00 00
+T 00 00 00 FF 7F 00 00 0A 60 15 00
+R 00 00 00 00
+T 08 00 00
+R 00 00 00 00
+T 08 00 00 00 00 00 00 00 00 18 00 18 00 00 00 00
+R 00 00 00 00
+T 15 00 00 00 00 00 08 00 49 00 22 00 00 00 63 00
+R 00 00 00 00
+T 22 00 00 00 00 22 00 49 00 89 00 00 00 00 00 00
+R 00 00 00 00
+T 2F 00 00 00 81 00 00 00 00 00 89 00 81 00 00 00
+R 00 00 00 00
+T 3C 00 00 00 00 00 00 00 00 00 00 00 00 81 00
+R 00 00 00 00
+T 48 00 00
+R 00 00 00 00
+T 48 00 00 80 00 00 00
+R 00 00 00 00
+T 4C 00 00
+R 00 00 00 00
+T 4C 00 00 FC FC 00 00 80 00 00 00
+R 00 00 00 00
+T 54 00 00
+R 00 00 00 00
+T 54 00 00 FC FC 01 00 80 00 00 00
+R 00 00 00 00
+T 5C 00 00
+R 00 00 00 00
+T 5C 00 00 FC FC 02 00 80 00 00 00
+R 00 00 00 00
+T 64 00 00
+R 00 00 00 00
+T 64 00 00 FC FC 03 00 80 00 00 00
+R 00 00 00 00
+T 6C 00 00
+R 00 00 00 00
+T 6C 00 00 48 00 4C 00 54 00
+R 00 00 00 00 00 03 00 00 00 05 00 00 00 07 00 00
+T 72 00 00 5C 00 64 00
+R 00 00 00 00 00 03 00 00 00 05 00 00

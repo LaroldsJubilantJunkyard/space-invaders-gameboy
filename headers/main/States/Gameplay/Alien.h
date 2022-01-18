@@ -1,0 +1,3 @@
+
+void UpdateAlien();
+void SetupAlien();

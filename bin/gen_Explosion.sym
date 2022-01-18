@@ -7,15 +7,24 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
-  0 _SpaceInvadersTiles                                            000000 GR
-
+  0 _Explosion_metasprite0                                         000048 GR
+  0 _Explosion_metasprite1                                         00004C GR
+  0 _Explosion_metasprite2                                         000054 GR
+  0 _Explosion_metasprite3                                         00005C GR
+  0 _Explosion_metasprite4                                         000064 GR
+  0 _Explosion_metasprites                                         00006C GR
+  0 _Explosion_palettes                                            000000 GR
+  0 _Explosion_tiles                                               000008 GR
+    ___bank_Explosion                                           =  000000 G
+  0 ___func_Explosion                                              000000 GR
+    b___func_Explosion                                          =  000000 L
 
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size    3A0   flags    0
+   0 _CODE                                      size     76   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

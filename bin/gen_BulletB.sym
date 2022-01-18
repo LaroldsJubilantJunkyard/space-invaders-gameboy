@@ -7,24 +7,27 @@ Symbol Table
     .__.ABS.                                                    =  000000 G
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
-  0 _BulletB_metasprite0                                           000038 GR
-  0 _BulletB_metasprite1                                           000044 GR
-  0 _BulletB_metasprite2                                           000050 GR
-  0 _BulletB_metasprite3                                           00005C GR
-  0 _BulletB_metasprites                                           000068 GR
+  0 _BulletB_metasprite0                                           000018 GR
+  0 _BulletB_metasprite1                                           000020 GR
+  0 _BulletB_metasprite2                                           000028 GR
+  0 _BulletB_metasprite3                                           000030 GR
+  0 _BulletB_metasprite4                                           000038 GR
+  0 _BulletB_metasprite5                                           000040 GR
+  0 _BulletB_metasprite6                                           000048 GR
+  0 _BulletB_metasprite7                                           000050 GR
+  0 _BulletB_metasprites                                           000058 GR
   0 _BulletB_palettes                                              000000 GR
   0 _BulletB_tiles                                                 000008 GR
     ___bank_BulletB                                             =  000000 G
   0 ___func_BulletB                                                000000 GR
     b___func_BulletB                                            =  000000 L
 
-
 ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
 Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     70   flags    0
+   0 _CODE                                      size     68   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

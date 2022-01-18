@@ -9,7 +9,7 @@ Symbol Table
     .__.H$L.                                                    =  000000 L
     _DrawText                                                      ****** GX
   0 _SetupGameOverScreen                                           000000 GR
-  0 _UpdateGameOverScreen                                          000018 GR
+  0 _UpdateGameOverScreen                                          000019 GR
   0 ___str_0                                                       00000E R
     _joypadCurrent                                                 ****** GX
 
@@ -18,7 +18,7 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size     23   flags    0
+   0 _CODE                                      size     24   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

@@ -1,6 +1,6 @@
 void ReSortBullets();
-void SetupBullets();
-void SetupBullets();
+void SetupBullets();   
+void UpdateBullets();
 
-UINT8 GetAvailableBulletSprite();
-void SpawnBullet(UINT8 x, UINT8 y,UINT8 isEnemy);
+uint8_t GetAvailableBulletSprite();
+void SpawnBullet(uint8_t x, uint8_t y,uint8_t isEnemy);

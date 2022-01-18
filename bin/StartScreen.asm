@@ -81,7 +81,7 @@ _SetupStartScreen::
 	push	hl
 	call	_set_bkg_data
 	add	sp, #4
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:20: for(UINT8 i=0;i<108;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:20: for(uint8_t i=0;i<108;i++){
 	ldhl	sp,	#0
 	ld	c, l
 	ld	b, h
@@ -119,29 +119,29 @@ _SetupStartScreen::
 	ld	l, a
 	pop	af
 	ld	(hl), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:20: for(UINT8 i=0;i<108;i++){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:20: for(uint8_t i=0;i<108;i++){
 	ldhl	sp,	#110
 	inc	(hl)
 	jr	00104$
 00101$:
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:24: set_bkg_tiles(2,3,18,6,helper);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:24: set_bkg_tiles(1,3,18,6,helper);
 	push	bc
 	ld	hl, #0x612
 	push	hl
-	ld	hl, #0x302
+	ld	hl, #0x301
 	push	hl
 	call	_set_bkg_tiles
 	add	sp, #6
 ;C:/gbdk/include/gb/gb.h:1009: SCX_REG=x, SCY_REG=y;
-	ld	a, #0x07
+	xor	a, a
 	ldh	(_SCX_REG + 0), a
 	ld	a, #0x90
 	ldh	(_SCY_REG + 0), a
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:26: move_bkg(7,144);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:26: move_bkg(0,144);
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:27: }
 	add	sp, #111
 	ret
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:28: UINT8 UpdateStartScreen(){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:28: uint8_t UpdateStartScreen(){
 ;	---------------------------------
 ; Function UpdateStartScreen
 ; ---------------------------------
@@ -165,10 +165,10 @@ _UpdateStartScreen::
 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:39: blinkCounter=30;
 	ld	hl, #_blinkCounter
 	ld	(hl), #0x1e
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:41: DrawText(4,1,"HI-SCORE");
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:41: DrawText(3,1,"HI-SCORE");
 	ld	de, #___str_0
 	push	de
-	ld	hl, #0x104
+	ld	hl, #0x103
 	push	hl
 	call	_DrawText
 	add	sp, #4
@@ -191,10 +191,10 @@ _UpdateStartScreen::
 	push	hl
 	call	_DrawText
 	add	sp, #4
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:44: DrawText(2,16,"JUBILANT JUNKYARD");
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\StartScreen.c:44: DrawText(1,16,"JUBILANT  JUNKYARD");
 	ld	de, #___str_2
 	push	de
-	ld	hl, #0x1002
+	ld	hl, #0x1001
 	push	hl
 	call	_DrawText
 	add	sp, #4
@@ -274,7 +274,7 @@ ___str_1:
 	.ascii "LAROLDS"
 	.db 0x00
 ___str_2:
-	.ascii "JUBILANT JUNKYARD"
+	.ascii "JUBILANT  JUNKYARD"
 	.db 0x00
 ___str_3:
 	.ascii "PUSH ANY BUTTON"

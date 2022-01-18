@@ -49,14 +49,14 @@
 ; Function SetupNextLevelScreen
 ; ---------------------------------
 _SetupNextLevelScreen::
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:7: DrawText(9,8,"ROUND");
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:7: DrawText(8,8,"ROUND");
 	ld	de, #___str_0
 	push	de
-	ld	hl, #0x809
+	ld	hl, #0x808
 	push	hl
 	call	_DrawText
 	add	sp, #4
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:8: DrawNumber(11,9,level,2);
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:8: DrawNumber(9,9,level,2);
 	ld	hl, #_level
 	ld	c, (hl)
 	ld	b, #0x00
@@ -64,14 +64,14 @@ _SetupNextLevelScreen::
 	push	af
 	inc	sp
 	push	bc
-	ld	hl, #0x90b
+	ld	hl, #0x909
 	push	hl
 	call	_DrawNumber
 	add	sp, #5
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:9: DrawText(9,11,"READY!");
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:9: DrawText(8,11,"READY!");
 	ld	de, #___str_1
 	push	de
-	ld	hl, #0xb09
+	ld	hl, #0xb08
 	push	hl
 	call	_DrawText
 	add	sp, #4
@@ -83,7 +83,7 @@ ___str_0:
 ___str_1:
 	.ascii "READY!"
 	.db 0x00
-;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:12: UINT8 UpdateNextLevelScreen(){
+;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\States\NextLevelScreen.c:12: uint8_t UpdateNextLevelScreen(){
 ;	---------------------------------
 ; Function UpdateNextLevelScreen
 ; ---------------------------------

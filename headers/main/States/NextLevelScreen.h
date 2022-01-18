@@ -1,2 +1,2 @@
 void SetupNextLevelScreen();
-UINT8 UpdateNextLevelScreen();
+uint8_t UpdateNextLevelScreen();

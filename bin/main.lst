@@ -62,8 +62,8 @@
       000000                         62 _main::
                                      63 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:14: GameFirstLoad();
       000000 CDr00r00                64 	call	_GameFirstLoad
-                                     65 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:16: UINT8 currentGameState = GAMEFIRSTLOAD;
-                                     66 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:17: UINT8 nextGameState = STARTSCREEN;
+                                     65 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:16: uint8_t currentGameState = GAMEFIRSTLOAD;
+                                     66 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:17: uint8_t nextGameState = STARTSCREEN;
       000003 01 00 01                67 	ld	bc, #0x100
                                      68 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\main.c:19: while(1){
       000006                         69 00132$:

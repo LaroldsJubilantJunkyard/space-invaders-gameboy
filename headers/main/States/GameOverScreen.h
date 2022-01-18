@@ -1,2 +1,2 @@
 void SetupGameOverScreen();
-UINT8 UpdateGameOverScreen();
+uint8_t UpdateGameOverScreen();

@@ -3,13 +3,15 @@
 #include "States/Gameplay/player.h"
 #include "States/Gameplay/invaders.h"
 #include "States/Gameplay/bullets.h"
+#include "States/Gameplay/alien.h"
 #include "Graphics/SpaceInvadersFont.h"
 #include "Graphics/Barricade.h"
+#include "Graphics/Alien.h"
 
 unsigned char helper[5]={0x00,0x00,0x00,0x00,0x00};
-UINT16 score;
+uint16_t score;
 
-extern UINT8 invadersRemaining;
+extern uint8_t invadersRemaining;
 extern Paddle paddle;
 
 
@@ -25,7 +27,7 @@ void UpdateScore(){
 
 }
 
-void IncreaseScore(UINT8 amount){
+void IncreaseScore(uint8_t amount){
 
     score+=amount;
     if(score>highScore)highScore=score;
@@ -33,9 +35,9 @@ void IncreaseScore(UINT8 amount){
     UpdateScore();
 }
 
-void DrawBarricade(UINT8 topLeftX, UINT8 topLeftY){
+void DrawBarricade(uint8_t topLeftX, uint8_t topLeftY){
 
-    UINT8 tileRowSize=3;
+    uint8_t tileRowSize=3;
     
     set_bkg_tile_xy(topLeftX,topLeftY,BARRICADE_TILES_START+tileRowSize);
     set_bkg_tile_xy(topLeftX+1,topLeftY,BARRICADE_TILES_START);
@@ -56,9 +58,9 @@ void DrawBarricade(UINT8 topLeftX, UINT8 topLeftY){
 
 void SetupLevel(){
 
-    DrawBarricade(2,11);
-    DrawBarricade(8,11);
-    DrawBarricade(14,11);
+    DrawBarricade(2,13);
+    DrawBarricade(8,13);
+    DrawBarricade(14,13);
 
 }
 
@@ -73,15 +75,17 @@ void SetupGameplayScreen(){
     SetupBullets();
     SetupInvaders();
     SetupPlayer();
+    SetupAlien();
 
     UpdateScore();
 }
 
-UINT8 UpdateGameplayScreen(){
+uint8_t UpdateGameplayScreen(){
 
     UpdateInvaders();     
     UpdateBullets();
     UpdatePlayer();
+    UpdateAlien();
 
     if (paddle.dead==1&&invadersRemaining>0){
 
@@ -91,13 +95,8 @@ UINT8 UpdateGameplayScreen(){
         }
         
         paddle.lives--;
-
-        move_sprite(0,160,160);
-        move_sprite(1,160,160);
-        delay(1000);
-
         paddle.dead=0;
-        paddle.x=80;
+        paddle.damageTimer=15;
 
         UpdateScore();
 

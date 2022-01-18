@@ -8,9 +8,15 @@ Symbol Table
     .__.CPU.                                                    =  000000 L
     .__.H$L.                                                    =  000000 L
   0 _GetAvailableBulletSprite                                      00001A GR
+    _IncreaseScore                                                 ****** GX
+  0 _InvaderCheckBulletCollision                                   00003E GR
   0 _SetupBullets                                                  000000 GR
-  0 _UpdateBullets                                                 00003E GR
+  0 _UpdateBullets                                                 0000DB GR
+    _UpdateInvaderTiles                                            ****** GX
+    __modsint                                                      ****** GX
     _get_bkg_tile_xy                                               ****** GX
+    _invaders                                                      ****** GX
+    _invadersRemaining                                             ****** GX
     _paddle                                                        ****** GX
     _set_bkg_tile_xy                                               ****** GX
     _shadow_OAM                                                    ****** GX
@@ -21,7 +27,7 @@ Hexadecimal [24-Bits]
 
 Area Table
 
-   0 _CODE                                      size    4D9   flags    0
+   0 _CODE                                      size    46F   flags    0
    1 _DATA                                      size      0   flags    0
    2 _INITIALIZED                               size      0   flags    0
    3 _DABS                                      size      0   flags    8

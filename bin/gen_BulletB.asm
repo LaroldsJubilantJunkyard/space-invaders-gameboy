@@ -9,6 +9,10 @@
 ; Public variables in this module
 ;--------------------------------------------------------
 	.globl _BulletB_metasprites
+	.globl _BulletB_metasprite7
+	.globl _BulletB_metasprite6
+	.globl _BulletB_metasprite5
+	.globl _BulletB_metasprite4
 	.globl _BulletB_metasprite3
 	.globl _BulletB_metasprite2
 	.globl _BulletB_metasprite1
@@ -61,105 +65,93 @@ ___func_BulletB::
 _BulletB_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x680a
-	.dw #0x0017
+	.dw #0x200a
+	.dw #0x0000
 _BulletB_tiles:
-	.db #0x02	; 2
+	.db #0x06	; 6
 	.db #0x00	; 0
-	.db #0x04	; 4
+	.db #0x18	; 24
 	.db #0x00	; 0
-	.db #0x08	; 8
+	.db #0x60	; 96
 	.db #0x00	; 0
-	.db #0x10	; 16
+	.db #0x18	; 24
 	.db #0x00	; 0
-	.db #0x20	; 32
+	.db #0x06	; 6
 	.db #0x00	; 0
-	.db #0x40	; 64
+	.db #0x18	; 24
 	.db #0x00	; 0
-	.db #0x20	; 32
+	.db #0x60	; 96
 	.db #0x00	; 0
-	.db #0x10	; 16
-	.db #0x00	; 0
-	.db #0x20	; 32
-	.db #0x00	; 0
-	.db #0x10	; 16
-	.db #0x00	; 0
-	.db #0x08	; 8
-	.db #0x00	; 0
-	.db #0x04	; 4
-	.db #0x00	; 0
-	.db #0x02	; 2
-	.db #0x00	; 0
-	.db #0x04	; 4
-	.db #0x00	; 0
-	.db #0x08	; 8
-	.db #0x00	; 0
-	.db #0x10	; 16
-	.db #0x00	; 0
-	.db #0x20	; 32
-	.db #0x00	; 0
-	.db #0x40	; 64
-	.db #0x00	; 0
-	.db #0x20	; 32
-	.db #0x00	; 0
-	.db #0x10	; 16
-	.db #0x00	; 0
-	.db #0x08	; 8
-	.db #0x00	; 0
-	.db #0x04	; 4
-	.db #0x00	; 0
-	.db #0x02	; 2
-	.db #0x00	; 0
-	.db #0x04	; 4
+	.db #0x18	; 24
 	.db #0x00	; 0
 _BulletB_metasprite0:
-	.db #0xf8	; -8
+	.db #0xfc	; -4
 	.db #0xfc	; -4
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x08	;  8
+	.db #0x80	; -128
 	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletB_metasprite1:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
 	.db #0x00	; 0
 	.db #0x60	; 96
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
-_BulletB_metasprite1:
-	.db #0xf8	; -8
+_BulletB_metasprite2:
 	.db #0xfc	; -4
-	.db #0x01	; 1
+	.db #0xfc	; -4
 	.db #0x00	; 0
-	.db #0x08	;  8
-	.db #0x00	;  0
-	.db #0x02	; 2
-	.db #0x00	; 0
+	.db #0x20	; 32
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
-_BulletB_metasprite2:
-	.db #0xf8	; -8
+_BulletB_metasprite3:
 	.db #0xfc	; -4
-	.db #0x00	; 0
-	.db #0x20	; 32
-	.db #0x08	;  8
-	.db #0x00	;  0
+	.db #0xfc	; -4
 	.db #0x00	; 0
 	.db #0x40	; 64
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
 	.db #0x00	; 0
-_BulletB_metasprite3:
-	.db #0xf8	; -8
+_BulletB_metasprite4:
 	.db #0xfc	; -4
-	.db #0x01	; 1
-	.db #0x20	; 32
-	.db #0x08	;  8
+	.db #0xfc	; -4
+	.db #0x00	; 0
+	.db #0x00	; 0
+	.db #0x80	; -128
 	.db #0x00	;  0
-	.db #0x02	; 2
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletB_metasprite5:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
+	.db #0x00	; 0
+	.db #0x60	; 96
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletB_metasprite6:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
+	.db #0x00	; 0
 	.db #0x20	; 32
+	.db #0x80	; -128
+	.db #0x00	;  0
+	.db #0x00	; 0
+	.db #0x00	; 0
+_BulletB_metasprite7:
+	.db #0xfc	; -4
+	.db #0xfc	; -4
+	.db #0x00	; 0
+	.db #0x40	; 64
 	.db #0x80	; -128
 	.db #0x00	;  0
 	.db #0x00	; 0
@@ -169,5 +161,9 @@ _BulletB_metasprites:
 	.dw _BulletB_metasprite1
 	.dw _BulletB_metasprite2
 	.dw _BulletB_metasprite3
+	.dw _BulletB_metasprite4
+	.dw _BulletB_metasprite5
+	.dw _BulletB_metasprite6
+	.dw _BulletB_metasprite7
 	.area _INITIALIZER
 	.area _CABS (ABS)

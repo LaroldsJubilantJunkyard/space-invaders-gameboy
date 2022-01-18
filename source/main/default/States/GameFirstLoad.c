@@ -1,6 +1,5 @@
 #include <gb/gb.h>
 #include "Common.h"
-#include "Graphics/SpaceInvadersTIles.h"
 #include "Graphics/Alien.h"
 #include "Graphics/Barricade.h"
 #include "Graphics/BulletA.h"
@@ -23,6 +22,8 @@ void GameFirstLoad(){
 
     set_sprite_palette(0,1,blackAndWhite);
     set_bkg_palette(0,1,blackAndWhite);
+
+    
 
     
 }

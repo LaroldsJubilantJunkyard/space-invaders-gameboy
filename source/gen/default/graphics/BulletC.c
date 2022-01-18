@@ -7,7 +7,7 @@
 BANKREF(BulletC)
 
 const palette_color_t BulletC_palettes[4] = {
-	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 214), RGB8(16, 1, 0)
+	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 120), RGB8(222, 1, 0)
 };
 
 const uint8_t BulletC_tiles[16] = {
@@ -15,9 +15,13 @@ const uint8_t BulletC_tiles[16] = {
 };
 
 const metasprite_t BulletC_metasprite0[] = {
-	METASPR_ITEM(-8, -4, 0, 0), METASPR_ITEM(8, 0, 0, 0), METASPR_TERM
+	METASPR_ITEM(-4, -4, 0, 0), METASPR_TERM
 };
 
-const metasprite_t* const BulletC_metasprites[1] = {
-	BulletC_metasprite0
+const metasprite_t BulletC_metasprite1[] = {
+	METASPR_ITEM(-4, -4, 0, 0), METASPR_TERM
+};
+
+const metasprite_t* const BulletC_metasprites[2] = {
+	BulletC_metasprite0, BulletC_metasprite1
 };

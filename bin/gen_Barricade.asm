@@ -58,8 +58,8 @@ ___func_Barricade::
 _Barricade_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x380a
-	.dw #0x0001
+	.dw #0x6c0a
+	.dw #0x000b
 _Barricade_tiles:
 	.db #0xff	; 255
 	.db #0x00	; 0

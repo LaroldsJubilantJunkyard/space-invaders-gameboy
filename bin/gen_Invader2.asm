@@ -58,8 +58,8 @@ ___func_Invader2::
 _Invader2_palettes:
 	.dw #0x7fff
 	.dw #0x0000
-	.dw #0x680a
-	.dw #0x000d
+	.dw #0x0c0a
+	.dw #0x0019
 _Invader2_tiles:
 	.db #0x24	; 36
 	.db #0x00	; 0

@@ -1,3 +1,3 @@
 void SetupGameplayScreen();
-UINT8 UpdateGameplayScreen();
-void IncreaseScore(UINT8 amount);
+uint8_t UpdateGameplayScreen();
+void IncreaseScore(uint8_t amount);

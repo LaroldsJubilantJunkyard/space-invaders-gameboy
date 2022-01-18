@@ -9,165 +9,161 @@
                                       9 ; Public variables in this module
                                      10 ;--------------------------------------------------------
                                      11 	.globl _BulletB_metasprites
-                                     12 	.globl _BulletB_metasprite3
-                                     13 	.globl _BulletB_metasprite2
-                                     14 	.globl _BulletB_metasprite1
-                                     15 	.globl _BulletB_metasprite0
-                                     16 	.globl _BulletB_tiles
-                                     17 	.globl _BulletB_palettes
-                                     18 	.globl b___func_BulletB
-                                     19 	.globl ___func_BulletB
-                                     20 ;--------------------------------------------------------
-                                     21 ; special function registers
-                                     22 ;--------------------------------------------------------
-                                     23 ;--------------------------------------------------------
-                                     24 ; ram data
-                                     25 ;--------------------------------------------------------
-                                     26 	.area _DATA
+                                     12 	.globl _BulletB_metasprite7
+                                     13 	.globl _BulletB_metasprite6
+                                     14 	.globl _BulletB_metasprite5
+                                     15 	.globl _BulletB_metasprite4
+                                     16 	.globl _BulletB_metasprite3
+                                     17 	.globl _BulletB_metasprite2
+                                     18 	.globl _BulletB_metasprite1
+                                     19 	.globl _BulletB_metasprite0
+                                     20 	.globl _BulletB_tiles
+                                     21 	.globl _BulletB_palettes
+                                     22 	.globl b___func_BulletB
+                                     23 	.globl ___func_BulletB
+                                     24 ;--------------------------------------------------------
+                                     25 ; special function registers
+                                     26 ;--------------------------------------------------------
                                      27 ;--------------------------------------------------------
                                      28 ; ram data
                                      29 ;--------------------------------------------------------
-                                     30 	.area _INITIALIZED
+                                     30 	.area _DATA
                                      31 ;--------------------------------------------------------
-                                     32 ; absolute external ram data
+                                     32 ; ram data
                                      33 ;--------------------------------------------------------
-                                     34 	.area _DABS (ABS)
+                                     34 	.area _INITIALIZED
                                      35 ;--------------------------------------------------------
-                                     36 ; global & static initialisations
+                                     36 ; absolute external ram data
                                      37 ;--------------------------------------------------------
-                                     38 	.area _HOME
-                                     39 	.area _GSINIT
-                                     40 	.area _GSFINAL
-                                     41 	.area _GSINIT
-                                     42 ;--------------------------------------------------------
-                                     43 ; Home
-                                     44 ;--------------------------------------------------------
-                                     45 	.area _HOME
-                                     46 	.area _HOME
-                                     47 ;--------------------------------------------------------
-                                     48 ; code
-                                     49 ;--------------------------------------------------------
-                                     50 	.area _CODE
-                                     51 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\BulletB.c:7: BANKREF(BulletB)
-                                     52 ;	---------------------------------
-                                     53 ; Function __func_BulletB
-                                     54 ; ---------------------------------
-                           000000    55 	b___func_BulletB	= 0
-      000000                         56 ___func_BulletB::
-                                     57 	.local b___func_BulletB 
-                           000000    58 	___bank_BulletB = b___func_BulletB 
-                                     59 	.globl ___bank_BulletB 
-                                     60 	.area _CODE
-      000000                         61 _BulletB_palettes:
-      000000 FF 7F                   62 	.dw #0x7fff
-      000002 00 00                   63 	.dw #0x0000
-      000004 0A 68                   64 	.dw #0x680a
-      000006 17 00                   65 	.dw #0x0017
-      000008                         66 _BulletB_tiles:
-      000008 02                      67 	.db #0x02	; 2
-      000009 00                      68 	.db #0x00	; 0
-      00000A 04                      69 	.db #0x04	; 4
-      00000B 00                      70 	.db #0x00	; 0
-      00000C 08                      71 	.db #0x08	; 8
-      00000D 00                      72 	.db #0x00	; 0
-      00000E 10                      73 	.db #0x10	; 16
-      00000F 00                      74 	.db #0x00	; 0
-      000010 20                      75 	.db #0x20	; 32
-      000011 00                      76 	.db #0x00	; 0
-      000012 40                      77 	.db #0x40	; 64
-      000013 00                      78 	.db #0x00	; 0
-      000014 20                      79 	.db #0x20	; 32
-      000015 00                      80 	.db #0x00	; 0
-      000016 10                      81 	.db #0x10	; 16
-      000017 00                      82 	.db #0x00	; 0
-      000018 20                      83 	.db #0x20	; 32
-      000019 00                      84 	.db #0x00	; 0
-      00001A 10                      85 	.db #0x10	; 16
-      00001B 00                      86 	.db #0x00	; 0
-      00001C 08                      87 	.db #0x08	; 8
-      00001D 00                      88 	.db #0x00	; 0
-      00001E 04                      89 	.db #0x04	; 4
-      00001F 00                      90 	.db #0x00	; 0
-      000020 02                      91 	.db #0x02	; 2
-      000021 00                      92 	.db #0x00	; 0
-      000022 04                      93 	.db #0x04	; 4
-      000023 00                      94 	.db #0x00	; 0
-      000024 08                      95 	.db #0x08	; 8
-      000025 00                      96 	.db #0x00	; 0
-      000026 10                      97 	.db #0x10	; 16
-      000027 00                      98 	.db #0x00	; 0
-      000028 20                      99 	.db #0x20	; 32
-      000029 00                     100 	.db #0x00	; 0
-      00002A 40                     101 	.db #0x40	; 64
-      00002B 00                     102 	.db #0x00	; 0
-      00002C 20                     103 	.db #0x20	; 32
-      00002D 00                     104 	.db #0x00	; 0
-      00002E 10                     105 	.db #0x10	; 16
-      00002F 00                     106 	.db #0x00	; 0
-      000030 08                     107 	.db #0x08	; 8
-      000031 00                     108 	.db #0x00	; 0
-      000032 04                     109 	.db #0x04	; 4
-      000033 00                     110 	.db #0x00	; 0
-      000034 02                     111 	.db #0x02	; 2
-      000035 00                     112 	.db #0x00	; 0
-      000036 04                     113 	.db #0x04	; 4
-      000037 00                     114 	.db #0x00	; 0
-      000038                        115 _BulletB_metasprite0:
-      000038 F8                     116 	.db #0xf8	; -8
-      000039 FC                     117 	.db #0xfc	; -4
-      00003A 00                     118 	.db #0x00	; 0
-      00003B 00                     119 	.db #0x00	; 0
-      00003C 08                     120 	.db #0x08	;  8
-      00003D 00                     121 	.db #0x00	;  0
-      00003E 00                     122 	.db #0x00	; 0
-      00003F 60                     123 	.db #0x60	; 96
-      000040 80                     124 	.db #0x80	; -128
-      000041 00                     125 	.db #0x00	;  0
-      000042 00                     126 	.db #0x00	; 0
-      000043 00                     127 	.db #0x00	; 0
-      000044                        128 _BulletB_metasprite1:
-      000044 F8                     129 	.db #0xf8	; -8
-      000045 FC                     130 	.db #0xfc	; -4
-      000046 01                     131 	.db #0x01	; 1
-      000047 00                     132 	.db #0x00	; 0
-      000048 08                     133 	.db #0x08	;  8
-      000049 00                     134 	.db #0x00	;  0
-      00004A 02                     135 	.db #0x02	; 2
-      00004B 00                     136 	.db #0x00	; 0
-      00004C 80                     137 	.db #0x80	; -128
-      00004D 00                     138 	.db #0x00	;  0
-      00004E 00                     139 	.db #0x00	; 0
-      00004F 00                     140 	.db #0x00	; 0
-      000050                        141 _BulletB_metasprite2:
-      000050 F8                     142 	.db #0xf8	; -8
-      000051 FC                     143 	.db #0xfc	; -4
-      000052 00                     144 	.db #0x00	; 0
-      000053 20                     145 	.db #0x20	; 32
-      000054 08                     146 	.db #0x08	;  8
-      000055 00                     147 	.db #0x00	;  0
-      000056 00                     148 	.db #0x00	; 0
-      000057 40                     149 	.db #0x40	; 64
-      000058 80                     150 	.db #0x80	; -128
-      000059 00                     151 	.db #0x00	;  0
-      00005A 00                     152 	.db #0x00	; 0
-      00005B 00                     153 	.db #0x00	; 0
-      00005C                        154 _BulletB_metasprite3:
-      00005C F8                     155 	.db #0xf8	; -8
-      00005D FC                     156 	.db #0xfc	; -4
-      00005E 01                     157 	.db #0x01	; 1
-      00005F 20                     158 	.db #0x20	; 32
-      000060 08                     159 	.db #0x08	;  8
-      000061 00                     160 	.db #0x00	;  0
-      000062 02                     161 	.db #0x02	; 2
-      000063 20                     162 	.db #0x20	; 32
-      000064 80                     163 	.db #0x80	; -128
-      000065 00                     164 	.db #0x00	;  0
-      000066 00                     165 	.db #0x00	; 0
-      000067 00                     166 	.db #0x00	; 0
-      000068                        167 _BulletB_metasprites:
-      000068r38r00                  168 	.dw _BulletB_metasprite0
-      00006Ar44r00                  169 	.dw _BulletB_metasprite1
-      00006Cr50r00                  170 	.dw _BulletB_metasprite2
-      00006Er5Cr00                  171 	.dw _BulletB_metasprite3
-                                    172 	.area _INITIALIZER
-                                    173 	.area _CABS (ABS)
+                                     38 	.area _DABS (ABS)
+                                     39 ;--------------------------------------------------------
+                                     40 ; global & static initialisations
+                                     41 ;--------------------------------------------------------
+                                     42 	.area _HOME
+                                     43 	.area _GSINIT
+                                     44 	.area _GSFINAL
+                                     45 	.area _GSINIT
+                                     46 ;--------------------------------------------------------
+                                     47 ; Home
+                                     48 ;--------------------------------------------------------
+                                     49 	.area _HOME
+                                     50 	.area _HOME
+                                     51 ;--------------------------------------------------------
+                                     52 ; code
+                                     53 ;--------------------------------------------------------
+                                     54 	.area _CODE
+                                     55 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\gen\default\graphics\BulletB.c:7: BANKREF(BulletB)
+                                     56 ;	---------------------------------
+                                     57 ; Function __func_BulletB
+                                     58 ; ---------------------------------
+                           000000    59 	b___func_BulletB	= 0
+      000000                         60 ___func_BulletB::
+                                     61 	.local b___func_BulletB 
+                           000000    62 	___bank_BulletB = b___func_BulletB 
+                                     63 	.globl ___bank_BulletB 
+                                     64 	.area _CODE
+      000000                         65 _BulletB_palettes:
+      000000 FF 7F                   66 	.dw #0x7fff
+      000002 00 00                   67 	.dw #0x0000
+      000004 0A 20                   68 	.dw #0x200a
+      000006 00 00                   69 	.dw #0x0000
+      000008                         70 _BulletB_tiles:
+      000008 06                      71 	.db #0x06	; 6
+      000009 00                      72 	.db #0x00	; 0
+      00000A 18                      73 	.db #0x18	; 24
+      00000B 00                      74 	.db #0x00	; 0
+      00000C 60                      75 	.db #0x60	; 96
+      00000D 00                      76 	.db #0x00	; 0
+      00000E 18                      77 	.db #0x18	; 24
+      00000F 00                      78 	.db #0x00	; 0
+      000010 06                      79 	.db #0x06	; 6
+      000011 00                      80 	.db #0x00	; 0
+      000012 18                      81 	.db #0x18	; 24
+      000013 00                      82 	.db #0x00	; 0
+      000014 60                      83 	.db #0x60	; 96
+      000015 00                      84 	.db #0x00	; 0
+      000016 18                      85 	.db #0x18	; 24
+      000017 00                      86 	.db #0x00	; 0
+      000018                         87 _BulletB_metasprite0:
+      000018 FC                      88 	.db #0xfc	; -4
+      000019 FC                      89 	.db #0xfc	; -4
+      00001A 00                      90 	.db #0x00	; 0
+      00001B 00                      91 	.db #0x00	; 0
+      00001C 80                      92 	.db #0x80	; -128
+      00001D 00                      93 	.db #0x00	;  0
+      00001E 00                      94 	.db #0x00	; 0
+      00001F 00                      95 	.db #0x00	; 0
+      000020                         96 _BulletB_metasprite1:
+      000020 FC                      97 	.db #0xfc	; -4
+      000021 FC                      98 	.db #0xfc	; -4
+      000022 00                      99 	.db #0x00	; 0
+      000023 60                     100 	.db #0x60	; 96
+      000024 80                     101 	.db #0x80	; -128
+      000025 00                     102 	.db #0x00	;  0
+      000026 00                     103 	.db #0x00	; 0
+      000027 00                     104 	.db #0x00	; 0
+      000028                        105 _BulletB_metasprite2:
+      000028 FC                     106 	.db #0xfc	; -4
+      000029 FC                     107 	.db #0xfc	; -4
+      00002A 00                     108 	.db #0x00	; 0
+      00002B 20                     109 	.db #0x20	; 32
+      00002C 80                     110 	.db #0x80	; -128
+      00002D 00                     111 	.db #0x00	;  0
+      00002E 00                     112 	.db #0x00	; 0
+      00002F 00                     113 	.db #0x00	; 0
+      000030                        114 _BulletB_metasprite3:
+      000030 FC                     115 	.db #0xfc	; -4
+      000031 FC                     116 	.db #0xfc	; -4
+      000032 00                     117 	.db #0x00	; 0
+      000033 40                     118 	.db #0x40	; 64
+      000034 80                     119 	.db #0x80	; -128
+      000035 00                     120 	.db #0x00	;  0
+      000036 00                     121 	.db #0x00	; 0
+      000037 00                     122 	.db #0x00	; 0
+      000038                        123 _BulletB_metasprite4:
+      000038 FC                     124 	.db #0xfc	; -4
+      000039 FC                     125 	.db #0xfc	; -4
+      00003A 00                     126 	.db #0x00	; 0
+      00003B 00                     127 	.db #0x00	; 0
+      00003C 80                     128 	.db #0x80	; -128
+      00003D 00                     129 	.db #0x00	;  0
+      00003E 00                     130 	.db #0x00	; 0
+      00003F 00                     131 	.db #0x00	; 0
+      000040                        132 _BulletB_metasprite5:
+      000040 FC                     133 	.db #0xfc	; -4
+      000041 FC                     134 	.db #0xfc	; -4
+      000042 00                     135 	.db #0x00	; 0
+      000043 60                     136 	.db #0x60	; 96
+      000044 80                     137 	.db #0x80	; -128
+      000045 00                     138 	.db #0x00	;  0
+      000046 00                     139 	.db #0x00	; 0
+      000047 00                     140 	.db #0x00	; 0
+      000048                        141 _BulletB_metasprite6:
+      000048 FC                     142 	.db #0xfc	; -4
+      000049 FC                     143 	.db #0xfc	; -4
+      00004A 00                     144 	.db #0x00	; 0
+      00004B 20                     145 	.db #0x20	; 32
+      00004C 80                     146 	.db #0x80	; -128
+      00004D 00                     147 	.db #0x00	;  0
+      00004E 00                     148 	.db #0x00	; 0
+      00004F 00                     149 	.db #0x00	; 0
+      000050                        150 _BulletB_metasprite7:
+      000050 FC                     151 	.db #0xfc	; -4
+      000051 FC                     152 	.db #0xfc	; -4
+      000052 00                     153 	.db #0x00	; 0
+      000053 40                     154 	.db #0x40	; 64
+      000054 80                     155 	.db #0x80	; -128
+      000055 00                     156 	.db #0x00	;  0
+      000056 00                     157 	.db #0x00	; 0
+      000057 00                     158 	.db #0x00	; 0
+      000058                        159 _BulletB_metasprites:
+      000058r18r00                  160 	.dw _BulletB_metasprite0
+      00005Ar20r00                  161 	.dw _BulletB_metasprite1
+      00005Cr28r00                  162 	.dw _BulletB_metasprite2
+      00005Er30r00                  163 	.dw _BulletB_metasprite3
+      000060r38r00                  164 	.dw _BulletB_metasprite4
+      000062r40r00                  165 	.dw _BulletB_metasprite5
+      000064r48r00                  166 	.dw _BulletB_metasprite6
+      000066r50r00                  167 	.dw _BulletB_metasprite7
+                                    168 	.area _INITIALIZER
+                                    169 	.area _CABS (ABS)

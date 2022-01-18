@@ -3,7 +3,7 @@
 
 typedef struct Invader{
 
-    UINT8 column,row,active,originalTile;
+    uint8_t column,row,active,originalTile;
     INT8 slide;
 } Invader;
 
@@ -11,6 +11,6 @@ extern Invader invaders[];
 
 void SetupInvaders();
 void UpdateInvaders();
-UINT8 GetInvaderForNode(UINT8 column, UINT8 row);
+uint8_t GetInvaderForNode(uint8_t column, uint8_t row);
 
 #endif

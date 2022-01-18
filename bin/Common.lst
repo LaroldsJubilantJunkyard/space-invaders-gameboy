@@ -13,201 +13,207 @@
                                      13 	.globl _ClearAllSprites
                                      14 	.globl _GetNextAvailableSprite
                                      15 	.globl _fill_bkg_rect
-                                     16 	.globl _spaceInvadersFontCurrentStart
-                                     17 	.globl _highScore
-                                     18 	.globl _level
-                                     19 	.globl _slideDir
-                                     20 	.globl _joypadPrevious
-                                     21 	.globl _joypadCurrent
-                                     22 ;--------------------------------------------------------
-                                     23 ; special function registers
-                                     24 ;--------------------------------------------------------
+                                     16 	.globl _slideDir
+                                     17 	.globl _spaceInvadersFontCurrentStart
+                                     18 	.globl _highScore
+                                     19 	.globl _level
+                                     20 	.globl _invadersRemaining
+                                     21 	.globl _joypadPrevious
+                                     22 	.globl _joypadCurrent
+                                     23 ;--------------------------------------------------------
+                                     24 ; special function registers
                                      25 ;--------------------------------------------------------
-                                     26 ; ram data
-                                     27 ;--------------------------------------------------------
-                                     28 	.area _DATA
-      000000                         29 _joypadCurrent::
-      000000                         30 	.ds 1
-      000001                         31 _joypadPrevious::
-      000001                         32 	.ds 1
-      000002                         33 _slideDir::
-      000002                         34 	.ds 1
-                                     35 ;--------------------------------------------------------
-                                     36 ; ram data
-                                     37 ;--------------------------------------------------------
-                                     38 	.area _INITIALIZED
-      000000                         39 _level::
-      000000                         40 	.ds 1
-      000001                         41 _highScore::
-      000001                         42 	.ds 1
-      000002                         43 _spaceInvadersFontCurrentStart::
-      000002                         44 	.ds 1
-                                     45 ;--------------------------------------------------------
-                                     46 ; absolute external ram data
-                                     47 ;--------------------------------------------------------
-                                     48 	.area _DABS (ABS)
-                                     49 ;--------------------------------------------------------
-                                     50 ; global & static initialisations
-                                     51 ;--------------------------------------------------------
-                                     52 	.area _HOME
-                                     53 	.area _GSINIT
-                                     54 	.area _GSFINAL
-                                     55 	.area _GSINIT
-                                     56 ;--------------------------------------------------------
-                                     57 ; Home
-                                     58 ;--------------------------------------------------------
-                                     59 	.area _HOME
-                                     60 	.area _HOME
+                                     26 ;--------------------------------------------------------
+                                     27 ; ram data
+                                     28 ;--------------------------------------------------------
+                                     29 	.area _DATA
+      000000                         30 _joypadCurrent::
+      000000                         31 	.ds 1
+      000001                         32 _joypadPrevious::
+      000001                         33 	.ds 1
+      000002                         34 _invadersRemaining::
+      000002                         35 	.ds 1
+                                     36 ;--------------------------------------------------------
+                                     37 ; ram data
+                                     38 ;--------------------------------------------------------
+                                     39 	.area _INITIALIZED
+      000000                         40 _level::
+      000000                         41 	.ds 1
+      000001                         42 _highScore::
+      000001                         43 	.ds 1
+      000002                         44 _spaceInvadersFontCurrentStart::
+      000002                         45 	.ds 1
+      000003                         46 _slideDir::
+      000003                         47 	.ds 1
+                                     48 ;--------------------------------------------------------
+                                     49 ; absolute external ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _DABS (ABS)
+                                     52 ;--------------------------------------------------------
+                                     53 ; global & static initialisations
+                                     54 ;--------------------------------------------------------
+                                     55 	.area _HOME
+                                     56 	.area _GSINIT
+                                     57 	.area _GSFINAL
+                                     58 	.area _GSINIT
+                                     59 ;--------------------------------------------------------
+                                     60 ; Home
                                      61 ;--------------------------------------------------------
-                                     62 ; code
-                                     63 ;--------------------------------------------------------
-                                     64 	.area _CODE
-                                     65 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:6: UINT8 GetNextAvailableSprite(){
-                                     66 ;	---------------------------------
-                                     67 ; Function GetNextAvailableSprite
-                                     68 ; ---------------------------------
-      000000                         69 _GetNextAvailableSprite::
-                                     70 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(UINT8 i=2;i<40;i++){
-      000000 11 02 02                71 	ld	de, #0x202
-      000003                         72 00106$:
-      000003 7A                      73 	ld	a, d
-      000004 D6 28                   74 	sub	a, #0x28
-      000006 30 12                   75 	jr	NC, 00103$
-                                     76 ;C:/gbdk/include/gb/gb.h:1337: return shadow_OAM[nb].tile;
-      000008 01r00r00                77 	ld	bc, #_shadow_OAM+0
-      00000B 6A                      78 	ld	l, d
-                                     79 ;	spillPairReg hl
-                                     80 ;	spillPairReg hl
-      00000C 26 00                   81 	ld	h, #0x00
+                                     62 	.area _HOME
+                                     63 	.area _HOME
+                                     64 ;--------------------------------------------------------
+                                     65 ; code
+                                     66 ;--------------------------------------------------------
+                                     67 	.area _CODE
+                                     68 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:6: uint8_t GetNextAvailableSprite(){
+                                     69 ;	---------------------------------
+                                     70 ; Function GetNextAvailableSprite
+                                     71 ; ---------------------------------
+      000000                         72 _GetNextAvailableSprite::
+                                     73 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(uint8_t i=2;i<40;i++){
+      000000 11 02 02                74 	ld	de, #0x202
+      000003                         75 00106$:
+      000003 7A                      76 	ld	a, d
+      000004 D6 28                   77 	sub	a, #0x28
+      000006 30 12                   78 	jr	NC, 00103$
+                                     79 ;C:/gbdk/include/gb/gb.h:1337: return shadow_OAM[nb].tile;
+      000008 01r00r00                80 	ld	bc, #_shadow_OAM+0
+      00000B 6A                      81 	ld	l, d
                                      82 ;	spillPairReg hl
                                      83 ;	spillPairReg hl
-      00000E 29                      84 	add	hl, hl
-      00000F 29                      85 	add	hl, hl
-      000010 09                      86 	add	hl, bc
-      000011 23                      87 	inc	hl
-      000012 23                      88 	inc	hl
-      000013 7E                      89 	ld	a, (hl)
-                                     90 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:9: if(get_sprite_tile(i)==0){
-      000014 B7                      91 	or	a, a
-                                     92 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:10: return i;
-      000015 C8                      93 	ret	Z
-                                     94 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(UINT8 i=2;i<40;i++){
-      000016 14                      95 	inc	d
-      000017 5A                      96 	ld	e, d
-      000018 18 E9                   97 	jr	00106$
-      00001A                         98 00103$:
-                                     99 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:13: return 39;
-      00001A 1E 27                  100 	ld	e, #0x27
-                                    101 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:14: }
-      00001C C9                     102 	ret
-                                    103 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:16: void ClearAllSprites(){
-                                    104 ;	---------------------------------
-                                    105 ; Function ClearAllSprites
-                                    106 ; ---------------------------------
-      00001D                        107 _ClearAllSprites::
-                                    108 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(UINT8 i=0;i<40;i++){
-      00001D 0E 00                  109 	ld	c, #0x00
-      00001F                        110 00105$:
-      00001F 79                     111 	ld	a, c
-      000020 D6 28                  112 	sub	a, #0x28
-      000022 D0                     113 	ret	NC
-                                    114 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
-      000023 69                     115 	ld	l, c
-                                    116 ;	spillPairReg hl
-                                    117 ;	spillPairReg hl
-      000024 26 00                  118 	ld	h, #0x00
+      00000C 26 00                   84 	ld	h, #0x00
+                                     85 ;	spillPairReg hl
+                                     86 ;	spillPairReg hl
+      00000E 29                      87 	add	hl, hl
+      00000F 29                      88 	add	hl, hl
+      000010 09                      89 	add	hl, bc
+      000011 23                      90 	inc	hl
+      000012 23                      91 	inc	hl
+      000013 7E                      92 	ld	a, (hl)
+                                     93 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:9: if(get_sprite_tile(i)==0){
+      000014 B7                      94 	or	a, a
+                                     95 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:10: return i;
+      000015 C8                      96 	ret	Z
+                                     97 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:8: for(uint8_t i=2;i<40;i++){
+      000016 14                      98 	inc	d
+      000017 5A                      99 	ld	e, d
+      000018 18 E9                  100 	jr	00106$
+      00001A                        101 00103$:
+                                    102 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:13: return 39;
+      00001A 1E 27                  103 	ld	e, #0x27
+                                    104 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:14: }
+      00001C C9                     105 	ret
+                                    106 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:16: void ClearAllSprites(){
+                                    107 ;	---------------------------------
+                                    108 ; Function ClearAllSprites
+                                    109 ; ---------------------------------
+      00001D                        110 _ClearAllSprites::
+                                    111 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(uint8_t i=0;i<40;i++){
+      00001D 0E 00                  112 	ld	c, #0x00
+      00001F                        113 00105$:
+      00001F 79                     114 	ld	a, c
+      000020 D6 28                  115 	sub	a, #0x28
+      000022 D0                     116 	ret	NC
+                                    117 ;C:/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+      000023 69                     118 	ld	l, c
                                     119 ;	spillPairReg hl
                                     120 ;	spillPairReg hl
-      000026 29                     121 	add	hl, hl
-      000027 29                     122 	add	hl, hl
-      000028 5D                     123 	ld	e, l
-      000029 54                     124 	ld	d, h
-      00002A 21r01r00               125 	ld	hl,#_shadow_OAM + 1
-      00002D 19                     126 	add	hl,de
-      00002E 23                     127 	inc	hl
-      00002F 36 00                  128 	ld	(hl), #0x00
-                                    129 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
-      000031 21r00r00               130 	ld	hl, #_shadow_OAM
-      000034 19                     131 	add	hl, de
-                                    132 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
-      000035 AF                     133 	xor	a, a
-      000036 22                     134 	ld	(hl+), a
-      000037 77                     135 	ld	(hl), a
-                                    136 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(UINT8 i=0;i<40;i++){
-      000038 0C                     137 	inc	c
-                                    138 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:22: }
-      000039 18 E4                  139 	jr	00105$
-                                    140 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:23: void ClearBackground(){
-                                    141 ;	---------------------------------
-                                    142 ; Function ClearBackground
-                                    143 ; ---------------------------------
-      00003B                        144 _ClearBackground::
-                                    145 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:25: fill_bkg_rect(0,0,20,18,0);
-      00003B AF                     146 	xor	a, a
-      00003C 67                     147 	ld	h, a
-      00003D 2E 12                  148 	ld	l, #0x12
-      00003F E5                     149 	push	hl
-      000040 3E 14                  150 	ld	a, #0x14
-      000042 F5                     151 	push	af
-      000043 33                     152 	inc	sp
-      000044 AF                     153 	xor	a, a
-      000045 0F                     154 	rrca
-      000046 F5                     155 	push	af
-      000047 CDr00r00               156 	call	_fill_bkg_rect
-      00004A E8 05                  157 	add	sp, #5
-                                    158 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:26: }
-      00004C C9                     159 	ret
-                                    160 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:29: UINT8 RandomNumber(UINT8 min, UINT8 max){
-                                    161 ;	---------------------------------
-                                    162 ; Function RandomNumber
-                                    163 ; ---------------------------------
-      00004D                        164 _RandomNumber::
-                                    165 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:35: UINT8 v = (*(ptr_div_reg))+shadow_OAM[0].x+shadow_OAM[1].x+shadow_OAM[2].x+shadow_OAM[3].x+shadow_OAM[4].x;
-      00004D 21 04 FF               166 	ld	hl, #0xff04
-      000050 4E                     167 	ld	c, (hl)
-      000051 FAr01r00               168 	ld	a, (#(_shadow_OAM + 1) + 0)
-      000054 81                     169 	add	a, c
-      000055 4F                     170 	ld	c, a
-      000056 FAr05r00               171 	ld	a, (#(_shadow_OAM + 5) + 0)
-      000059 81                     172 	add	a, c
-      00005A 4F                     173 	ld	c, a
-      00005B FAr09r00               174 	ld	a, (#(_shadow_OAM + 9) + 0)
-      00005E 81                     175 	add	a, c
-      00005F 4F                     176 	ld	c, a
-      000060 FAr0Dr00               177 	ld	a, (#(_shadow_OAM + 13) + 0)
-      000063 81                     178 	add	a, c
-      000064 4F                     179 	ld	c, a
-      000065 FAr11r00               180 	ld	a, (#(_shadow_OAM + 17) + 0)
-      000068 81                     181 	add	a, c
-      000069 4F                     182 	ld	c, a
-                                    183 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:37: return min+(v % (max-min));    // get value at memory address
-      00006A F8 03                  184 	ldhl	sp,	#3
-      00006C 3A                     185 	ld	a, (hl-)
-      00006D 06 00                  186 	ld	b, #0x00
-      00006F 5E                     187 	ld	e, (hl)
-      000070 16 00                  188 	ld	d, #0x00
-      000072 93                     189 	sub	a, e
-      000073 5F                     190 	ld	e, a
-      000074 78                     191 	ld	a, b
-      000075 9A                     192 	sbc	a, d
-      000076 06 00                  193 	ld	b, #0x00
-      000078 57                     194 	ld	d, a
-      000079 D5                     195 	push	de
-      00007A C5                     196 	push	bc
-      00007B CDr00r00               197 	call	__modsint
-      00007E E8 04                  198 	add	sp, #4
-      000080 F8 02                  199 	ldhl	sp,	#2
-      000082 7E                     200 	ld	a, (hl)
-      000083 83                     201 	add	a, e
-      000084 5F                     202 	ld	e, a
-                                    203 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:38: }
-      000085 C9                     204 	ret
-                                    205 	.area _CODE
-                                    206 	.area _INITIALIZER
-      000000                        207 __xinit__level:
-      000000 01                     208 	.db #0x01	; 1
-      000001                        209 __xinit__highScore:
-      000001 00                     210 	.db #0x00	; 0
-      000002                        211 __xinit__spaceInvadersFontCurrentStart:
-      000002 00                     212 	.db #0x00	; 0
-                                    213 	.area _CABS (ABS)
+      000024 26 00                  121 	ld	h, #0x00
+                                    122 ;	spillPairReg hl
+                                    123 ;	spillPairReg hl
+      000026 29                     124 	add	hl, hl
+      000027 29                     125 	add	hl, hl
+      000028 5D                     126 	ld	e, l
+      000029 54                     127 	ld	d, h
+      00002A 21r01r00               128 	ld	hl,#_shadow_OAM + 1
+      00002D 19                     129 	add	hl,de
+      00002E 23                     130 	inc	hl
+      00002F 36 00                  131 	ld	(hl), #0x00
+                                    132 ;C:/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+      000031 21r00r00               133 	ld	hl, #_shadow_OAM
+      000034 19                     134 	add	hl, de
+                                    135 ;C:/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+      000035 AF                     136 	xor	a, a
+      000036 22                     137 	ld	(hl+), a
+      000037 77                     138 	ld	(hl), a
+                                    139 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:18: for(uint8_t i=0;i<40;i++){
+      000038 0C                     140 	inc	c
+                                    141 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:22: }
+      000039 18 E4                  142 	jr	00105$
+                                    143 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:23: void ClearBackground(){
+                                    144 ;	---------------------------------
+                                    145 ; Function ClearBackground
+                                    146 ; ---------------------------------
+      00003B                        147 _ClearBackground::
+                                    148 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:25: fill_bkg_rect(0,0,20,18,0);
+      00003B AF                     149 	xor	a, a
+      00003C 67                     150 	ld	h, a
+      00003D 2E 12                  151 	ld	l, #0x12
+      00003F E5                     152 	push	hl
+      000040 3E 14                  153 	ld	a, #0x14
+      000042 F5                     154 	push	af
+      000043 33                     155 	inc	sp
+      000044 AF                     156 	xor	a, a
+      000045 0F                     157 	rrca
+      000046 F5                     158 	push	af
+      000047 CDr00r00               159 	call	_fill_bkg_rect
+      00004A E8 05                  160 	add	sp, #5
+                                    161 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:26: }
+      00004C C9                     162 	ret
+                                    163 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:29: uint8_t RandomNumber(uint8_t min, uint8_t max){
+                                    164 ;	---------------------------------
+                                    165 ; Function RandomNumber
+                                    166 ; ---------------------------------
+      00004D                        167 _RandomNumber::
+      00004D 3B                     168 	dec	sp
+                                    169 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:32: uint8_t v = DIV_REG+shadow_OAM[0].x+shadow_OAM[2].x+shadow_OAM[3].x;
+      00004E 21r01r00               170 	ld	hl, #(_shadow_OAM + 1)
+      000051 4E                     171 	ld	c, (hl)
+      000052 F0r00                  172 	ldh	a, (_DIV_REG + 0)
+      000054 81                     173 	add	a, c
+      000055 4F                     174 	ld	c, a
+      000056 FAr09r00               175 	ld	a, (#(_shadow_OAM + 9) + 0)
+      000059 81                     176 	add	a, c
+      00005A 4F                     177 	ld	c, a
+      00005B FAr0Dr00               178 	ld	a, (#(_shadow_OAM + 13) + 0)
+      00005E 81                     179 	add	a, c
+      00005F F8 00                  180 	ldhl	sp,	#0
+      000061 77                     181 	ld	(hl), a
+                                    182 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:34: return min+(v % (max-min));    // get value at memory address
+      000062 F8 04                  183 	ldhl	sp,	#4
+      000064 3A                     184 	ld	a, (hl-)
+      000065 4F                     185 	ld	c, a
+      000066 06 00                  186 	ld	b, #0x00
+      000068 5E                     187 	ld	e, (hl)
+      000069 16 00                  188 	ld	d, #0x00
+      00006B 79                     189 	ld	a, c
+      00006C 93                     190 	sub	a, e
+      00006D 4F                     191 	ld	c, a
+      00006E 78                     192 	ld	a, b
+      00006F 9A                     193 	sbc	a, d
+      000070 47                     194 	ld	b, a
+      000071 F8 00                  195 	ldhl	sp,	#0
+      000073 5E                     196 	ld	e, (hl)
+      000074 16 00                  197 	ld	d, #0x00
+      000076 C5                     198 	push	bc
+      000077 D5                     199 	push	de
+      000078 CDr00r00               200 	call	__modsint
+      00007B E8 04                  201 	add	sp, #4
+      00007D F8 03                  202 	ldhl	sp,	#3
+      00007F 7E                     203 	ld	a, (hl)
+      000080 83                     204 	add	a, e
+      000081 5F                     205 	ld	e, a
+                                    206 ;D:\Business\LaroldsJubilantJunkyard\game-remakes\space-invaders\source\main\default\Common.c:35: }
+      000082 33                     207 	inc	sp
+      000083 C9                     208 	ret
+                                    209 	.area _CODE
+                                    210 	.area _INITIALIZER
+      000000                        211 __xinit__level:
+      000000 01                     212 	.db #0x01	; 1
+      000001                        213 __xinit__highScore:
+      000001 00                     214 	.db #0x00	; 0
+      000002                        215 __xinit__spaceInvadersFontCurrentStart:
+      000002 00                     216 	.db #0x00	; 0
+      000003                        217 __xinit__slideDir:
+      000003 FF                     218 	.db #0xff	; -1
+                                    219 	.area _CABS (ABS)
