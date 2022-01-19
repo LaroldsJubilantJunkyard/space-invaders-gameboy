@@ -7,7 +7,7 @@
 BANKREF(BulletA)
 
 const palette_color_t BulletA_palettes[4] = {
-	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 51), RGB8(201, 2, 0)
+	RGB8(255, 255, 255), RGB8(0, 0, 0), RGB8(80, 1, 131), RGB8(76, 1, 0)
 };
 
 const uint8_t BulletA_tiles[128] = {

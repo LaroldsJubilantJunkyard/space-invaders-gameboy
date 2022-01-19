@@ -39,7 +39,7 @@ FOR /R "source/main/default/" %%X IN (*.c) DO (
 
 
 :: Compile a .gb file from the compiled .o files
-%LCC_COMPILE_BASE% -Wm-yC  -Wl-yt3 -Wl-yo2 -Wl-ya2 -o dist/SpaceInvaders.gb !COMPILE_OBJECT_FILES!
+%LCC_COMPILE_BASE% -Wm-yC  -Wl-yt3 -o dist/SpaceInvaders.gb !COMPILE_OBJECT_FILES!
 
 endlocal
 

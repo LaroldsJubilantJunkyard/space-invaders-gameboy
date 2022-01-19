@@ -46,11 +46,13 @@
 #define SPACEINVADERSTITLE_TILES_START SPACEINVADERSFONT_TILES_START2+SpaceInvadersFont_TILE_COUNT-5
 
 extern int8_t slideDir;
-extern uint8_t level,highScore,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart,invadersRemaining,topRow;
+extern uint16_t highScore,score;
+extern uint8_t level,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart,invadersRemaining,topRow;
 
 
 void ClearAllSprites();
 void ClearBackground();
+void UpdateScore();
 uint8_t GetNextAvailableSprite();
 void DrawNumber(uint8_t x,uint8_t y, uint16_t number,uint8_t digits);
 uint8_t RandomNumber(uint8_t min, uint8_t max);

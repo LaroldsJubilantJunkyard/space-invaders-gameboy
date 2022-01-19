@@ -1,6 +1,7 @@
 #include <gb/gb.h>
 
-uint8_t level=1,highScore=0,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart=0,invadersRemaining;
+uint16_t highScore=0,score=0;
+uint8_t level=1,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart=0,invadersRemaining;
 int8_t slideDir=-1;
 
 uint8_t GetNextAvailableSprite(){

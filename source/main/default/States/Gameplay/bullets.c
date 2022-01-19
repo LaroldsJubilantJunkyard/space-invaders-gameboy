@@ -48,7 +48,7 @@ uint8_t InvaderCheckBulletCollision(uint8_t i){
 
         if(xd<5&&yd<8){
 
-            IncreaseScore(10);
+            IncreaseScore(invaders[i].score);
             
             invadersRemaining--;
 
@@ -59,7 +59,7 @@ uint8_t InvaderCheckBulletCollision(uint8_t i){
             PlayerBulletSprite.tile=0;
 
             // Update the tiles for this invader
-            UpdateInvaderTiles(i);
+            ClearInvaderTiles(i);
 
             NR10_REG=0x7D;
             NR11_REG=0xC2;

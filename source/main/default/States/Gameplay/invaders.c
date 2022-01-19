@@ -11,11 +11,13 @@
 const unsigned char tiles[9] = {25,18,19,20,21,22,23,24,25};
 
 Invader invaders[40];
+    uint8_t anyInvaderHasReachedEndOfScreen=0;
 uint8_t invaderSpeed,invaderCounter,topRow,shotTimer,moveRow=0,rowsAtEnd=0;
 
 void SetupInvaders(){
 
     uint8_t alienTypes[3]={INVADER1_TILES_START,INVADER2_TILES_START,INVADER3_TILES_START};
+    uint8_t alienScores[3]={30,20,10};
     
      for(uint8_t i=0;i<40;i++){
         invaders[i].column=(i%8)*2+2;
@@ -23,6 +25,7 @@ void SetupInvaders(){
         invaders[i].slide=0;
         invaders[i].active=1;
         invaders[i].originalTile=alienTypes[i/16];
+        invaders[i].score=alienScores[i/16];
         
         // Put their initial tiles on the background
         set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile);
@@ -37,6 +40,7 @@ void SetupInvaders(){
     invaderCounter=0;
     invaderSpeed=3;
     invadersRemaining=40;
+    anyInvaderHasReachedEndOfScreen=0;
 }
 
 void InvaderCheckPlayerCollision(uint8_t i){
@@ -50,19 +54,27 @@ void InvaderCheckPlayerCollision(uint8_t i){
     }
 }
 
-void UpdateInvaderTiles(uint8_t i){
 
-    // If the invader is already dead
+void ClearInvaderTiles(uint8_t i){
+
+        // If the invader is already dead
      if(invaders[i].active==0){
-
-        if(invaders[i].slide>=0)set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,0);
-        else set_bkg_tile_xy(invaders[i].column-1,invaders[i].row,0);
         
         // Just draw blank
         set_bkg_tile_xy(invaders[i].column,invaders[i].row,0);
+        set_bkg_tile_xy(invaders[i].column+slideDir,invaders[i].row,0);
 
     // If the invader has not slid anywhere yet
-    }else if(invaders[i].slide==0){
+    }
+}
+
+void UpdateInvaderTiles(uint8_t i){
+
+    // If the invader is already dead
+     if(invaders[i].active==0)return;
+     
+     
+     if(invaders[i].slide==0){
         
         set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile);
         set_bkg_tile_xy(invaders[i].column-slideDir,invaders[i].row,0);
@@ -80,15 +92,13 @@ void UpdateInvaderTiles(uint8_t i){
 
         set_bkg_tile_xy(invaders[i].column,invaders[i].row,invaders[i].originalTile-invaders[i].slide);
         set_bkg_tile_xy(invaders[i].column-1,invaders[i].row,invaders[i].originalTile+8-invaders[i].slide);
-
-
     }
 }
 
 uint8_t SlideInvader(uint8_t i){
 
     if(invaders[i].column==0&&slideDir!=1)return 0;
-    if(invaders[i].column>=19&&slideDir==1)return 0;
+    if(invaders[i].column==19&&slideDir==1)return 0;
 
     // Slide in the given direction
     invaders[i].slide+=slideDir*2;
@@ -102,8 +112,15 @@ uint8_t SlideInvader(uint8_t i){
         invaders[i].slide=0;
         invaders[i].column+=slideDir;
 
+        if(i>0){
+            if(invaders[i-1].column>invaders[i].column)set_bkg_tile_xy(invaders[i].column-1,invaders[i].row,0);
+        }
+        if(i<39){
+            if(invaders[i+1].column<invaders[i].column)set_bkg_tile_xy(invaders[i].column+1,invaders[i].row,0);
+        }
+
         // Return if we are on the edge
-        return(invaders[i].column==0)||(invaders[i].column>=19);
+        return(invaders[i].column==0)||(invaders[i].column==19);
     }
 
     return 0;
@@ -132,13 +149,17 @@ void InvaderTryFireBullet(uint8_t i){
 
 void ShiftAllInvadersDown(){
 
+    anyInvaderHasReachedEndOfScreen=0;
+    
+
     // Increase the row for all invaders
     for(uint8_t i=0;i<40;i++){
         invaders[i].row++;
 
         // Update the tiles for this invader
-        UpdateInvaderTiles(i);
+        if(invaders[i].active==1)UpdateInvaderTiles(i);
     }
+
 
     // Reverse the direction to slide invaders
     slideDir=-slideDir;
@@ -150,13 +171,13 @@ void ShiftAllInvadersDown(){
 }
 
 uint8_t InvadersShouldMove(){
-    return invaderCounter>12-topRow/2||topRow>9;
+    if(topRow>12)return 1;
+    return invaderCounter>9-(topRow-2);
 }
 
 void UpdateInvaders(){
 
     
-    uint8_t anyInvaderHasReachedEndOfScreen=0;
     
 
     invaderCounter++;
@@ -172,38 +193,26 @@ void UpdateInvaders(){
             }
 
             InvaderCheckPlayerCollision(i);
-        }
 
-        // If the invaders should move
-        if(InvadersShouldMove()){
+            // If the invaders should move
+            if(InvadersShouldMove()){
+                    
+                // Check if any have reached the end of the screen after sliding
+                if(SlideInvader(i)){
 
-            
-                
-            // Check if any have reached the end of the screen after sliding
-            if(SlideInvader(i)){
-                anyInvaderHasReachedEndOfScreen=1;
+                    // Only set positive if we are active
+                    anyInvaderHasReachedEndOfScreen=1;
+                }
+
+                // Update the tiles for this invader
+                UpdateInvaderTiles(i);
+
             }
 
-            // Update the tiles for this invader
-            UpdateInvaderTiles(i);
-
         }
-
         
             
 
-    }
-    // If any invader has reached the end of the screen
-    // Shift all invaders down one row.
-    if(anyInvaderHasReachedEndOfScreen){
-        rowsAtEnd++;
-        if(rowsAtEnd==5){
-            rowsAtEnd=0;
-
-            
-
-            ShiftAllInvadersDown();
-        }
     }
 
     // If the invaders should move
@@ -223,6 +232,14 @@ void UpdateInvaders(){
 
         // Loop around after 5
         moveRow=(moveRow+1)%5;
+
+        // If any invader has reached the end of the screen
+        // Shift all invaders down one row.
+        // Only do this when we are now on row 0, so everything stays aligned
+        if(anyInvaderHasReachedEndOfScreen&&moveRow==0){
+
+            ShiftAllInvadersDown();
+        }
 
         // Reset our counter
         invaderCounter=0;

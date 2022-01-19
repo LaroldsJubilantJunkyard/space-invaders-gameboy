@@ -8,8 +8,6 @@
 #include "Graphics/Barricade.h"
 #include "Graphics/Alien.h"
 
-unsigned char helper[5]={0x00,0x00,0x00,0x00,0x00};
-uint16_t score;
 
 extern uint8_t invadersRemaining;
 extern Paddle paddle;
