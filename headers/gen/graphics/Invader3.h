@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define Invader3_TILE_ORIGIN 0
 #define Invader3_TILE_H 8
 #define Invader3_WIDTH 136
 #define Invader3_HEIGHT 8

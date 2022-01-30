@@ -3,13 +3,13 @@
 
 #include <gb/gb.h>
 
-typedef struct Paddle{
+typedef struct Player{
 
     uint8_t x,y,dead,lives,damageTimer;
-} Paddle;
+} Player;
 
 
-extern Paddle paddle;
+extern Player player;
 
 void DamagePlayer(uint8_t amount);
 void UpdatePlayer();

@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define SpaceInvadersTitle_TILE_ORIGIN 0
 #define SpaceInvadersTitle_TILE_H 8
 #define SpaceInvadersTitle_WIDTH 144
 #define SpaceInvadersTitle_HEIGHT 48

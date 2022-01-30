@@ -4,6 +4,7 @@
 #include "States/Gameplay/player.h"
 #include "States/GameplayScreen.h"
 #include "Graphics/Alien.h"
+#include "Graphics/SpaceInvadersFont.h"
 #include "Common.h"
 
 #define SHOT_TIMER_MAX 50
@@ -11,7 +12,7 @@
 const unsigned char tiles[9] = {25,18,19,20,21,22,23,24,25};
 
 Invader invaders[40];
-    uint8_t anyInvaderHasReachedEndOfScreen=0;
+uint8_t anyInvaderHasReachedEndOfScreen=0;
 uint8_t invaderSpeed,invaderCounter,topRow,shotTimer,moveRow=0,rowsAtEnd=0;
 
 void SetupInvaders(){
@@ -45,12 +46,12 @@ void SetupInvaders(){
 
 void InvaderCheckPlayerCollision(uint8_t i){
 
-    uint8_t playerColumn=paddle.x/8;
-    uint8_t playerRow=paddle.y/8;
+    uint8_t playerColumn=player.x/8;
+    uint8_t playerRow=player.y/8;
                 
     if((playerColumn==invaders[i].column&&playerRow==invaders[i].row)){
-        paddle.dead=1;
-        paddle.lives=0;
+        player.dead=1;
+        player.lives=0;
     }
 }
 
@@ -177,9 +178,6 @@ uint8_t InvadersShouldMove(){
 
 void UpdateInvaders(){
 
-    
-    
-
     invaderCounter++;
     if(shotTimer!=0)shotTimer--;
 
@@ -206,13 +204,8 @@ void UpdateInvaders(){
 
                 // Update the tiles for this invader
                 UpdateInvaderTiles(i);
-
             }
-
         }
-        
-            
-
     }
 
     // If the invaders should move
@@ -244,6 +237,4 @@ void UpdateInvaders(){
         // Reset our counter
         invaderCounter=0;
     }
-
-
 }

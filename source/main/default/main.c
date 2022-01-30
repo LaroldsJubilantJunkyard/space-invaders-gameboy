@@ -1,38 +1,18 @@
 #include <gb/gb.h>
-//
 #include "common.h"
-#include "States/GameFirstLoad.h"
 #include "States/StartScreen.h"
 #include "States/MenuScreen.h"
 #include "States/GameplayScreen.h"
 #include "States/NextLevelScreen.h"
 #include "States/GameOverScreen.h"
 
-void FadeIn(){
+
+void FadeScreen(uint8_t start, uint8_t end){
+    int8_t dir = 15;
+    if(end<start)dir=-15;
             
     // Since we are only using black and white, fading is easy
-    // Fade from 255,255,255 to 0,0,0 
-    // 0,0,0 being black, and 255,255,255 being white
-    for(int16_t fade=255;fade>=0;fade-=15){
-
-        const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(fade, fade, fade),RGB8(fade, fade, fade),RGB8(fade, fade, fade)    };
-
-        // Update color palettes
-        set_sprite_palette(0,1,blackAndWhite);
-        set_bkg_palette(0,1,blackAndWhite);
-        
-        wait_vbl_done();
-    }
-
-}
-
-
-void FadeOut(){
-            
-    // Since we are only using black and white, fading is easy
-    // Fade from 0,0,0 to 255,255,255
-    // 0,0,0 being black, and 255,255,255 being white
-    for(uint16_t fade=0;fade<255;fade+=15){
+    for(uint16_t fade=start;fade!=end;fade+=dir){
 
         const palette_color_t blackAndWhite[4] = { RGB8(255, 255, 255), RGB8(fade, fade, fade),RGB8(fade, fade, fade),RGB8(fade, fade, fade)    };
 
@@ -53,8 +33,10 @@ void main(void){
     NR50_REG = 0x77; // sets the volume for both left and right channel just set to max 0x77
     NR51_REG = 0xFF; // is 1111 1111 in binary, select which chanels we want to use in this case all of them. One bit for the L one bit for the R of all four channels
 
-
-    GameFirstLoad();
+    DISPLAY_ON;
+    SHOW_SPRITES;
+    SHOW_BKG;
+    SPRITES_8x8;
 
     uint8_t currentGameState = GAMEFIRSTLOAD;
     uint8_t nextGameState = STARTSCREEN;
@@ -67,9 +49,9 @@ void main(void){
         if(nextGameState!=currentGameState){
             currentGameState=nextGameState;
 
-            FadeOut();
+            FadeScreen(0,255);
             
-            ClearBackground();
+            fill_bkg_rect(0,0,20,18,0);
             ClearAllSprites();
 
             if(currentGameState==STARTSCREEN)SetupStartScreen();
@@ -78,7 +60,7 @@ void main(void){
             else if(currentGameState==GAMEOVERSCREEN)SetupGameOverScreen();
             else if(currentGameState==NEXTLEVELSCREEN)SetupNextLevelScreen();
 
-            FadeIn();
+            FadeScreen(255,0);
         }
 
         

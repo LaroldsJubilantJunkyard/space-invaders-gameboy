@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define Barricade_TILE_ORIGIN 0
 #define Barricade_TILE_H 8
 #define Barricade_WIDTH 24
 #define Barricade_HEIGHT 40

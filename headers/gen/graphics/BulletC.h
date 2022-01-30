@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define BulletC_TILE_ORIGIN 0
 #define BulletC_TILE_H 8
 #define BulletC_WIDTH 8
 #define BulletC_HEIGHT 8

@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define SpaceInvadersFont_TILE_ORIGIN 0
 #define SpaceInvadersFont_TILE_H 8
 #define SpaceInvadersFont_WIDTH 104
 #define SpaceInvadersFont_HEIGHT 32

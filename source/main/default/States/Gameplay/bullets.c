@@ -141,11 +141,11 @@ void UpdateBullets(){
 
                 // If it is an enemy bullet, we'll check against the player
                 if(i>2){
-                    if(shadow_OAM[i].x-4<paddle.x-8)continue;
-                    if(shadow_OAM[i].x-4>paddle.x+8)continue;
-                    if(shadow_OAM[i].y-12<paddle.y-4)continue;
-                    if(shadow_OAM[i].y-12>paddle.y+4)continue;
-                    if(paddle.damageTimer>0)continue;
+                    if(shadow_OAM[i].x-4<player.x-8)continue;
+                    if(shadow_OAM[i].x-4>player.x+8)continue;
+                    if(shadow_OAM[i].y-12<player.y-4)continue;
+                    if(shadow_OAM[i].y-12>player.y+4)continue;
+                    if(player.damageTimer>0)continue;
                     shadow_OAM[i].tile=0;
 
                     DamagePlayer(1);

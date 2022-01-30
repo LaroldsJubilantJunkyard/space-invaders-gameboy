@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define Explosion_TILE_ORIGIN 0
 #define Explosion_TILE_H 8
 #define Explosion_WIDTH 8
 #define Explosion_HEIGHT 8

@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define Player_TILE_ORIGIN 0
 #define Player_TILE_H 8
 #define Player_WIDTH 16
 #define Player_HEIGHT 8

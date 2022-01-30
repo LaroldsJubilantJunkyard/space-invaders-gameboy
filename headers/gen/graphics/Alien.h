@@ -6,6 +6,7 @@
 #include <gbdk/platform.h>
 #include <gbdk/metasprites.h>
 
+#define Alien_TILE_ORIGIN 0
 #define Alien_TILE_H 8
 #define Alien_WIDTH 16
 #define Alien_HEIGHT 8

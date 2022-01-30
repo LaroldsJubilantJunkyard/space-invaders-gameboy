@@ -1,18 +1,9 @@
 #include <gb/gb.h>
 
 uint16_t highScore=0,score=0;
-uint8_t level=1,joypadCurrent,joypadPrevious,spaceInvadersFontCurrentStart=0,invadersRemaining;
+uint8_t level=1,joypadCurrent,joypadPrevious,invadersRemaining;
 int8_t slideDir=-1;
 
-uint8_t GetNextAvailableSprite(){
-    
-    for(uint8_t i=2;i<40;i++){
-        if(get_sprite_tile(i)==0){
-            return i;
-        }
-    }
-    return 39;
-}
 
 void ClearAllSprites(){
     
@@ -21,11 +12,6 @@ void ClearAllSprites(){
         move_sprite(i,0,0);
     }
 }
-void ClearBackground(){
-
-    fill_bkg_rect(0,0,20,18,0);
-}
-
 
 uint8_t RandomNumber(uint8_t min, uint8_t max){
 

@@ -10,18 +10,22 @@
 
 
 extern uint8_t invadersRemaining;
-extern Paddle paddle;
+extern Player player;
 
 
-void UpdateScore(){
+void UpdateHUD(){
 
+    // Draw our "score" text and the actual score number
     DrawText(2,0,"SCORE");
     DrawNumber(8,0,score,5);
 
-    set_bkg_tile_xy(13,0,PLAYER_SPRITE_START);
-    set_bkg_tile_xy(14,0,PLAYER_SPRITE_START+1);
+    // Drawthe player sprite at the bottom next to our lives display
+    set_bkg_tile_xy(13,0,PLAYER_TILES_START);
+    set_bkg_tile_xy(14,0,PLAYER_TILES_START+1);
     DrawText(15,0,"=");
-    DrawNumber(16,0,paddle.lives,2);
+
+    // Draw how many lives we have
+    DrawNumber(16,0,player.lives,2);
 
 }
 
@@ -30,7 +34,7 @@ void IncreaseScore(uint8_t amount){
     score+=amount;
     if(score>highScore)highScore=score;
 
-    UpdateScore();
+    UpdateHUD();
 }
 
 void DrawBarricade(uint8_t topLeftX, uint8_t topLeftY){
@@ -46,7 +50,6 @@ void DrawBarricade(uint8_t topLeftX, uint8_t topLeftY){
     set_bkg_tile_xy(topLeftX+1,topLeftY+1,BARRICADE_TILES_START);
     set_bkg_tile_xy(topLeftX+2,topLeftY+1,BARRICADE_TILES_START);
     set_bkg_tile_xy(topLeftX+3,topLeftY+1,BARRICADE_TILES_START);
-
     
     set_bkg_tile_xy(topLeftX+0,topLeftY+2,BARRICADE_TILES_START);
     set_bkg_tile_xy(topLeftX+1,topLeftY+2,BARRICADE_TILES_START+tileRowSize*3);
@@ -59,15 +62,9 @@ void SetupLevel(){
     DrawBarricade(2,13);
     DrawBarricade(8,13);
     DrawBarricade(14,13);
-
 }
 
 void SetupGameplayScreen(){
-    
-
-    score=0;
-    level=1;
-    paddle.lives=3;
    
     SetupLevel();  
     SetupBullets();
@@ -75,7 +72,8 @@ void SetupGameplayScreen(){
     SetupPlayer();
     SetupAlien();
 
-    UpdateScore();
+    // Update the score initially
+    UpdateHUD();
 }
 
 uint8_t UpdateGameplayScreen(){
@@ -85,13 +83,19 @@ uint8_t UpdateGameplayScreen(){
     UpdatePlayer();
     UpdateAlien();
 
-    if (paddle.dead==1){
+    // Ifthe player is dead
+    if (player.dead==1){
         
+        // Go to the game over screen
         return GAMEOVERSCREEN;
 
+    // If we have no more invaders remaining
     }else if(invadersRemaining==0){
+
+        // Go to the next level screen
         return NEXTLEVELSCREEN;
     }
 
+    // Continue with gameplay
     return GAMEPLAYSCREEN;
 }
