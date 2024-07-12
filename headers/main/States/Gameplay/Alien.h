@@ -1,3 +1,3 @@
 
-void UpdateAlien();
-void SetupAlien();
+void UpdateAlien(void);
+void SetupAlien(void);

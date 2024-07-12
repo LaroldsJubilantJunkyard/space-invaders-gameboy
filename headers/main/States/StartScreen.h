@@ -1,2 +1,2 @@
-void SetupStartScreen();
-uint8_t UpdateStartScreen();
+void SetupStartScreen(void);
+uint8_t UpdateStartScreen(void);

@@ -1,16 +1,17 @@
 #ifndef INVADERS_HEADER
 #define INVADERS_HEADER set
 
-typedef struct Invader{
+typedef struct Invader
+{
 
-    uint8_t column,row,active,originalTile,score;
-    INT8 slide,slideAmount;
+    uint8_t column, row, active, originalTile, score;
+    INT8 slide, slideAmount;
 } Invader;
 
 extern Invader invaders[];
 
-void SetupInvaders();
-void UpdateInvaders();
+void SetupInvaders(void);
+void UpdateInvaders(void);
 
 void ClearInvaderTiles(uint8_t i);
 void UpdateInvaderTiles(uint8_t i);

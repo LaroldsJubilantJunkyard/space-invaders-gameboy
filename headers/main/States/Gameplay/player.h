@@ -3,16 +3,16 @@
 
 #include <gb/gb.h>
 
-typedef struct Player{
+typedef struct Player
+{
 
-    uint8_t x,y,dead,lives,damageTimer;
+    uint8_t x, y, dead, lives, damageTimer;
 } Player;
-
 
 extern Player player;
 
 void DamagePlayer(uint8_t amount);
-void UpdatePlayer();
-void SetupPlayer();
+void UpdatePlayer(void);
+void SetupPlayer(void);
 
 #endif

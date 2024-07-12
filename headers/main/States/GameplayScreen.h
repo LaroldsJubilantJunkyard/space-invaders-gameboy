@@ -1,4 +1,4 @@
-void UpdateHUD();
-void SetupGameplayScreen();
-uint8_t UpdateGameplayScreen();
+void UpdateHUD(void);
+void SetupGameplayScreen(void);
+uint8_t UpdateGameplayScreen(void);
 void IncreaseScore(uint8_t amount);

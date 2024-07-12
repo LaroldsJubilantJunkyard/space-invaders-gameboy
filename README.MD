@@ -21,3 +21,5 @@ Maybe in the future, the ability for more player bullets will be added.
 Different from my Flappy Bird clone, this game uses png2asset to dynamically generate .c and .h files for the graphics. The 'generate-graphics.bat' script handles that, and is called by the make.bat. This allows for a more seamless integration. Direct conversion of .aseprite files to .png files may be added.
 
 Png2asset generates constants which are used to populate VRAM. These constants are used in macros defined in common.h. These macros are then plugged into the setup functions for the menuscreen and startscreen game states. The purpose of this is to allow dynamic editing, like extending or trimming, without having to adjust values. With this system, a 8 frame animation can become a 4 or 16 frame animation without having to change a thing.
+
+For building against Linux or Mac systems, place the `gbdk` folder (not provided with that repo) into your `/usr/local/` directory and run `build.sh`.

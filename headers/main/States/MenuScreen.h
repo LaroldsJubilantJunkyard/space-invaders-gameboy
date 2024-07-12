@@ -1,2 +1,2 @@
-void SetupMenuScreen();
-uint8_t UpdateMenuScreen();
+void SetupMenuScreen(void);
+uint8_t UpdateMenuScreen(void);
